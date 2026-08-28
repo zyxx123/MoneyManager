@@ -73,6 +73,43 @@ export interface BudgetRule {
   limitAmount: number;
 }
 
+export interface SavingsGoal {
+  id: string;
+  name: string;
+  targetAmount: number;
+  currentAmount: number;
+  deadline?: Date;
+  isCompleted: boolean;
+  createdAt: Date;
+}
+
+export interface Debt {
+  id: string;
+  name: string;
+  amount: number;
+  remainingAmount: number;
+  direction: 'payable' | 'receivable'; // payable = hutang, receivable = piutang
+  status: 'unpaid' | 'paid';
+  dueDate?: Date;
+  createdAt: Date;
+}
+
+export interface DebtPayment {
+  id: string;
+  debtId: string;
+  amount: number;
+  date: Date;
+}
+
+export interface Asset {
+  id: string;
+  name: string;
+  type: string;
+  currentValue: number;
+  isArchived: boolean;
+  createdAt: Date;
+}
+
 export class PundiDB extends Dexie {
   appSettings!: Table<AppSettings, string>;
   wallets!: Table<Wallet, string>;
@@ -80,6 +117,10 @@ export class PundiDB extends Dexie {
   transactions!: Table<Transaction, string>;
   budgets!: Table<Budget, string>;
   budgetRules!: Table<BudgetRule, string>;
+  savingsGoals!: Table<SavingsGoal, string>;
+  debts!: Table<Debt, string>;
+  debtPayments!: Table<DebtPayment, string>;
+  assets!: Table<Asset, string>;
   
   constructor() {
     super('PundiDatabase');
