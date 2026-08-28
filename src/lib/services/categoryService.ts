@@ -37,7 +37,7 @@ export const categoryService = {
   },
 
   async delete(id: string) {
-    const hasTransactions = await (db as any).transactions.where('categoryId').equals(id).count() > 0;
+    const hasTransactions = await db.transactions.where('categoryId').equals(id).count() > 0;
     if (hasTransactions) {
       throw new Error('Category is in use. Please archive it or reassign its transactions.');
     }

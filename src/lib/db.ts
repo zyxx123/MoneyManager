@@ -37,12 +37,29 @@ export interface Category {
   sortOrder: number;
 }
 
+export interface Transaction {
+  id: string;
+  type: 'expense' | 'income' | 'transfer';
+  amount: number;
+  walletId: string;
+  toWalletId?: string;
+  categoryId?: string;
+  date: Date;
+  time?: string;
+  note?: string;
+  tagIds?: string[];
+  eventId?: string;
+  attachmentBlobId?: string;
+  recurringId?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export class PundiDB extends Dexie {
   appSettings!: Table<AppSettings, string>;
   wallets!: Table<Wallet, string>;
   categories!: Table<Category, string>;
-  // We will add other tables (Transactions, Budgets, etc) in subsequent sprints,
-  // but we can define the schema for them now to avoid version migrations in every sprint.
+  transactions!: Table<Transaction, string>;
   
   constructor() {
     super('PundiDatabase');

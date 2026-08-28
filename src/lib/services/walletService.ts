@@ -35,7 +35,7 @@ export const walletService = {
   async delete(id: string) {
     // In later sprints, check if there are transactions before deleting.
     // For MVP, if it has transactions, don't allow hard delete.
-    const hasTransactions = await (db as any).transactions.where('walletId').equals(id).count() > 0;
+    const hasTransactions = await db.transactions.where('walletId').equals(id).count() > 0;
     if (hasTransactions) {
       throw new Error('Wallet has transactions, please archive it instead.');
     }
