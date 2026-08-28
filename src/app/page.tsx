@@ -3,17 +3,35 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { walletService } from "@/lib/services/walletService";
 import { transactionService } from "@/lib/services/transactionService";
-import { format } from "date-fns";
+import { db } from "@/lib/db";
+import { format, startOfMonth, endOfMonth } from "date-fns";
 import { id as localeID } from "date-fns/locale";
 import Link from "next/link";
 
 export default function Home() {
   const wallets = useLiveQuery(() => walletService.getAllActive());
   const transactions = useLiveQuery(() => transactionService.getRecent(5));
+  const currentMonthTransactions = useLiveQuery(async () => {
+    const now = new Date();
+    const start = startOfMonth(now);
+    const end = endOfMonth(now);
+    return db.transactions
+      .where('date')
+      .between(start, end, true, true)
+      .toArray();
+  });
 
   const totalBalance = wallets
     ?.filter(w => w.type !== 'savings')
     .reduce((sum, w) => sum + w.cachedBalance, 0) ?? 0;
+
+  const monthlyIncome = currentMonthTransactions
+    ?.filter(t => t.type === 'income')
+    .reduce((sum, t) => sum + t.amount, 0) ?? 0;
+
+  const monthlyExpense = currentMonthTransactions
+    ?.filter(t => t.type === 'expense')
+    .reduce((sum, t) => sum + t.amount, 0) ?? 0;
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -33,15 +51,15 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Income & Expense Summary (Placeholder for Sprint 4 Reports) */}
+      {/* Income & Expense Summary */}
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-4 shadow-sm">
           <p className="text-xs text-gray-500 mb-1">Pemasukan Bulan Ini</p>
-          <p className="font-semibold text-green-600">Rp0</p>
+          <p className="font-semibold text-green-600">{currentMonthTransactions === undefined ? "..." : formatCurrency(monthlyIncome)}</p>
         </div>
         <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-4 shadow-sm">
           <p className="text-xs text-gray-500 mb-1">Pengeluaran Bulan Ini</p>
-          <p className="font-semibold text-red-600">Rp0</p>
+          <p className="font-semibold text-red-600">{currentMonthTransactions === undefined ? "..." : formatCurrency(monthlyExpense)}</p>
         </div>
       </div>
 

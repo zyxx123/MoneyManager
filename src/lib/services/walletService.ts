@@ -1,5 +1,7 @@
 import { db, type Wallet } from '../db';
 
+import { transactionService } from './transactionService';
+
 export const walletService = {
   async getAllActive() {
     return db.wallets.filter(w => w.isArchived === false).sortBy('sortOrder');
@@ -14,14 +16,28 @@ export const walletService = {
   },
 
   async create(wallet: Omit<Wallet, 'id' | 'createdAt' | 'cachedBalance'>) {
-    const newWallet: Wallet = {
-      ...wallet,
-      id: crypto.randomUUID(),
-      createdAt: new Date(),
-      cachedBalance: wallet.openingBalance,
-    };
-    await db.wallets.add(newWallet);
-    return newWallet;
+    return db.transaction('rw', db.wallets, db.transactions, async () => {
+      const newWallet: Wallet = {
+        ...wallet,
+        id: crypto.randomUUID(),
+        createdAt: new Date(),
+        cachedBalance: 0, // Set to 0 initially, transactionService will add the balance
+      };
+      
+      await db.wallets.add(newWallet);
+      
+      if (wallet.openingBalance > 0) {
+        await transactionService.create({
+          type: 'income',
+          amount: wallet.openingBalance,
+          walletId: newWallet.id,
+          date: new Date(),
+          note: 'Saldo Awal',
+        });
+      }
+      
+      return newWallet;
+    });
   },
 
   async update(id: string, updates: Partial<Wallet>) {
