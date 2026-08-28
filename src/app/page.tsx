@@ -49,7 +49,7 @@ export default function Home() {
       <div>
         <div className="flex justify-between items-end mb-4">
           <h2 className="text-lg font-bold">Transaksi Terakhir</h2>
-          <button className="text-sm text-blue-600 font-medium hover:underline">Lihat Semua</button>
+          <Link href="/transactions" className="text-sm text-blue-600 font-medium hover:underline">Lihat Semua</Link>
         </div>
         
         <div className="space-y-3">
