@@ -9,18 +9,16 @@ export const budgetService = {
     return db.budgets.filter(b => b.isActive && b.periodStart <= now && b.periodEnd >= now).first();
   },
 
-  async createMonthlyBudget(amount: number, walletId?: string) {
+  async createBudget(amount: number, startDate: Date, endDate: Date, walletId?: string) {
     const now = new Date();
-    const periodStart = startOfMonth(now);
-    const periodEnd = endOfMonth(now);
 
     const newBudget: Budget = {
       id: crypto.randomUUID(),
-      name: `Budget ${periodStart.toLocaleString('default', { month: 'long', year: 'numeric' })}`,
+      name: `Budget ${startDate.toLocaleString('default', { month: 'short', year: '2-digit' })} - ${endDate.toLocaleString('default', { month: 'short', year: '2-digit' })}`,
       amount,
       walletId,
-      periodStart,
-      periodEnd,
+      periodStart: startDate,
+      periodEnd: endDate,
       isActive: true,
       createdAt: now
     };
@@ -94,6 +92,8 @@ export const budgetService = {
       id: budget.id,
       budgetAmount: budget.amount,
       walletId: budget.walletId,
+      periodStart: budget.periodStart,
+      periodEnd: budget.periodEnd,
       totalExpenses,
       todayExpenses,
       dailyLimit,

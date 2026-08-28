@@ -3,8 +3,10 @@
 import { useState, useEffect } from "react";
 import { budgetService } from "@/lib/services/budgetService";
 import { walletService } from "@/lib/services/walletService";
-import { Plus, AlertCircle, CheckCircle2, AlertTriangle, Trash2, Edit2 } from "lucide-react";
+import { AlertCircle, CheckCircle2, AlertTriangle, Trash2, Edit2 } from "lucide-react";
 import { useLiveQuery } from "dexie-react-hooks";
+import { format, startOfMonth, endOfMonth, parseISO } from "date-fns";
+import { id as localeID } from "date-fns/locale";
 
 export default function BudgetPage() {
   const [budgetStatus, setBudgetStatus] = useState<any>(null);
@@ -14,6 +16,8 @@ export default function BudgetPage() {
   const [mode, setMode] = useState<"view" | "create" | "edit">("view");
   const [newBudgetAmount, setNewBudgetAmount] = useState("");
   const [selectedWalletId, setSelectedWalletId] = useState("");
+  const [startDate, setStartDate] = useState(format(startOfMonth(new Date()), "yyyy-MM-dd"));
+  const [endDate, setEndDate] = useState(format(endOfMonth(new Date()), "yyyy-MM-dd"));
 
   const wallets = useLiveQuery(() => walletService.getAllActive());
 
@@ -38,18 +42,24 @@ export default function BudgetPage() {
     e.preventDefault();
     const amount = Number(newBudgetAmount.replace(/\D/g, ""));
     const finalWalletId = selectedWalletId === "all" ? undefined : selectedWalletId;
-    
-    if (amount > 0) {
+    const start = parseISO(startDate);
+    const end = parseISO(endDate);
+
+    if (amount > 0 && start <= end) {
       if (mode === "create") {
-        await budgetService.createMonthlyBudget(amount, finalWalletId);
+        await budgetService.createBudget(amount, start, end, finalWalletId);
       } else if (mode === "edit" && budgetStatus?.id) {
         await budgetService.updateBudget(budgetStatus.id, {
           amount,
-          walletId: finalWalletId
+          walletId: finalWalletId,
+          periodStart: start,
+          periodEnd: end,
         });
       }
       setMode("view");
       loadBudget();
+    } else if (start > end) {
+      alert("Tanggal mulai tidak boleh lebih dari tanggal selesai");
     }
   };
 
@@ -74,6 +84,8 @@ export default function BudgetPage() {
     if (budgetStatus) {
       setNewBudgetAmount(new Intl.NumberFormat("id-ID").format(budgetStatus.budgetAmount));
       setSelectedWalletId(budgetStatus.walletId || "all");
+      setStartDate(format(budgetStatus.periodStart || startOfMonth(new Date()), "yyyy-MM-dd"));
+      setEndDate(format(budgetStatus.periodEnd || endOfMonth(new Date()), "yyyy-MM-dd"));
       setMode("edit");
     }
   };
@@ -81,6 +93,8 @@ export default function BudgetPage() {
   const openCreateMode = () => {
     setNewBudgetAmount("");
     setSelectedWalletId("all");
+    setStartDate(format(startOfMonth(new Date()), "yyyy-MM-dd"));
+    setEndDate(format(endOfMonth(new Date()), "yyyy-MM-dd"));
     setMode("create");
   };
 
@@ -102,13 +116,13 @@ export default function BudgetPage() {
         </div>
         <h2 className="text-xl font-bold">Belum Ada Budget</h2>
         <p className="text-center text-gray-500 text-sm">
-          Buat budget bulanan kamu untuk mulai mengatur batas pengeluaran harian yang aman.
+          Buat budget untuk mulai mengatur batas pengeluaran harian yang aman.
         </p>
         <button
           onClick={openCreateMode}
           className="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold mt-4 hover:bg-blue-700"
         >
-          Buat Budget Bulan Ini
+          Buat Budget Baru
         </button>
       </div>
     );
@@ -121,7 +135,7 @@ export default function BudgetPage() {
         <form onSubmit={handleCreateOrEditBudget} className="space-y-6">
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Total Budget Bulanan
+              Total Budget
             </label>
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">Rp</span>
@@ -151,9 +165,33 @@ export default function BudgetPage() {
                 <option key={w.id} value={w.id}>{w.name}</option>
               ))}
             </select>
-            <p className="text-xs text-gray-500 mt-1">
-              Hanya pengeluaran dari dompet terpilih yang akan memotong limit budget ini.
-            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                Tanggal Mulai
+              </label>
+              <input
+                type="date"
+                required
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="w-full p-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                Tanggal Selesai
+              </label>
+              <input
+                type="date"
+                required
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="w-full p-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+            </div>
           </div>
 
           <div className="flex gap-3 pt-4">
@@ -179,7 +217,7 @@ export default function BudgetPage() {
     );
   }
 
-  const { budgetAmount, dailyLimit, todayExpenses, percentageUsed, status, walletId } = budgetStatus;
+  const { budgetAmount, dailyLimit, todayExpenses, percentageUsed, status, walletId, periodStart, periodEnd } = budgetStatus;
   const linkedWalletName = walletId ? wallets?.find(w => w.id === walletId)?.name || "Dompet Terhapus" : "Semua Dompet";
 
   // Determine colors based on status
@@ -245,12 +283,18 @@ export default function BudgetPage() {
         </div>
       </div>
 
-      {/* Monthly Overview */}
+      {/* Overview */}
       <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-5 shadow-sm">
-        <h3 className="font-bold mb-4">Ringkasan Bulan Ini</h3>
+        <h3 className="font-bold mb-4">Ringkasan Budget</h3>
         
         <div className="space-y-4">
           <div>
+            <div className="flex justify-between text-sm text-gray-500 mb-2">
+              <span>Periode</span>
+              <span className="font-medium text-gray-900 dark:text-gray-100">
+                {periodStart ? format(periodStart, "d MMM yyyy", { locale: localeID }) : "-"} s/d {periodEnd ? format(periodEnd, "d MMM yyyy", { locale: localeID }) : "-"}
+              </span>
+            </div>
             <div className="flex justify-between text-sm text-gray-500 mb-1">
               <span>Berlaku Untuk</span>
               <span className="font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded text-xs">{linkedWalletName}</span>
@@ -266,10 +310,10 @@ export default function BudgetPage() {
           
           <div className="pt-2">
             <div className="flex justify-between text-sm text-gray-500 mb-1">
-              <span>Sisa Budget Bulanan</span>
+              <span>Sisa Budget</span>
               <span className="font-medium text-gray-900 dark:text-gray-100">{formatter.format(budgetStatus.remainingBudget)}</span>
             </div>
-            {/* Monthly progress */}
+            {/* Progress */}
             <div className="h-1.5 w-full bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden mt-2">
               <div 
                 className="h-full bg-blue-500 rounded-full"
