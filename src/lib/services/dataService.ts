@@ -1,5 +1,4 @@
 import { db } from '../db';
-import 'dexie-export-import';
 
 export const dataService = {
   /**
@@ -7,6 +6,9 @@ export const dataService = {
    */
   async exportData(): Promise<Blob> {
     try {
+      if (typeof window !== 'undefined') {
+        await import('dexie-export-import');
+      }
       const blob = await db.export();
       return blob;
     } catch (error) {
@@ -20,6 +22,9 @@ export const dataService = {
    */
   async importData(file: File): Promise<void> {
     try {
+      if (typeof window !== 'undefined') {
+        await import('dexie-export-import');
+      }
       await db.transaction('rw', db.tables, async () => {
         // Clear all existing data before import to avoid conflicts
         await Promise.all(db.tables.map(table => table.clear()));
