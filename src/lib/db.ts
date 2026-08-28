@@ -55,11 +55,31 @@ export interface Transaction {
   updatedAt: Date;
 }
 
+export interface Budget {
+  id: string;
+  name: string;
+  amount: number;
+  periodStart: Date;
+  periodEnd: Date;
+  isActive: boolean;
+  createdAt: Date;
+}
+
+export interface BudgetRule {
+  id: string;
+  budgetId: string;
+  ruleType: 'category' | 'wallet' | 'global';
+  targetId?: string; // categoryId or walletId if applicable
+  limitAmount: number;
+}
+
 export class PundiDB extends Dexie {
   appSettings!: Table<AppSettings, string>;
   wallets!: Table<Wallet, string>;
   categories!: Table<Category, string>;
   transactions!: Table<Transaction, string>;
+  budgets!: Table<Budget, string>;
+  budgetRules!: Table<BudgetRule, string>;
   
   constructor() {
     super('PundiDatabase');
