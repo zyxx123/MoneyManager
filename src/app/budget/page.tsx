@@ -2,19 +2,31 @@
 
 import { useState, useEffect } from "react";
 import { budgetService } from "@/lib/services/budgetService";
-import { formatCurrency } from "@/lib/utils"; // Wait, I need to create this util or just inline it
-import { Plus, AlertCircle, CheckCircle2, AlertTriangle } from "lucide-react";
+import { walletService } from "@/lib/services/walletService";
+import { Plus, AlertCircle, CheckCircle2, AlertTriangle, Trash2, Edit2 } from "lucide-react";
+import { useLiveQuery } from "dexie-react-hooks";
 
 export default function BudgetPage() {
   const [budgetStatus, setBudgetStatus] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [isCreating, setIsCreating] = useState(false);
+  
+  // Modes: "view" | "create" | "edit"
+  const [mode, setMode] = useState<"view" | "create" | "edit">("view");
   const [newBudgetAmount, setNewBudgetAmount] = useState("");
+  const [selectedWalletId, setSelectedWalletId] = useState("");
+
+  const wallets = useLiveQuery(() => walletService.getAllActive());
 
   const loadBudget = async () => {
     setLoading(true);
     const status = await budgetService.getDailyLimitStatus();
     setBudgetStatus(status);
+    
+    if (status) {
+      setMode("view");
+    } else {
+      setMode("view");
+    }
     setLoading(false);
   };
 
@@ -22,12 +34,21 @@ export default function BudgetPage() {
     loadBudget();
   }, []);
 
-  const handleCreateBudget = async (e: React.FormEvent) => {
+  const handleCreateOrEditBudget = async (e: React.FormEvent) => {
     e.preventDefault();
     const amount = Number(newBudgetAmount.replace(/\D/g, ""));
+    const finalWalletId = selectedWalletId === "all" ? undefined : selectedWalletId;
+    
     if (amount > 0) {
-      await budgetService.createMonthlyBudget(amount);
-      setIsCreating(false);
+      if (mode === "create") {
+        await budgetService.createMonthlyBudget(amount, finalWalletId);
+      } else if (mode === "edit" && budgetStatus?.id) {
+        await budgetService.updateBudget(budgetStatus.id, {
+          amount,
+          walletId: finalWalletId
+        });
+      }
+      setMode("view");
       loadBudget();
     }
   };
@@ -41,6 +62,28 @@ export default function BudgetPage() {
     setNewBudgetAmount(new Intl.NumberFormat("id-ID").format(Number(raw)));
   };
 
+  const handleDelete = async () => {
+    if (!confirm("Yakin ingin menghapus budget aktif ini?")) return;
+    if (budgetStatus?.id) {
+      await budgetService.deleteBudget(budgetStatus.id);
+      loadBudget();
+    }
+  };
+
+  const openEditMode = () => {
+    if (budgetStatus) {
+      setNewBudgetAmount(new Intl.NumberFormat("id-ID").format(budgetStatus.budgetAmount));
+      setSelectedWalletId(budgetStatus.walletId || "all");
+      setMode("edit");
+    }
+  };
+
+  const openCreateMode = () => {
+    setNewBudgetAmount("");
+    setSelectedWalletId("all");
+    setMode("create");
+  };
+
   const formatter = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
@@ -51,7 +94,7 @@ export default function BudgetPage() {
     return <div className="p-4 max-w-md mx-auto pt-8 flex justify-center"><div className="animate-pulse w-8 h-8 rounded-full bg-blue-200"></div></div>;
   }
 
-  if (!budgetStatus && !isCreating) {
+  if (!budgetStatus && mode === "view") {
     return (
       <div className="p-4 max-w-md mx-auto h-full flex flex-col items-center justify-center space-y-4">
         <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center text-blue-500">
@@ -62,7 +105,7 @@ export default function BudgetPage() {
           Buat budget bulanan kamu untuk mulai mengatur batas pengeluaran harian yang aman.
         </p>
         <button
-          onClick={() => setIsCreating(true)}
+          onClick={openCreateMode}
           className="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold mt-4 hover:bg-blue-700"
         >
           Buat Budget Bulan Ini
@@ -71,11 +114,11 @@ export default function BudgetPage() {
     );
   }
 
-  if (isCreating) {
+  if (mode === "create" || mode === "edit") {
     return (
-      <div className="p-4 max-w-md mx-auto h-full flex flex-col justify-center">
-        <h2 className="text-2xl font-bold mb-6">Tentukan Budget</h2>
-        <form onSubmit={handleCreateBudget} className="space-y-6">
+      <div className="p-4 max-w-md mx-auto h-full flex flex-col justify-center pb-24">
+        <h2 className="text-2xl font-bold mb-6">{mode === "create" ? "Tentukan Budget" : "Edit Budget"}</h2>
+        <form onSubmit={handleCreateOrEditBudget} className="space-y-6">
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
               Total Budget Bulanan
@@ -93,10 +136,33 @@ export default function BudgetPage() {
               />
             </div>
           </div>
-          <div className="flex gap-3">
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              Berlaku Untuk Dompet
+            </label>
+            <select
+              value={selectedWalletId}
+              onChange={(e) => setSelectedWalletId(e.target.value)}
+              className="w-full p-4 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none"
+            >
+              <option value="all">Semua Dompet (Global)</option>
+              {wallets?.map(w => (
+                <option key={w.id} value={w.id}>{w.name}</option>
+              ))}
+            </select>
+            <p className="text-xs text-gray-500 mt-1">
+              Hanya pengeluaran dari dompet terpilih yang akan memotong limit budget ini.
+            </p>
+          </div>
+
+          <div className="flex gap-3 pt-4">
             <button
               type="button"
-              onClick={() => setIsCreating(false)}
+              onClick={() => {
+                if (budgetStatus) setMode("view");
+                else loadBudget(); // essentially re-checks view mode
+              }}
               className="flex-1 py-3.5 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200"
             >
               Batal
@@ -113,7 +179,8 @@ export default function BudgetPage() {
     );
   }
 
-  const { budgetAmount, dailyLimit, todayExpenses, percentageUsed, status } = budgetStatus;
+  const { budgetAmount, dailyLimit, todayExpenses, percentageUsed, status, walletId } = budgetStatus;
+  const linkedWalletName = walletId ? wallets?.find(w => w.id === walletId)?.name || "Dompet Terhapus" : "Semua Dompet";
 
   // Determine colors based on status
   let statusColor = "bg-green-500 text-white";
@@ -135,7 +202,17 @@ export default function BudgetPage() {
 
   return (
     <div className="p-4 max-w-md mx-auto space-y-6 pt-8 pb-24">
-      <h1 className="text-2xl font-bold mb-2">Budgeting</h1>
+      <div className="flex justify-between items-center mb-2">
+        <h1 className="text-2xl font-bold">Budgeting</h1>
+        <div className="flex gap-2">
+          <button onClick={openEditMode} className="p-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
+            <Edit2 size={20} />
+          </button>
+          <button onClick={handleDelete} className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors">
+            <Trash2 size={20} />
+          </button>
+        </div>
+      </div>
       
       {/* Daily Limit Card */}
       <div className={`bg-gradient-to-br ${bgGradient} rounded-3xl p-6 text-white shadow-lg relative overflow-hidden`}>
@@ -175,12 +252,19 @@ export default function BudgetPage() {
         <div className="space-y-4">
           <div>
             <div className="flex justify-between text-sm text-gray-500 mb-1">
+              <span>Berlaku Untuk</span>
+              <span className="font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded text-xs">{linkedWalletName}</span>
+            </div>
+          </div>
+          
+          <div className="pt-2 border-t border-gray-100 dark:border-gray-800">
+            <div className="flex justify-between text-sm text-gray-500 mb-1">
               <span>Total Budget</span>
               <span className="font-medium text-gray-900 dark:text-gray-100">{formatter.format(budgetAmount)}</span>
             </div>
           </div>
           
-          <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
+          <div className="pt-2">
             <div className="flex justify-between text-sm text-gray-500 mb-1">
               <span>Sisa Budget Bulanan</span>
               <span className="font-medium text-gray-900 dark:text-gray-100">{formatter.format(budgetStatus.remainingBudget)}</span>

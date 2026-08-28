@@ -9,7 +9,7 @@ export const budgetService = {
     return db.budgets.filter(b => b.isActive && b.periodStart <= now && b.periodEnd >= now).first();
   },
 
-  async createMonthlyBudget(amount: number) {
+  async createMonthlyBudget(amount: number, walletId?: string) {
     const now = new Date();
     const periodStart = startOfMonth(now);
     const periodEnd = endOfMonth(now);
@@ -18,6 +18,7 @@ export const budgetService = {
       id: crypto.randomUUID(),
       name: `Budget ${periodStart.toLocaleString('default', { month: 'long', year: 'numeric' })}`,
       amount,
+      walletId,
       periodStart,
       periodEnd,
       isActive: true,
@@ -34,6 +35,14 @@ export const budgetService = {
     return newBudget;
   },
 
+  async updateBudget(id: string, updates: Partial<Budget>) {
+    await db.budgets.update(id, updates);
+  },
+
+  async deleteBudget(id: string) {
+    await db.budgets.delete(id);
+  },
+
   async getDailyLimitStatus() {
     const budget = await this.getActiveBudget();
     if (!budget) return null;
@@ -42,11 +51,16 @@ export const budgetService = {
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
     // Get all expenses in the current budget period
-    const expenses = await db.transactions
+    let expensesQuery = db.transactions
       .where('date')
       .between(budget.periodStart, budget.periodEnd, true, true)
-      .filter(t => t.type === 'expense')
-      .toArray();
+      .filter(t => t.type === 'expense');
+
+    if (budget.walletId) {
+      expensesQuery = expensesQuery.filter(t => t.type === 'expense' && t.walletId === budget.walletId);
+    }
+
+    const expenses = await expensesQuery.toArray();
 
     // Total expenses for the period so far
     const totalExpenses = expenses.reduce((sum, t) => sum + t.amount, 0);
@@ -77,7 +91,9 @@ export const budgetService = {
     }
 
     return {
+      id: budget.id,
       budgetAmount: budget.amount,
+      walletId: budget.walletId,
       totalExpenses,
       todayExpenses,
       dailyLimit,

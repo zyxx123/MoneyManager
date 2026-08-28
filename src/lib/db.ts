@@ -59,6 +59,7 @@ export interface Budget {
   id: string;
   name: string;
   amount: number;
+  walletId?: string;
   periodStart: Date;
   periodEnd: Date;
   isActive: boolean;
