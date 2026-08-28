@@ -10,7 +10,9 @@ export default function Home() {
   const wallets = useLiveQuery(() => walletService.getAllActive());
   const transactions = useLiveQuery(() => transactionService.getRecent(5));
 
-  const totalBalance = wallets?.reduce((sum, w) => sum + w.cachedBalance, 0) ?? 0;
+  const totalBalance = wallets
+    ?.filter(w => w.type !== 'savings')
+    .reduce((sum, w) => sum + w.cachedBalance, 0) ?? 0;
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("id-ID", {
