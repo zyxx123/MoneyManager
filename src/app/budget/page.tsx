@@ -3,10 +3,12 @@
 import { useState, useEffect } from "react";
 import { budgetService } from "@/lib/services/budgetService";
 import { walletService } from "@/lib/services/walletService";
-import { AlertCircle, CheckCircle2, AlertTriangle, Trash2, Edit2 } from "lucide-react";
+import { AlertCircle, CheckCircle2, AlertTriangle, Trash2, Edit2, CalendarIcon } from "lucide-react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { format, startOfMonth, endOfMonth, parseISO } from "date-fns";
 import { id as localeID } from "date-fns/locale";
+import { DayPicker, DateRange } from "react-day-picker";
+import "react-day-picker/style.css";
 
 export default function BudgetPage() {
   const [budgetStatus, setBudgetStatus] = useState<any>(null);
@@ -16,8 +18,11 @@ export default function BudgetPage() {
   const [mode, setMode] = useState<"view" | "create" | "edit">("view");
   const [newBudgetAmount, setNewBudgetAmount] = useState("");
   const [selectedWalletId, setSelectedWalletId] = useState("");
-  const [startDate, setStartDate] = useState(format(startOfMonth(new Date()), "yyyy-MM-dd"));
-  const [endDate, setEndDate] = useState(format(endOfMonth(new Date()), "yyyy-MM-dd"));
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    from: startOfMonth(new Date()),
+    to: endOfMonth(new Date())
+  });
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const wallets = useLiveQuery(() => walletService.getAllActive());
 
@@ -42,8 +47,8 @@ export default function BudgetPage() {
     e.preventDefault();
     const amount = Number(newBudgetAmount.replace(/\D/g, ""));
     const finalWalletId = selectedWalletId === "all" ? undefined : selectedWalletId;
-    const start = parseISO(startDate);
-    const end = parseISO(endDate);
+    const start = dateRange?.from || startOfMonth(new Date());
+    const end = dateRange?.to || endOfMonth(new Date());
 
     if (amount > 0 && start <= end) {
       if (mode === "create") {
@@ -84,8 +89,10 @@ export default function BudgetPage() {
     if (budgetStatus) {
       setNewBudgetAmount(new Intl.NumberFormat("id-ID").format(budgetStatus.budgetAmount));
       setSelectedWalletId(budgetStatus.walletId || "all");
-      setStartDate(format(budgetStatus.periodStart || startOfMonth(new Date()), "yyyy-MM-dd"));
-      setEndDate(format(budgetStatus.periodEnd || endOfMonth(new Date()), "yyyy-MM-dd"));
+      setDateRange({
+        from: budgetStatus.periodStart || startOfMonth(new Date()),
+        to: budgetStatus.periodEnd || endOfMonth(new Date())
+      });
       setMode("edit");
     }
   };
@@ -93,8 +100,10 @@ export default function BudgetPage() {
   const openCreateMode = () => {
     setNewBudgetAmount("");
     setSelectedWalletId("all");
-    setStartDate(format(startOfMonth(new Date()), "yyyy-MM-dd"));
-    setEndDate(format(endOfMonth(new Date()), "yyyy-MM-dd"));
+    setDateRange({
+      from: startOfMonth(new Date()),
+      to: endOfMonth(new Date())
+    });
     setMode("create");
   };
 
@@ -130,7 +139,7 @@ export default function BudgetPage() {
 
   if (mode === "create" || mode === "edit") {
     return (
-      <div className="p-4 max-w-md mx-auto h-full flex flex-col justify-center pb-24">
+      <div className="p-4 max-w-md mx-auto h-full flex flex-col justify-center pb-24 relative">
         <h2 className="text-2xl font-bold mb-6">{mode === "create" ? "Tentukan Budget" : "Edit Budget"}</h2>
         <form onSubmit={handleCreateOrEditBudget} className="space-y-6">
           <div className="space-y-2">
@@ -167,30 +176,41 @@ export default function BudgetPage() {
             </select>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Tanggal Mulai
-              </label>
-              <input
-                type="date"
-                required
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                className="w-full p-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Tanggal Selesai
-              </label>
-              <input
-                type="date"
-                required
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                className="w-full p-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
-              />
+          <div className="space-y-2 relative">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              Periode Budget
+            </label>
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setShowDatePicker(!showDatePicker)}
+                className="w-full p-4 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none text-left flex justify-between items-center text-sm"
+              >
+                <span>
+                  {dateRange?.from ? format(dateRange.from, "d MMM yyyy", { locale: localeID }) : "Pilih Tanggal"} -{" "}
+                  {dateRange?.to ? format(dateRange.to, "d MMM yyyy", { locale: localeID }) : "..."}
+                </span>
+                <CalendarIcon size={20} className="text-gray-500" />
+              </button>
+
+              {showDatePicker && (
+                <div className="absolute z-[100] mt-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl shadow-2xl p-4 right-0 left-0 flex flex-col items-center">
+                  <DayPicker
+                    mode="range"
+                    selected={dateRange}
+                    onSelect={setDateRange}
+                  />
+                  <div className="mt-2 flex justify-end w-full">
+                    <button
+                      type="button"
+                      onClick={() => setShowDatePicker(false)}
+                      className="bg-blue-600 text-white px-6 py-2 rounded-xl font-semibold"
+                    >
+                      Selesai
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -199,7 +219,7 @@ export default function BudgetPage() {
               type="button"
               onClick={() => {
                 if (budgetStatus) setMode("view");
-                else loadBudget(); // essentially re-checks view mode
+                else loadBudget();
               }}
               className="flex-1 py-3.5 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200"
             >
