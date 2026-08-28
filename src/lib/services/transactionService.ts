@@ -55,6 +55,67 @@ export const transactionService = {
     });
   },
 
+  async update(id: string, updates: Partial<Omit<Transaction, 'id' | 'createdAt'>>) {
+    return db.transaction('rw', db.transactions, db.wallets, async () => {
+      const oldTrx = await db.transactions.get(id);
+      if (!oldTrx) throw new Error("Transaction not found");
+
+      // 1. Revert old transaction balances
+      const oldWallet = await db.wallets.get(oldTrx.walletId);
+      if (oldWallet) {
+        let revertChange = 0;
+        if (oldTrx.type === 'expense' || oldTrx.type === 'transfer') {
+          revertChange = oldTrx.amount; // Add it back
+        } else if (oldTrx.type === 'income') {
+          revertChange = -oldTrx.amount; // Remove it
+        }
+        await db.wallets.update(oldWallet.id, { cachedBalance: oldWallet.cachedBalance + revertChange });
+      }
+
+      if (oldTrx.type === 'transfer' && oldTrx.toWalletId) {
+        const oldToWallet = await db.wallets.get(oldTrx.toWalletId);
+        if (oldToWallet) {
+          await db.wallets.update(oldToWallet.id, { cachedBalance: oldToWallet.cachedBalance - oldTrx.amount });
+        }
+      }
+
+      // 2. Merge updates
+      const newTrx: Transaction = {
+        ...oldTrx,
+        ...updates,
+        updatedAt: new Date()
+      };
+
+      // Ensure amount is strictly positive
+      if (newTrx.amount <= 0) {
+        throw new Error('Transaction amount must be greater than 0');
+      }
+
+      // 3. Apply new transaction balances
+      const newWallet = await db.wallets.get(newTrx.walletId);
+      if (newWallet) {
+        let applyChange = 0;
+        if (newTrx.type === 'expense' || newTrx.type === 'transfer') {
+          applyChange = -newTrx.amount;
+        } else if (newTrx.type === 'income') {
+          applyChange = newTrx.amount;
+        }
+        await db.wallets.update(newWallet.id, { cachedBalance: newWallet.cachedBalance + applyChange });
+      }
+
+      if (newTrx.type === 'transfer' && newTrx.toWalletId) {
+        const newToWallet = await db.wallets.get(newTrx.toWalletId);
+        if (newToWallet) {
+          await db.wallets.update(newToWallet.id, { cachedBalance: newToWallet.cachedBalance + newTrx.amount });
+        }
+      }
+
+      // 4. Update the transaction record
+      await db.transactions.put(newTrx);
+      return newTrx;
+    });
+  },
+
   async delete(id: string) {
     return db.transaction('rw', db.transactions, db.wallets, async () => {
       const trx = await db.transactions.get(id);

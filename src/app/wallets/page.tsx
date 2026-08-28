@@ -46,16 +46,16 @@ export default function WalletsPage() {
           </div>
         ) : (
           wallets.map((wallet) => (
-            <div
+            <Link
+              href={`/wallets/${wallet.id}/edit`}
               key={wallet.id}
-              className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-4 shadow-sm flex items-center justify-between"
+              className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-4 shadow-sm flex items-center justify-between hover:border-blue-200 dark:hover:border-blue-900 transition-colors cursor-pointer block"
             >
               <div className="flex items-center gap-4">
                 <div 
                   className="w-12 h-12 rounded-full flex items-center justify-center text-white shadow-inner"
                   style={{ backgroundColor: wallet.color }}
                 >
-                  {/* Using generic icon for now, later map to lucide icons */}
                   <WalletIcon size={24} />
                 </div>
                 <div>
@@ -70,7 +70,7 @@ export default function WalletsPage() {
                   {formatCurrency(wallet.cachedBalance)}
                 </p>
               </div>
-            </div>
+            </Link>
           ))
         )}
       </div>

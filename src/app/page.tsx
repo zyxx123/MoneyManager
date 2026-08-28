@@ -5,6 +5,7 @@ import { walletService } from "@/lib/services/walletService";
 import { transactionService } from "@/lib/services/transactionService";
 import { format } from "date-fns";
 import { id as localeID } from "date-fns/locale";
+import Link from "next/link";
 
 export default function Home() {
   const wallets = useLiveQuery(() => walletService.getAllActive());
@@ -58,7 +59,11 @@ export default function Home() {
             <div className="text-center text-sm text-gray-500 py-8">Belum ada transaksi.</div>
           ) : (
             transactions.map((t) => (
-              <div key={t.id} className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-4 flex items-center justify-between shadow-sm">
+              <Link 
+                href={`/transactions/${t.id}/edit`}
+                key={t.id} 
+                className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-4 flex items-center justify-between shadow-sm hover:border-blue-200 dark:hover:border-blue-900 transition-colors cursor-pointer block"
+              >
                 <div>
                   <p className="font-medium capitalize">{t.type === 'transfer' ? 'Transfer' : t.note || 'Transaksi'}</p>
                   <p className="text-xs text-gray-500">{format(t.date, "d MMM yyyy", { locale: localeID })}</p>
@@ -70,7 +75,7 @@ export default function Home() {
                   {t.type === 'income' ? '+' : t.type === 'expense' ? '-' : ''}
                   {formatCurrency(t.amount)}
                 </div>
-              </div>
+              </Link>
             ))
           )}
         </div>
