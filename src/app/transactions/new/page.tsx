@@ -6,9 +6,12 @@ import { transactionService } from "@/lib/services/transactionService";
 import { walletService } from "@/lib/services/walletService";
 import { categoryService } from "@/lib/services/categoryService";
 import { useLiveQuery } from "dexie-react-hooks";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, CalendarIcon } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
+import { id as localeID } from "date-fns/locale";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/style.css";
 
 type TransactionType = "expense" | "income" | "transfer";
 
@@ -20,7 +23,8 @@ export default function NewTransactionPage() {
   const [walletId, setWalletId] = useState("");
   const [toWalletId, setToWalletId] = useState("");
   const [categoryId, setCategoryId] = useState("");
-  const [date, setDate] = useState(format(new Date(), "yyyy-MM-dd"));
+  const [date, setDate] = useState<Date>(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const [note, setNote] = useState("");
 
   const wallets = useLiveQuery(() => walletService.getAllActive());
@@ -62,7 +66,7 @@ export default function NewTransactionPage() {
         walletId,
         toWalletId: type === 'transfer' ? toWalletId : undefined,
         categoryId: type !== 'transfer' ? categoryId : undefined,
-        date: new Date(date),
+        date: date,
         note,
       });
       router.push("/");
@@ -178,17 +182,44 @@ export default function NewTransactionPage() {
             )}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 relative">
             <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
               Tanggal
             </label>
-            <input
-              type="date"
-              required
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="w-full p-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
-            />
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setShowDatePicker(!showDatePicker)}
+                className="w-full p-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-left flex justify-between items-center text-sm"
+              >
+                <span>{format(date, "d MMMM yyyy", { locale: localeID })}</span>
+                <CalendarIcon size={18} className="text-gray-500" />
+              </button>
+
+              {showDatePicker && (
+                <div className="absolute z-[100] mt-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl shadow-2xl p-4 right-0 left-0 flex flex-col items-center">
+                  <DayPicker
+                    mode="single"
+                    selected={date}
+                    onSelect={(d) => {
+                      if (d) {
+                        setDate(d);
+                        setShowDatePicker(false);
+                      }
+                    }}
+                  />
+                  <div className="mt-2 flex justify-end w-full">
+                    <button
+                      type="button"
+                      onClick={() => setShowDatePicker(false)}
+                      className="bg-gray-100 text-gray-700 px-4 py-2 rounded-xl font-semibold text-sm hover:bg-gray-200"
+                    >
+                      Batal
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="space-y-2">
