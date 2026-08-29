@@ -7,6 +7,8 @@ import { db } from "@/lib/db";
 import { format, startOfMonth, endOfMonth } from "date-fns";
 import { id as localeID } from "date-fns/locale";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function Home() {
   const wallets = useLiveQuery(() => walletService.getAllActive());
@@ -41,15 +43,42 @@ export default function Home() {
     }).format(amount);
   };
 
+  const [showBalance, setShowBalance] = useState(true);
+  useEffect(() => {
+    const saved = localStorage.getItem("showBalance");
+    if (saved !== null) {
+      setShowBalance(saved === "true");
+    }
+  }, []);
+
+  const toggleShowBalance = () => {
+    const next = !showBalance;
+    setShowBalance(next);
+    localStorage.setItem("showBalance", String(next));
+  };
+
+  const displayAmount = (amount: number, prefix: string = '') => {
+    if (!showBalance) return `${prefix}Rp •••••`;
+    return `${prefix}${formatCurrency(amount)}`;
+  };
+
   return (
     <div className="p-4 max-w-md mx-auto space-y-6 pt-6 pb-20">
       {/* Total Balance Card */}
       <div className="bg-primary rounded-2xl p-6 text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black relative overflow-hidden">
         {/* Subtle decorative circle */}
         <div className="absolute -top-12 -right-12 w-32 h-32 bg-white/10 rounded-2xl blur-2xl"></div>
-        <p className="text-white/80 text-sm font-medium mb-1 relative z-10">Total Saldo</p>
+        <div className="flex justify-between items-center relative z-10 mb-1">
+          <p className="text-white/80 text-sm font-medium">Total Saldo</p>
+          <button 
+            onClick={toggleShowBalance}
+            className="text-white/80 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors active:scale-95"
+          >
+            {showBalance ? <Eye size={18} /> : <EyeOff size={18} />}
+          </button>
+        </div>
         <div className="text-3xl font-bold tracking-tight relative z-10">
-          {wallets === undefined ? "Menghitung..." : formatCurrency(totalBalance)}
+          {wallets === undefined ? "Menghitung..." : displayAmount(totalBalance)}
         </div>
       </div>
 
@@ -65,7 +94,7 @@ export default function Home() {
             </div>
             <div>
               <p className="text-xs font-bold mb-1">Pemasukan</p>
-              <p className="font-black text-sm truncate">{currentMonthTransactions === undefined ? "..." : formatCurrency(monthlyIncome)}</p>
+              <p className="font-black text-sm truncate">{currentMonthTransactions === undefined ? "..." : displayAmount(monthlyIncome)}</p>
             </div>
           </div>
         </div>
@@ -80,7 +109,7 @@ export default function Home() {
             </div>
             <div>
               <p className="text-xs font-bold mb-1">Pengeluaran</p>
-              <p className="font-black text-sm truncate">{currentMonthTransactions === undefined ? "..." : formatCurrency(monthlyExpense)}</p>
+              <p className="font-black text-sm truncate">{currentMonthTransactions === undefined ? "..." : displayAmount(monthlyExpense)}</p>
             </div>
           </div>
         </div>
@@ -120,8 +149,7 @@ export default function Home() {
                     t.type === 'income' ? 'text-income' : 
                     t.type === 'expense' ? 'text-text-main' : 'text-text-secondary'
                   }`}>
-                    {t.type === 'income' ? '+' : t.type === 'expense' ? '-' : ''}
-                    {formatCurrency(t.amount)}
+                    {displayAmount(t.amount, t.type === 'income' ? '+' : t.type === 'expense' ? '-' : '')}
                   </div>
                 </Link>
               ))}
