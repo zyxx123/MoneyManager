@@ -28,7 +28,7 @@ export default function NewTransactionPage() {
   const [note, setNote] = useState("");
 
   const wallets = useLiveQuery(() => walletService.getAllActive());
-  const categories = useLiveQuery(() => categoryService.getAllByType(type as any));
+  const categories = useLiveQuery(() => categoryService.getAllByType(type as any), [type]);
 
   // Set defaults when data loads
   if (wallets && wallets.length > 0 && !walletId) {

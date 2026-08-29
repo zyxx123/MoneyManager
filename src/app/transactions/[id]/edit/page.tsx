@@ -58,7 +58,7 @@ export default function EditTransactionPage() {
   }, [id, router]);
 
   const wallets = useLiveQuery(() => walletService.getAllActive());
-  const categories = useLiveQuery(() => categoryService.getAllByType(type as any));
+  const categories = useLiveQuery(() => categoryService.getAllByType(type as any), [type]);
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value.replace(/\D/g, "");
