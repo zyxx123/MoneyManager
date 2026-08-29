@@ -110,7 +110,7 @@ export default function ReportsPage() {
                   <div key={cat.id} className={`flex items-center justify-between p-4 ${i !== categoryBreakdown.length - 1 ? 'border-b border-border-subtle' : ''} hover:bg-border-subtle/20 transition-colors`}>
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-10 rounded-full flex items-center justify-center text-white shadow-inner" style={{ backgroundColor: cat.color }}>
-                        <DynamicIcon name={cat.icon} size={18} strokeWidth={1.5} />
+                        <DynamicIcon name={cat.icon} size={18} />
                       </div>
                       <div>
                         <p className="font-semibold text-[15px] text-text-main">{cat.name}</p>
