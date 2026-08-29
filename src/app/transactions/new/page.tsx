@@ -79,7 +79,7 @@ export default function NewTransactionPage() {
   return (
     <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-[80px]">
       <header className="sticky top-0 z-10 flex items-center p-4 bg-background/90 backdrop-blur-md">
-        <Link href="/" className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-full transition-colors active:translate-y-1 active:translate-x-1 active:shadow-none">
+        <Link href="/" className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-none transition-colors active:translate-y-1.5 active:translate-x-1.5 active:shadow-none">
           <ArrowLeft size={24} />
         </Link>
         <div className="flex bg-border-subtle/50 p-1 rounded-[12px] ml-auto">
@@ -93,7 +93,7 @@ export default function NewTransactionPage() {
               }}
               className={`px-4 py-1.5 text-[13px] font-semibold rounded-[10px] transition-all duration-200 capitalize ${
                 type === t
-                  ? "bg-surface text-text-main shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] border-2 border-black"
+                  ? "bg-surface text-text-main shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black"
                   : "text-text-secondary hover:text-text-main"
               }`}
             >
@@ -120,7 +120,7 @@ export default function NewTransactionPage() {
                 value={amount}
                 onChange={handleAmountChange}
                 placeholder="0"
-                className="w-full p-5 pl-14 bg-surface border-2 border-black rounded-xl focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all duration-200 text-3xl font-bold text-text-main shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                className="w-full p-5 pl-14 bg-surface border-[3px] border-black rounded-none focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all duration-200 text-3xl font-bold text-text-main shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
               />
             </div>
           </div>
@@ -134,7 +134,7 @@ export default function NewTransactionPage() {
                 required
                 value={walletId}
                 onChange={(e) => setWalletId(e.target.value)}
-                className="w-full p-4 bg-surface border-2 border-black rounded-lg focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] appearance-none"
+                className="w-full p-4 bg-surface border-[3px] border-black rounded-none focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] appearance-none"
               >
                 <option value="" disabled>Pilih Dompet</option>
                 {wallets?.map(w => (
@@ -152,7 +152,7 @@ export default function NewTransactionPage() {
                   required
                   value={toWalletId}
                   onChange={(e) => setToWalletId(e.target.value)}
-                  className="w-full p-4 bg-surface border-2 border-black rounded-lg focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] appearance-none"
+                  className="w-full p-4 bg-surface border-[3px] border-black rounded-none focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] appearance-none"
                 >
                   <option value="" disabled>Pilih Tujuan</option>
                   {wallets?.map(w => (
@@ -171,7 +171,7 @@ export default function NewTransactionPage() {
                   required
                   value={categoryId}
                   onChange={(e) => setCategoryId(e.target.value)}
-                  className="w-full p-4 bg-surface border-2 border-black rounded-lg focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] appearance-none"
+                  className="w-full p-4 bg-surface border-[3px] border-black rounded-none focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] appearance-none"
                 >
                   <option value="" disabled>Pilih Kategori</option>
                   {categories?.map(c => (
@@ -190,14 +190,14 @@ export default function NewTransactionPage() {
               <button
                 type="button"
                 onClick={() => setShowDatePicker(!showDatePicker)}
-                className="w-full p-4 bg-surface border-2 border-black rounded-lg focus:ring-1 focus:ring-primary outline-none text-left flex justify-between items-center text-[15px] font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 active:shadow-none transition-transform"
+                className="w-full p-4 bg-surface border-[3px] border-black rounded-none focus:ring-1 focus:ring-primary outline-none text-left flex justify-between items-center text-[15px] font-medium shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:translate-y-1.5 active:translate-x-1.5 active:shadow-none transition-transform"
               >
                 <span>{format(date, "d MMMM yyyy", { locale: localeID })}</span>
                 <CalendarIcon size={20} className="text-text-secondary" />
               </button>
 
               {showDatePicker && (
-                <div className="absolute z-[100] mt-2 bg-surface border-2 border-black rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 right-0 left-0 flex flex-col items-center">
+                <div className="absolute z-[100] mt-2 bg-surface border-[3px] border-black rounded-none shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-4 right-0 left-0 flex flex-col items-center">
                   <DayPicker
                     mode="single"
                     selected={date}
@@ -208,11 +208,11 @@ export default function NewTransactionPage() {
                       }
                     }}
                   />
-                  <div className="mt-4 flex justify-end w-full border-t-2 border-black pt-3">
+                  <div className="mt-4 flex justify-end w-full border-t-[3px] border-black pt-3">
                     <button
                       type="button"
                       onClick={() => setShowDatePicker(false)}
-                      className="bg-border-subtle/50 text-text-main px-5 py-2.5 rounded-[12px] font-semibold text-[14px] hover:bg-border-subtle active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200"
+                      className="bg-border-subtle/50 text-text-main px-5 py-2.5 rounded-[12px] font-semibold text-[14px] hover:bg-border-subtle active:translate-y-1.5 active:translate-x-1.5 active:shadow-none transition-all duration-200"
                     >
                       Selesai
                     </button>
@@ -231,7 +231,7 @@ export default function NewTransactionPage() {
               value={note}
               onChange={(e) => setNote(e.target.value)}
               placeholder="Makan siang, bensin..."
-              className="w-full p-4 bg-surface border-2 border-black rounded-lg focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+              className="w-full p-4 bg-surface border-[3px] border-black rounded-none focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
             />
           </div>
         </form>
@@ -243,7 +243,7 @@ export default function NewTransactionPage() {
             type="submit"
             form="tx-form"
             disabled={!amount || !walletId}
-            className="w-full py-4 bg-primary text-white rounded-full font-semibold text-[16px] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-2 border-black"
+            className="w-full py-4 bg-primary text-white rounded-none font-semibold text-[16px] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed active:translate-y-1.5 active:translate-x-1.5 active:shadow-none transition-all duration-200 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black"
           >
             Simpan Transaksi
           </button>

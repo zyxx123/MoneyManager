@@ -44,9 +44,9 @@ export default function Home() {
   return (
     <div className="p-4 max-w-md mx-auto space-y-6 pt-6 pb-20">
       {/* Total Balance Card */}
-      <div className="bg-primary rounded-xl p-6 text-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] border-2 border-black relative overflow-hidden">
+      <div className="bg-primary rounded-none p-6 text-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black relative overflow-hidden">
         {/* Subtle decorative circle */}
-        <div className="absolute -top-12 -right-12 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+        <div className="absolute -top-12 -right-12 w-32 h-32 bg-white/10 rounded-none blur-2xl"></div>
         <p className="text-white/80 text-sm font-medium mb-1 relative z-10">Total Saldo</p>
         <div className="text-3xl font-bold tracking-tight relative z-10">
           {wallets === undefined ? "Menghitung..." : formatCurrency(totalBalance)}
@@ -55,11 +55,11 @@ export default function Home() {
 
       {/* Income & Expense Summary */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="bg-surface border-2 border-black rounded-lg p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+        <div className="bg-surface border-[3px] border-black rounded-none p-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           <p className="text-xs text-text-secondary font-medium mb-1">Pemasukan</p>
           <p className="font-semibold text-income">{currentMonthTransactions === undefined ? "..." : formatCurrency(monthlyIncome)}</p>
         </div>
-        <div className="bg-surface border-2 border-black rounded-lg p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+        <div className="bg-surface border-[3px] border-black rounded-none p-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           <p className="text-xs text-text-secondary font-medium mb-1">Pengeluaran</p>
           <p className="font-semibold text-expense">{currentMonthTransactions === undefined ? "..." : formatCurrency(monthlyExpense)}</p>
         </div>
@@ -74,7 +74,7 @@ export default function Home() {
           </Link>
         </div>
         
-        <div className="bg-surface border-2 border-black rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+        <div className="bg-surface border-[3px] border-black rounded-none shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
           {transactions === undefined ? (
             <div className="text-center text-sm text-text-secondary py-8">Memuat transaksi...</div>
           ) : transactions.length === 0 ? (
