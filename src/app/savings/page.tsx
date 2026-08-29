@@ -46,7 +46,7 @@ export default function SavingsPage() {
     return (
       <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-24">
         <header className="sticky top-0 z-10 flex items-center p-4 bg-background/90 backdrop-blur-md">
-          <button onClick={() => setIsCreating(false)} className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-full transition-colors active:scale-95">
+          <button onClick={() => setIsCreating(false)} className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-full transition-colors active:translate-y-1 active:translate-x-1 active:shadow-none">
             <ArrowLeft size={24} />
           </button>
           <h1 className="text-[20px] font-semibold ml-2">Target Tabungan Baru</h1>
@@ -62,7 +62,7 @@ export default function SavingsPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Contoh: Beli Laptop Baru"
-                className="w-full p-4 bg-surface border border-border-subtle rounded-[16px] focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[0_2px_10px_rgba(0,0,0,0.02)]"
+                className="w-full p-4 bg-surface border-2 border-black rounded-lg focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
               />
             </div>
             
@@ -77,7 +77,7 @@ export default function SavingsPage() {
                   value={targetAmount}
                   onChange={handleAmountChange}
                   placeholder="0"
-                  className="w-full p-5 pl-14 bg-surface border border-border-subtle rounded-[20px] focus:ring-1 focus:ring-primary outline-none transition-all text-3xl font-bold text-text-main shadow-[0_2px_10px_rgba(0,0,0,0.02)]"
+                  className="w-full p-5 pl-14 bg-surface border-2 border-black rounded-xl focus:ring-1 focus:ring-primary outline-none transition-all duration-200 text-3xl font-bold text-text-main shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                 />
               </div>
             </div>
@@ -85,7 +85,7 @@ export default function SavingsPage() {
             <button
               type="submit"
               disabled={!name || !targetAmount}
-              className="w-full py-4 mt-4 bg-primary text-white rounded-full font-semibold text-[16px] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] transition-all shadow-[0_8px_16px_rgba(47,111,78,0.2)]"
+              className="w-full py-4 mt-4 bg-primary text-white rounded-full font-semibold text-[16px] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-2 border-black"
             >
               Simpan Target
             </button>
@@ -99,14 +99,14 @@ export default function SavingsPage() {
     <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-24">
       <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/90 backdrop-blur-md">
         <div className="flex items-center">
-          <Link href="/more" className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-full transition-colors active:scale-95">
+          <Link href="/more" className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-full transition-colors active:translate-y-1 active:translate-x-1 active:shadow-none">
             <ArrowLeft size={24} />
           </Link>
           <h1 className="text-[24px] font-bold ml-2">Tabungan</h1>
         </div>
         <button
           onClick={() => setIsCreating(true)}
-          className="flex items-center gap-1.5 bg-primary/10 text-primary px-4 py-2 rounded-full text-[14px] font-semibold hover:bg-primary/20 active:scale-95 transition-all"
+          className="flex items-center gap-1.5 bg-primary/10 text-primary px-4 py-2 rounded-full text-[14px] font-semibold hover:bg-primary/20 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200"
         >
           <Plus size={18} strokeWidth={2.5} />
           Target
@@ -116,11 +116,11 @@ export default function SavingsPage() {
       <div className="flex-1 p-4 space-y-4">
         {savings === undefined ? (
           <div className="animate-pulse space-y-4">
-            {[1, 2].map(i => <div key={i} className="h-32 bg-surface rounded-[24px]" />)}
+            {[1, 2].map(i => <div key={i} className="h-32 bg-surface rounded-xl" />)}
           </div>
         ) : savings.length === 0 ? (
           <div className="flex flex-col items-center justify-center mt-20 text-text-secondary">
-            <div className="w-20 h-20 bg-surface rounded-full flex items-center justify-center mb-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+            <div className="w-20 h-20 bg-surface rounded-full flex items-center justify-center mb-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
               <PiggyBank size={32} className="text-text-secondary/50" />
             </div>
             <p className="font-semibold text-[16px] text-text-main">Belum ada target</p>
@@ -130,12 +130,12 @@ export default function SavingsPage() {
           savings.map(goal => {
             const percentage = Math.min((goal.currentAmount / goal.targetAmount) * 100, 100);
             return (
-              <div key={goal.id} className="bg-surface border border-border-subtle rounded-[24px] p-5 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] transition-shadow">
+              <div key={goal.id} className="bg-surface border-2 border-black rounded-xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 hover:-translate-x-0.5 transition-all duration-200">
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="font-semibold text-[17px] text-text-main tracking-tight">{goal.name}</h3>
                   <button 
                     onClick={() => handleAddFunds(goal.id)}
-                    className="text-[13px] bg-primary/10 text-primary px-3 py-1.5 rounded-full font-semibold hover:bg-primary/20 active:scale-95 transition-all"
+                    className="text-[13px] bg-primary/10 text-primary px-3 py-1.5 rounded-full font-semibold hover:bg-primary/20 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200"
                   >
                     + Nabung
                   </button>
@@ -148,7 +148,7 @@ export default function SavingsPage() {
                 
                 <div className="h-2.5 w-full bg-border-subtle/50 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-primary rounded-full transition-all duration-700 ease-out"
+                    className="h-full bg-primary rounded-full transition-all duration-200 duration-700 ease-out"
                     style={{ width: `${percentage}%` }}
                   />
                 </div>

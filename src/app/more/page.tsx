@@ -73,13 +73,13 @@ export default function MorePage() {
         {/* Analytics */}
         <div className="space-y-2">
           <h2 className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-2">Analisis & Laporan</h2>
-          <div className="bg-surface border border-border-subtle rounded-[24px] overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+          <div className="bg-surface border-2 border-black rounded-xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <Link 
               href="/reports"
-              className="flex items-center justify-between p-4 hover:bg-border-subtle/50 active:scale-[0.99] transition-all"
+              className="flex items-center justify-between p-4 hover:bg-border-subtle/50 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200"
             >
               <div className="flex items-center gap-4">
-                <div className="p-3 rounded-[16px] bg-purple-100/50 text-purple-600 dark:bg-purple-900/30">
+                <div className="p-3 rounded-lg bg-purple-100/50 text-purple-600 dark:bg-purple-900/30">
                   <PieChart size={22} strokeWidth={2} />
                 </div>
                 <span className="font-semibold text-[16px]">Laporan Bulanan</span>
@@ -92,17 +92,17 @@ export default function MorePage() {
         {/* Advanced Features */}
         <div className="space-y-2">
           <h2 className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-2">Fitur Lanjutan</h2>
-          <div className="bg-surface border border-border-subtle rounded-[24px] overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+          <div className="bg-surface border-2 border-black rounded-xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             {advancedFeatures.map((item, i) => (
               <Link 
                 key={i} 
                 href={item.href}
-                className={`flex items-center justify-between p-4 hover:bg-border-subtle/50 active:scale-[0.99] transition-all ${
-                  i !== advancedFeatures.length - 1 ? 'border-b border-border-subtle' : ''
+                className={`flex items-center justify-between p-4 hover:bg-border-subtle/50 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200 ${
+                  i !== advancedFeatures.length - 1 ? 'border-b-2 border-black' : ''
                 }`}
               >
                 <div className="flex items-center gap-4">
-                  <div className={`p-3 rounded-[16px] ${item.bg} ${item.color}`}>
+                  <div className={`p-3 rounded-lg ${item.bg} ${item.color}`}>
                     <item.icon size={22} strokeWidth={2} />
                   </div>
                   <span className="font-semibold text-[16px]">{item.label}</span>
@@ -116,13 +116,13 @@ export default function MorePage() {
         {/* Data Portability */}
         <div className="space-y-2">
           <h2 className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-2">Pengaturan & Data</h2>
-          <div className="bg-surface border border-border-subtle rounded-[24px] overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+          <div className="bg-surface border-2 border-black rounded-xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <button 
               onClick={handleExport}
-              className="w-full flex items-center justify-between p-4 hover:bg-border-subtle/50 active:scale-[0.99] transition-all border-b border-border-subtle text-left"
+              className="w-full flex items-center justify-between p-4 hover:bg-border-subtle/50 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200 border-b-2 border-black text-left"
             >
               <div className="flex items-center gap-4">
-                <div className="p-3 rounded-[16px] bg-border-subtle/50 text-text-secondary">
+                <div className="p-3 rounded-lg bg-border-subtle/50 text-text-secondary">
                   <Download size={22} strokeWidth={2} />
                 </div>
                 <span className="font-semibold text-[16px]">Export Data (Backup)</span>
@@ -131,10 +131,10 @@ export default function MorePage() {
             
             <button 
               onClick={handleImportClick}
-              className="w-full flex items-center justify-between p-4 hover:bg-border-subtle/50 active:scale-[0.99] transition-all border-b border-border-subtle text-left"
+              className="w-full flex items-center justify-between p-4 hover:bg-border-subtle/50 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200 border-b-2 border-black text-left"
             >
               <div className="flex items-center gap-4">
-                <div className="p-3 rounded-[16px] bg-border-subtle/50 text-text-secondary">
+                <div className="p-3 rounded-lg bg-border-subtle/50 text-text-secondary">
                   <Upload size={22} strokeWidth={2} />
                 </div>
                 <span className="font-semibold text-[16px]">Import Data (Restore)</span>
@@ -150,10 +150,10 @@ export default function MorePage() {
 
             <Link 
               href="/settings"
-              className="flex items-center justify-between p-4 hover:bg-border-subtle/50 active:scale-[0.99] transition-all"
+              className="flex items-center justify-between p-4 hover:bg-border-subtle/50 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200"
             >
               <div className="flex items-center gap-4">
-                <div className="p-3 rounded-[16px] bg-border-subtle/50 text-text-secondary">
+                <div className="p-3 rounded-lg bg-border-subtle/50 text-text-secondary">
                   <Settings size={22} strokeWidth={2} />
                 </div>
                 <span className="font-semibold text-[16px]">Pengaturan Aplikasi</span>

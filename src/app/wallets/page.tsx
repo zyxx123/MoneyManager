@@ -24,7 +24,7 @@ export default function WalletsPage() {
         <h1 className="text-[24px] font-bold ml-1">Dompet</h1>
         <Link
           href="/wallets/new"
-          className="flex items-center gap-1.5 bg-primary/10 text-primary px-4 py-2 rounded-full text-[14px] font-semibold hover:bg-primary/20 active:scale-95 transition-all"
+          className="flex items-center gap-1.5 bg-primary/10 text-primary px-4 py-2 rounded-full text-[14px] font-semibold hover:bg-primary/20 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200"
         >
           <Plus size={18} strokeWidth={2.5} />
           Tambah
@@ -35,12 +35,12 @@ export default function WalletsPage() {
         {wallets === undefined ? (
           <div className="animate-pulse space-y-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-24 bg-surface rounded-[24px]" />
+              <div key={i} className="h-24 bg-surface rounded-xl" />
             ))}
           </div>
         ) : wallets.length === 0 ? (
           <div className="flex flex-col items-center justify-center mt-20 text-text-secondary">
-            <div className="w-20 h-20 bg-surface rounded-full flex items-center justify-center mb-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+            <div className="w-20 h-20 bg-surface rounded-full flex items-center justify-center mb-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
               <WalletIcon size={32} className="text-text-secondary/50" />
             </div>
             <p className="font-semibold text-[16px] text-text-main">Belum ada dompet</p>
@@ -51,11 +51,11 @@ export default function WalletsPage() {
             <Link
               href={`/wallets/${wallet.id}/edit`}
               key={wallet.id}
-              className="bg-surface border border-border-subtle rounded-[24px] p-5 shadow-[0_4px_16px_rgba(0,0,0,0.03)] flex items-center justify-between hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] active:scale-[0.98] transition-all cursor-pointer block"
+              className="bg-surface border-2 border-black rounded-xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center justify-between hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 hover:-translate-x-0.5 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200 cursor-pointer block"
             >
               <div className="flex items-center gap-4">
                 <div 
-                  className="w-14 h-14 rounded-full flex items-center justify-center text-white shadow-inner"
+                  className="w-14 h-14 rounded-full flex items-center justify-center text-white shadow-[inset_2px_2px_0px_0px_rgba(0,0,0,0.2)]"
                   style={{ backgroundColor: wallet.color }}
                 >
                   <WalletIcon size={26} strokeWidth={1.5} />

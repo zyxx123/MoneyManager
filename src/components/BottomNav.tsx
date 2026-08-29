@@ -20,7 +20,7 @@ export default function BottomNav() {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-md border-t border-border-subtle pb-[env(safe-area-inset-bottom)]">
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-md border-t-2 border-black pb-[env(safe-area-inset-bottom)]">
       <div className="flex justify-around items-center h-16 max-w-md mx-auto px-2">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
@@ -30,7 +30,7 @@ export default function BottomNav() {
               <Link 
                 key={item.href} 
                 href={item.href}
-                className="flex items-center justify-center w-14 h-14 bg-primary rounded-full text-white shadow-[0_8px_16px_rgba(47,111,78,0.2)] -mt-6 hover:scale-105 active:scale-95 transition-all duration-200"
+                className="flex items-center justify-center w-14 h-14 bg-primary border-2 border-black rounded-full text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -mt-6 hover:-translate-y-0.5 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200"
               >
                 <item.icon size={24} strokeWidth={2.5} />
               </Link>
