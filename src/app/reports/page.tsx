@@ -6,6 +6,7 @@ import { formatCurrency } from "@/lib/utils";
 import { ArrowLeft, PieChart } from "lucide-react";
 import Link from "next/link";
 import { startOfMonth, endOfMonth } from "date-fns";
+import { DynamicIcon } from "@/components/DynamicIcon";
 
 export default function ReportsPage() {
   const now = new Date();
@@ -43,7 +44,7 @@ export default function ReportsPage() {
       return {
         id: catId,
         name: cat?.name || "Lainnya",
-        icon: cat?.icon || "🛒",
+        icon: cat?.icon || "shopping-cart",
         color: cat?.color || "#6b7280",
         amount,
         percentage: totalExpense > 0 ? (amount / totalExpense) * 100 : 0
@@ -107,7 +108,7 @@ export default function ReportsPage() {
                   <div key={cat.id} className={`flex items-center justify-between p-3 ${i !== categoryBreakdown.length - 1 ? 'border-b border-gray-100 dark:border-gray-800' : ''}`}>
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm" style={{ backgroundColor: cat.color }}>
-                        {cat.icon}
+                        <DynamicIcon name={cat.icon} size={16} />
                       </div>
                       <div>
                         <p className="font-medium text-sm text-gray-900 dark:text-white">{cat.name}</p>
