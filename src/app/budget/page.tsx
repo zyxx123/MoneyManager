@@ -114,7 +114,7 @@ export default function BudgetPage() {
   });
 
   if (loading) {
-    return <div className="p-4 max-w-md mx-auto pt-8 flex justify-center"><div className="animate-pulse w-8 h-8 rounded-full bg-blue-200"></div></div>;
+    return null;
   }
 
   if (!budgetStatus && mode === "view") {
