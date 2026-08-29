@@ -49,24 +49,24 @@ export default function DebtsPage() {
 
   if (isCreating) {
     return (
-      <div className="flex flex-col h-full max-w-md mx-auto bg-gray-50 dark:bg-gray-950">
-        <header className="flex items-center p-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-          <button onClick={() => setIsCreating(false)} className="p-2 -ml-2 text-gray-600 dark:text-gray-300">
+      <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-24">
+        <header className="sticky top-0 z-10 flex items-center p-4 bg-background/90 backdrop-blur-md">
+          <button onClick={() => setIsCreating(false)} className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-full transition-colors active:scale-95">
             <ArrowLeft size={24} />
           </button>
-          <h1 className="text-xl font-bold ml-2">Catat Hutang/Piutang</h1>
+          <h1 className="text-[20px] font-semibold ml-2">Catat Hutang/Piutang</h1>
         </header>
 
-        <div className="p-4 pt-8">
+        <div className="flex-1 p-5">
           <form onSubmit={handleCreate} className="space-y-6">
-            <div className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-xl">
+            <div className="flex bg-surface border border-border-subtle p-1 rounded-[16px] shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
               <button
                 type="button"
                 onClick={() => setDirection("payable")}
-                className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${
+                className={`flex-1 py-2.5 text-[14px] font-semibold rounded-[12px] transition-all ${
                   direction === "payable"
-                    ? "bg-white dark:bg-gray-700 text-red-600 shadow-sm"
-                    : "text-gray-500 hover:text-gray-900"
+                    ? "bg-expense/10 text-expense shadow-sm border border-expense/20"
+                    : "text-text-secondary hover:text-text-main"
                 }`}
               >
                 Saya Berhutang
@@ -74,10 +74,10 @@ export default function DebtsPage() {
               <button
                 type="button"
                 onClick={() => setDirection("receivable")}
-                className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${
+                className={`flex-1 py-2.5 text-[14px] font-semibold rounded-[12px] transition-all ${
                   direction === "receivable"
-                    ? "bg-white dark:bg-gray-700 text-green-600 shadow-sm"
-                    : "text-gray-500 hover:text-gray-900"
+                    ? "bg-income/10 text-income shadow-sm border border-income/20"
+                    : "text-text-secondary hover:text-text-main"
                 }`}
               >
                 Orang Berhutang
@@ -85,7 +85,7 @@ export default function DebtsPage() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
                 {direction === 'payable' ? 'Kepada Siapa / Untuk Apa' : 'Siapa yang Berhutang'}
               </label>
               <input
@@ -94,14 +94,14 @@ export default function DebtsPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Contoh: Budi, Pinjol X"
-                className="w-full p-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full p-4 bg-surface border border-border-subtle rounded-[16px] focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[0_2px_10px_rgba(0,0,0,0.02)]"
               />
             </div>
             
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Total Nominal</label>
+              <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">Total Nominal</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">Rp</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary font-medium text-lg">Rp</span>
                 <input
                   type="text"
                   inputMode="numeric"
@@ -109,14 +109,15 @@ export default function DebtsPage() {
                   value={amount}
                   onChange={handleAmountChange}
                   placeholder="0"
-                  className="w-full p-3 pl-12 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-lg font-bold"
+                  className="w-full p-5 pl-14 bg-surface border border-border-subtle rounded-[20px] focus:ring-1 focus:ring-primary outline-none transition-all text-3xl font-bold text-text-main shadow-[0_2px_10px_rgba(0,0,0,0.02)]"
                 />
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full py-3.5 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700"
+              disabled={!name || !amount}
+              className="w-full py-4 mt-4 bg-primary text-white rounded-full font-semibold text-[16px] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] transition-all shadow-[0_8px_16px_rgba(47,111,78,0.2)]"
             >
               Simpan
             </button>
@@ -127,32 +128,35 @@ export default function DebtsPage() {
   }
 
   return (
-    <div className="flex flex-col h-full max-w-md mx-auto bg-gray-50 dark:bg-gray-950">
-      <header className="flex items-center justify-between p-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-24">
+      <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/90 backdrop-blur-md">
         <div className="flex items-center">
-          <Link href="/more" className="p-2 -ml-2 text-gray-600 dark:text-gray-300">
+          <Link href="/more" className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-full transition-colors active:scale-95">
             <ArrowLeft size={24} />
           </Link>
-          <h1 className="text-xl font-bold ml-2">Hutang & Piutang</h1>
+          <h1 className="text-[24px] font-bold ml-2">Hutang & Piutang</h1>
         </div>
         <button
           onClick={() => setIsCreating(true)}
-          className="flex items-center gap-1 bg-red-600 text-white px-3 py-1.5 rounded-full text-sm font-medium hover:bg-red-700"
+          className="flex items-center gap-1.5 bg-expense/10 text-expense px-4 py-2 rounded-full text-[14px] font-semibold hover:bg-expense/20 active:scale-95 transition-all"
         >
-          <Plus size={16} />
+          <Plus size={18} strokeWidth={2.5} />
           Catat Baru
         </button>
       </header>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-24">
+      <div className="flex-1 p-4 space-y-4">
         {debts === undefined ? (
           <div className="animate-pulse space-y-4">
-            {[1, 2].map(i => <div key={i} className="h-32 bg-gray-200 dark:bg-gray-800 rounded-2xl" />)}
+            {[1, 2].map(i => <div key={i} className="h-32 bg-surface rounded-[24px]" />)}
           </div>
         ) : debts.length === 0 ? (
-          <div className="text-center text-gray-500 mt-10">
-            <CreditCard size={48} className="mx-auto mb-2 text-gray-400" />
-            <p>Bebas hutang! Lanjutkan!</p>
+          <div className="flex flex-col items-center justify-center mt-20 text-text-secondary">
+            <div className="w-20 h-20 bg-surface rounded-full flex items-center justify-center mb-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+              <CreditCard size={32} className="text-text-secondary/50" />
+            </div>
+            <p className="font-semibold text-[16px] text-text-main">Bebas hutang!</p>
+            <p className="text-[14px] mt-1">Lanjutkan kebiasaan baik ini.</p>
           </div>
         ) : (
           debts.map(debt => {
@@ -160,39 +164,39 @@ export default function DebtsPage() {
             const percentage = ((debt.amount - debt.remainingAmount) / debt.amount) * 100;
             
             return (
-              <div key={debt.id} className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-5 shadow-sm">
-                <div className="flex justify-between items-start mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className={`p-2 rounded-full ${isPayable ? 'bg-red-100 text-red-600 dark:bg-red-900/30' : 'bg-green-100 text-green-600 dark:bg-green-900/30'}`}>
-                      {isPayable ? <ArrowUpRight size={20} /> : <ArrowDownRight size={20} />}
+              <div key={debt.id} className="bg-surface border border-border-subtle rounded-[24px] p-5 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] transition-shadow">
+                <div className="flex justify-between items-start mb-5">
+                  <div className="flex items-center gap-4">
+                    <div className={`p-3 rounded-[16px] shadow-inner ${isPayable ? 'bg-expense/10 text-expense' : 'bg-income/10 text-income'}`}>
+                      {isPayable ? <ArrowUpRight size={22} strokeWidth={2} /> : <ArrowDownRight size={22} strokeWidth={2} />}
                     </div>
                     <div>
-                      <h3 className="font-bold text-gray-900 dark:text-gray-100">{debt.name}</h3>
-                      <p className="text-xs text-gray-500">{isPayable ? 'Hutang Saya' : 'Piutang Orang'}</p>
+                      <h3 className="font-semibold text-[17px] text-text-main tracking-tight">{debt.name}</h3>
+                      <p className="text-[13px] font-medium text-text-secondary mt-0.5">{isPayable ? 'Hutang Saya' : 'Piutang Orang'}</p>
                     </div>
                   </div>
                   <button 
                     onClick={() => handleAddPayment(debt.id, debt.remainingAmount)}
-                    className="text-xs bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200 transition"
+                    className="text-[13px] bg-border-subtle/50 text-text-main px-3 py-1.5 rounded-full font-semibold hover:bg-border-subtle active:scale-95 transition-all"
                   >
                     + Bayar
                   </button>
                 </div>
                 
-                <div className="flex justify-between text-sm mb-2">
-                  <span className={`font-semibold ${isPayable ? 'text-red-600' : 'text-green-600'}`}>
+                <div className="flex justify-between text-[14px] mb-3">
+                  <span className={`font-bold ${isPayable ? 'text-expense' : 'text-income'}`}>
                     Sisa: {formatCurrency(debt.remainingAmount)}
                   </span>
-                  <span className="text-gray-500">Total: {formatCurrency(debt.amount)}</span>
+                  <span className="font-medium text-text-secondary text-[13px]">Total: {formatCurrency(debt.amount)}</span>
                 </div>
                 
-                <div className="h-2 w-full bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                <div className="h-2.5 w-full bg-border-subtle/50 rounded-full overflow-hidden">
                   <div 
-                    className={`h-full rounded-full transition-all duration-500 ${isPayable ? 'bg-red-500' : 'bg-green-500'}`}
+                    className={`h-full rounded-full transition-all duration-700 ease-out ${isPayable ? 'bg-expense' : 'bg-income'}`}
                     style={{ width: `${percentage}%` }}
                   />
                 </div>
-                <div className="text-right text-xs text-gray-400 mt-1">
+                <div className="text-right text-[12px] font-medium text-text-secondary mt-2">
                   {percentage.toFixed(1)}% Lunas
                 </div>
               </div>

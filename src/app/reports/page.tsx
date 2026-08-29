@@ -53,69 +53,71 @@ export default function ReportsPage() {
     .sort((a, b) => b.amount - a.amount);
 
   return (
-    <div className="flex flex-col h-full max-w-md mx-auto bg-gray-50 dark:bg-gray-950">
-      <header className="flex items-center p-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-        <Link href="/more" className="p-2 -ml-2 text-gray-600 dark:text-gray-300">
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-24">
+      <header className="sticky top-0 z-10 flex items-center p-4 bg-background/90 backdrop-blur-md">
+        <Link href="/more" className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-full transition-colors active:scale-95">
           <ArrowLeft size={24} />
         </Link>
-        <h1 className="text-xl font-bold ml-2">Laporan Bulan Ini</h1>
+        <h1 className="text-[20px] font-semibold ml-2">Laporan Bulan Ini</h1>
       </header>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-6 pb-24">
+      <div className="flex-1 p-4 space-y-6">
         {/* Cashflow Summary */}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800">
-            <p className="text-xs text-gray-500 mb-1">Total Pemasukan</p>
-            <p className="font-bold text-green-600">{formatCurrency(totalIncome)}</p>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="bg-surface rounded-[24px] p-5 shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-border-subtle">
+            <p className="text-[13px] font-medium text-text-secondary mb-2">Pemasukan</p>
+            <p className="font-bold text-income text-[17px] tracking-tight">{formatCurrency(totalIncome)}</p>
           </div>
-          <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800">
-            <p className="text-xs text-gray-500 mb-1">Total Pengeluaran</p>
-            <p className="font-bold text-red-600">{formatCurrency(totalExpense)}</p>
+          <div className="bg-surface rounded-[24px] p-5 shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-border-subtle">
+            <p className="text-[13px] font-medium text-text-secondary mb-2">Pengeluaran</p>
+            <p className="font-bold text-expense text-[17px] tracking-tight">{formatCurrency(totalExpense)}</p>
           </div>
         </div>
         
-        <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 flex justify-between items-center">
-          <span className="text-sm font-medium">Net Income / Surplus</span>
-          <span className={`font-bold ${totalIncome - totalExpense >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+        <div className="bg-surface rounded-[24px] p-5 shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-border-subtle flex justify-between items-center">
+          <span className="text-[15px] font-medium text-text-secondary">Sisa / Surplus</span>
+          <span className={`font-bold text-[17px] tracking-tight ${totalIncome - totalExpense >= 0 ? 'text-income' : 'text-expense'}`}>
             {formatCurrency(totalIncome - totalExpense)}
           </span>
         </div>
 
         {/* Category Breakdown */}
-        <div>
-          <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-            <PieChart size={20} className="text-blue-500" /> Pengeluaran by Kategori
+        <div className="pt-2">
+          <h2 className="text-[18px] font-semibold mb-5 flex items-center gap-2">
+            <PieChart size={20} className="text-primary" /> Kategori Pengeluaran
           </h2>
           
           {categoryBreakdown.length === 0 ? (
-            <p className="text-gray-500 text-center py-4 text-sm">Belum ada pengeluaran bulan ini.</p>
+            <div className="bg-surface rounded-[24px] border border-border-subtle p-8 text-center">
+              <p className="text-text-secondary font-medium">Belum ada pengeluaran bulan ini.</p>
+            </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-5">
               {/* Pseudo-chart (horizontal stacked bar) */}
-              <div className="h-4 w-full bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden flex">
+              <div className="h-3 w-full bg-border-subtle/50 rounded-full overflow-hidden flex shadow-inner">
                 {categoryBreakdown.map(cat => (
                   <div 
                     key={cat.id} 
                     style={{ width: `${cat.percentage}%`, backgroundColor: cat.color }} 
-                    className="h-full border-r border-white/20 last:border-0"
+                    className="h-full border-r border-background/50 last:border-0 hover:opacity-80 transition-opacity"
                     title={`${cat.name}: ${cat.percentage.toFixed(1)}%`}
                   />
                 ))}
               </div>
               
-              <div className="bg-white dark:bg-gray-900 rounded-2xl p-2 shadow-sm border border-gray-100 dark:border-gray-800">
+              <div className="bg-surface rounded-[24px] shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-border-subtle overflow-hidden">
                 {categoryBreakdown.map((cat, i) => (
-                  <div key={cat.id} className={`flex items-center justify-between p-3 ${i !== categoryBreakdown.length - 1 ? 'border-b border-gray-100 dark:border-gray-800' : ''}`}>
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm" style={{ backgroundColor: cat.color }}>
-                        <DynamicIcon name={cat.icon} size={16} />
+                  <div key={cat.id} className={`flex items-center justify-between p-4 ${i !== categoryBreakdown.length - 1 ? 'border-b border-border-subtle' : ''} hover:bg-border-subtle/20 transition-colors`}>
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center text-white shadow-inner" style={{ backgroundColor: cat.color }}>
+                        <DynamicIcon name={cat.icon} size={18} strokeWidth={1.5} />
                       </div>
                       <div>
-                        <p className="font-medium text-sm text-gray-900 dark:text-white">{cat.name}</p>
-                        <p className="text-xs text-gray-500">{cat.percentage.toFixed(1)}%</p>
+                        <p className="font-semibold text-[15px] text-text-main">{cat.name}</p>
+                        <p className="text-[13px] font-medium text-text-secondary mt-0.5">{cat.percentage.toFixed(1)}%</p>
                       </div>
                     </div>
-                    <span className="font-semibold text-sm text-gray-900 dark:text-white">
+                    <span className="font-semibold text-[15px] text-text-main tracking-tight">
                       {formatCurrency(cat.amount)}
                     </span>
                   </div>

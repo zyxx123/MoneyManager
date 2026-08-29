@@ -112,12 +112,12 @@ export default function EditTransactionPage() {
   if (isLoading) return <div className="p-8 text-center">Memuat...</div>;
 
   return (
-    <div className="flex flex-col h-full max-w-md mx-auto bg-gray-50 dark:bg-gray-950">
-      <header className="flex items-center p-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-        <button onClick={() => router.back()} className="p-2 -ml-2 text-gray-600 dark:text-gray-300">
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-[100px]">
+      <header className="sticky top-0 z-10 flex items-center p-4 bg-background/90 backdrop-blur-md">
+        <Link href="/" className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-full transition-colors active:scale-95">
           <ArrowLeft size={24} />
-        </button>
-        <div className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-lg ml-auto mr-4">
+        </Link>
+        <div className="flex bg-border-subtle/50 p-1 rounded-[12px] ml-auto">
           {(["expense", "income", "transfer"] as TransactionType[]).map((t) => (
             <button
               key={t}
@@ -126,29 +126,26 @@ export default function EditTransactionPage() {
                 setType(t);
                 setCategoryId("");
               }}
-              className={`px-3 py-1 text-sm font-medium rounded-md transition-colors capitalize ${
+              className={`px-4 py-1.5 text-[13px] font-semibold rounded-[10px] transition-all capitalize ${
                 type === t
-                  ? "bg-white dark:bg-gray-700 text-blue-600 shadow-sm"
-                  : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
+                  ? "bg-surface text-text-main shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
+                  : "text-text-secondary hover:text-text-main"
               }`}
             >
               {t === "expense" ? "Pengeluaran" : t === "income" ? "Pemasukan" : "Transfer"}
             </button>
           ))}
         </div>
-        <button type="button" onClick={handleDelete} className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors">
-          <Trash2 size={20} />
-        </button>
       </header>
 
-      <div className="flex-1 overflow-y-auto p-4 pb-24">
-        <form id="tx-form" onSubmit={handleSubmit} className="space-y-6">
+      <div className="flex-1 p-5">
+        <form id="tx-form" onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
               Jumlah
             </label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary font-medium text-lg">
                 Rp
               </span>
               <input
@@ -158,21 +155,21 @@ export default function EditTransactionPage() {
                 value={amount}
                 onChange={handleAmountChange}
                 placeholder="0"
-                className="w-full p-4 pl-12 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition text-3xl font-bold text-gray-900 dark:text-white"
+                className="w-full p-5 pl-14 bg-surface border border-border-subtle rounded-[20px] focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all text-3xl font-bold text-text-main shadow-[0_2px_10px_rgba(0,0,0,0.02)]"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
                 {type === 'transfer' ? 'Dari Dompet' : 'Dompet'}
               </label>
               <select
                 required
                 value={walletId}
                 onChange={(e) => setWalletId(e.target.value)}
-                className="w-full p-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full p-4 bg-surface border border-border-subtle rounded-[16px] focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[0_2px_10px_rgba(0,0,0,0.02)] appearance-none"
               >
                 <option value="" disabled>Pilih Dompet</option>
                 {wallets?.map(w => (
@@ -183,14 +180,14 @@ export default function EditTransactionPage() {
 
             {type === 'transfer' && (
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
                   Ke Dompet
                 </label>
                 <select
                   required
                   value={toWalletId}
                   onChange={(e) => setToWalletId(e.target.value)}
-                  className="w-full p-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full p-4 bg-surface border border-border-subtle rounded-[16px] focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[0_2px_10px_rgba(0,0,0,0.02)] appearance-none"
                 >
                   <option value="" disabled>Pilih Tujuan</option>
                   {wallets?.map(w => (
@@ -202,14 +199,14 @@ export default function EditTransactionPage() {
             
             {type !== 'transfer' && (
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
                   Kategori
                 </label>
                 <select
                   required
                   value={categoryId}
                   onChange={(e) => setCategoryId(e.target.value)}
-                  className="w-full p-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full p-4 bg-surface border border-border-subtle rounded-[16px] focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[0_2px_10px_rgba(0,0,0,0.02)] appearance-none"
                 >
                   <option value="" disabled>Pilih Kategori</option>
                   {categories?.map(c => (
@@ -221,21 +218,21 @@ export default function EditTransactionPage() {
           </div>
 
           <div className="space-y-2 relative">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
               Tanggal
             </label>
             <div className="relative">
               <button
                 type="button"
                 onClick={() => setShowDatePicker(!showDatePicker)}
-                className="w-full p-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-left flex justify-between items-center text-sm"
+                className="w-full p-4 bg-surface border border-border-subtle rounded-[16px] focus:ring-1 focus:ring-primary outline-none text-left flex justify-between items-center text-[15px] font-medium shadow-[0_2px_10px_rgba(0,0,0,0.02)] active:scale-[0.98] transition-transform"
               >
                 <span>{format(date, "d MMMM yyyy", { locale: localeID })}</span>
-                <CalendarIcon size={18} className="text-gray-500" />
+                <CalendarIcon size={20} className="text-text-secondary" />
               </button>
 
               {showDatePicker && (
-                <div className="absolute z-[100] mt-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl shadow-2xl p-4 right-0 left-0 flex flex-col items-center">
+                <div className="absolute z-[100] mt-2 bg-surface border border-border-subtle rounded-[24px] shadow-[0_12px_40px_rgba(0,0,0,0.12)] p-4 right-0 left-0 flex flex-col items-center">
                   <DayPicker
                     mode="single"
                     selected={date}
@@ -246,13 +243,13 @@ export default function EditTransactionPage() {
                       }
                     }}
                   />
-                  <div className="mt-2 flex justify-end w-full">
+                  <div className="mt-4 flex justify-end w-full border-t border-border-subtle pt-3">
                     <button
                       type="button"
                       onClick={() => setShowDatePicker(false)}
-                      className="bg-gray-100 text-gray-700 px-4 py-2 rounded-xl font-semibold text-sm hover:bg-gray-200"
+                      className="bg-border-subtle/50 text-text-main px-5 py-2.5 rounded-[12px] font-semibold text-[14px] hover:bg-border-subtle active:scale-95 transition-all"
                     >
-                      Batal
+                      Selesai
                     </button>
                   </div>
                 </div>
@@ -261,29 +258,38 @@ export default function EditTransactionPage() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Catatan (Opsional)
+            <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
+              Catatan
             </label>
             <input
               type="text"
               value={note}
               onChange={(e) => setNote(e.target.value)}
-              placeholder="Makan siang, beli bensin..."
-              className="w-full p-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+              placeholder="Makan siang, bensin..."
+              className="w-full p-4 bg-surface border border-border-subtle rounded-[16px] focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[0_2px_10px_rgba(0,0,0,0.02)]"
             />
           </div>
         </form>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 pb-[calc(1rem+env(safe-area-inset-bottom))]">
-        <button
-          type="submit"
-          form="tx-form"
-          disabled={!amount || !walletId}
-          className="w-full max-w-md mx-auto block py-3.5 bg-blue-600 text-white rounded-xl font-semibold text-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
-        >
-          Simpan Perubahan
-        </button>
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/90 backdrop-blur-md pb-[calc(1rem+env(safe-area-inset-bottom))] space-y-3">
+        <div className="max-w-md mx-auto grid grid-cols-4 gap-3">
+          <button
+            type="button"
+            onClick={handleDelete}
+            className="col-span-1 flex items-center justify-center py-4 bg-red-50 dark:bg-red-900/20 text-red-600 rounded-full hover:bg-red-100 dark:hover:bg-red-900/40 active:scale-[0.98] transition-all"
+          >
+            <Trash2 size={24} />
+          </button>
+          <button
+            type="submit"
+            form="tx-form"
+            disabled={!amount || !walletId}
+            className="col-span-3 py-4 bg-primary text-white rounded-full font-semibold text-[16px] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] transition-all shadow-[0_8px_16px_rgba(47,111,78,0.2)]"
+          >
+            Simpan Perubahan
+          </button>
+        </div>
       </div>
     </div>
   );

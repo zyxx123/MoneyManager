@@ -19,54 +19,56 @@ export default function WalletsPage() {
   };
 
   return (
-    <div className="p-4 max-w-md mx-auto h-full flex flex-col">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Dompet</h1>
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-24">
+      <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/90 backdrop-blur-md">
+        <h1 className="text-[24px] font-bold ml-1">Dompet</h1>
         <Link
           href="/wallets/new"
-          className="flex items-center gap-1 bg-blue-600 text-white px-3 py-1.5 rounded-full text-sm font-medium hover:bg-blue-700"
+          className="flex items-center gap-1.5 bg-primary/10 text-primary px-4 py-2 rounded-full text-[14px] font-semibold hover:bg-primary/20 active:scale-95 transition-all"
         >
-          <Plus size={16} />
+          <Plus size={18} strokeWidth={2.5} />
           Tambah
         </Link>
-      </div>
+      </header>
 
-      <div className="flex-1 overflow-y-auto space-y-3 pb-24">
+      <div className="flex-1 p-4 space-y-4">
         {wallets === undefined ? (
-          <div className="animate-pulse space-y-3">
+          <div className="animate-pulse space-y-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-20 bg-gray-200 dark:bg-gray-800 rounded-xl" />
+              <div key={i} className="h-24 bg-surface rounded-[24px]" />
             ))}
           </div>
         ) : wallets.length === 0 ? (
-          <div className="text-center text-gray-500 mt-10">
-            <WalletIcon size={48} className="mx-auto mb-2 text-gray-400" />
-            <p>Belum ada dompet.</p>
-            <p className="text-sm">Buat dompet pertamamu sekarang!</p>
+          <div className="flex flex-col items-center justify-center mt-20 text-text-secondary">
+            <div className="w-20 h-20 bg-surface rounded-full flex items-center justify-center mb-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+              <WalletIcon size={32} className="text-text-secondary/50" />
+            </div>
+            <p className="font-semibold text-[16px] text-text-main">Belum ada dompet</p>
+            <p className="text-[14px] mt-1">Buat dompet pertamamu sekarang!</p>
           </div>
         ) : (
           wallets.map((wallet) => (
             <Link
               href={`/wallets/${wallet.id}/edit`}
               key={wallet.id}
-              className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-4 shadow-sm flex items-center justify-between hover:border-blue-200 dark:hover:border-blue-900 transition-colors cursor-pointer block"
+              className="bg-surface border border-border-subtle rounded-[24px] p-5 shadow-[0_4px_16px_rgba(0,0,0,0.03)] flex items-center justify-between hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] active:scale-[0.98] transition-all cursor-pointer block"
             >
               <div className="flex items-center gap-4">
                 <div 
-                  className="w-12 h-12 rounded-full flex items-center justify-center text-white shadow-inner"
+                  className="w-14 h-14 rounded-full flex items-center justify-center text-white shadow-inner"
                   style={{ backgroundColor: wallet.color }}
                 >
-                  <WalletIcon size={24} />
+                  <WalletIcon size={26} strokeWidth={1.5} />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-gray-100">
+                  <h3 className="font-semibold text-[17px] text-text-main tracking-tight">
                     {wallet.name}
                   </h3>
-                  <p className="text-sm text-gray-500 capitalize">{wallet.type}</p>
+                  <p className="text-[13px] text-text-secondary capitalize font-medium">{wallet.type}</p>
                 </div>
               </div>
               <div className="text-right">
-                <p className="font-bold text-gray-900 dark:text-gray-100">
+                <p className="font-bold text-[17px] text-text-main tracking-tight">
                   {formatCurrency(wallet.cachedBalance)}
                 </p>
               </div>

@@ -64,104 +64,108 @@ export default function MorePage() {
   ];
 
   return (
-    <div className="p-4 max-w-md mx-auto space-y-6 pt-8 pb-24 h-full overflow-y-auto">
-      <h1 className="text-2xl font-bold mb-6">Menu Lainnya</h1>
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-24">
+      <header className="sticky top-0 z-10 flex items-center p-4 bg-background/90 backdrop-blur-md">
+        <h1 className="text-[24px] font-bold ml-1">Menu Lainnya</h1>
+      </header>
 
-      {/* Analytics */}
-      <div className="space-y-3">
-        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider pl-2">Analisis & Laporan</h2>
-        <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm">
-          <Link 
-            href="/reports"
-            className="flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-          >
-            <div className="flex items-center gap-4">
-              <div className="p-2.5 rounded-xl bg-purple-100 text-purple-600 dark:bg-purple-900/30">
-                <PieChart size={20} />
-              </div>
-              <span className="font-medium">Laporan Bulanan</span>
-            </div>
-            <ChevronRight size={20} className="text-gray-400" />
-          </Link>
-        </div>
-      </div>
-
-      {/* Advanced Features */}
-      <div className="space-y-3">
-        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider pl-2">Fitur Lanjutan</h2>
-        <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm">
-          {advancedFeatures.map((item, i) => (
+      <div className="flex-1 p-4 space-y-6">
+        {/* Analytics */}
+        <div className="space-y-2">
+          <h2 className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-2">Analisis & Laporan</h2>
+          <div className="bg-surface border border-border-subtle rounded-[24px] overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
             <Link 
-              key={i} 
-              href={item.href}
-              className={`flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors ${
-                i !== advancedFeatures.length - 1 ? 'border-b border-gray-100 dark:border-gray-800' : ''
-              }`}
+              href="/reports"
+              className="flex items-center justify-between p-4 hover:bg-border-subtle/50 active:scale-[0.99] transition-all"
             >
               <div className="flex items-center gap-4">
-                <div className={`p-2.5 rounded-xl ${item.bg} ${item.color}`}>
-                  <item.icon size={20} />
+                <div className="p-3 rounded-[16px] bg-purple-100/50 text-purple-600 dark:bg-purple-900/30">
+                  <PieChart size={22} strokeWidth={2} />
                 </div>
-                <span className="font-medium">{item.label}</span>
+                <span className="font-semibold text-[16px]">Laporan Bulanan</span>
               </div>
-              <ChevronRight size={20} className="text-gray-400" />
+              <ChevronRight size={20} className="text-text-secondary" />
             </Link>
-          ))}
+          </div>
         </div>
-      </div>
 
-      {/* Data Portability */}
-      <div className="space-y-3">
-        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider pl-2">Pengaturan & Data</h2>
-        <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm">
-          <button 
-            onClick={handleExport}
-            className="w-full flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border-b border-gray-100 dark:border-gray-800 text-left"
-          >
-            <div className="flex items-center gap-4">
-              <div className="p-2.5 rounded-xl bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
-                <Download size={20} />
-              </div>
-              <span className="font-medium">Export Data (Backup)</span>
-            </div>
-          </button>
-          
-          <button 
-            onClick={handleImportClick}
-            className="w-full flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border-b border-gray-100 dark:border-gray-800 text-left"
-          >
-            <div className="flex items-center gap-4">
-              <div className="p-2.5 rounded-xl bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
-                <Upload size={20} />
-              </div>
-              <span className="font-medium">Import Data (Restore)</span>
-            </div>
-            <input 
-              type="file" 
-              ref={fileInputRef} 
-              onChange={handleImport} 
-              accept=".json" 
-              className="hidden" 
-            />
-          </button>
-
-          <Link 
-            href="/settings"
-            className="flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-          >
-            <div className="flex items-center gap-4">
-              <div className="p-2.5 rounded-xl bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
-                <Settings size={20} />
-              </div>
-              <span className="font-medium">Pengaturan Aplikasi</span>
-            </div>
-            <ChevronRight size={20} className="text-gray-400" />
-          </Link>
+        {/* Advanced Features */}
+        <div className="space-y-2">
+          <h2 className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-2">Fitur Lanjutan</h2>
+          <div className="bg-surface border border-border-subtle rounded-[24px] overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+            {advancedFeatures.map((item, i) => (
+              <Link 
+                key={i} 
+                href={item.href}
+                className={`flex items-center justify-between p-4 hover:bg-border-subtle/50 active:scale-[0.99] transition-all ${
+                  i !== advancedFeatures.length - 1 ? 'border-b border-border-subtle' : ''
+                }`}
+              >
+                <div className="flex items-center gap-4">
+                  <div className={`p-3 rounded-[16px] ${item.bg} ${item.color}`}>
+                    <item.icon size={22} strokeWidth={2} />
+                  </div>
+                  <span className="font-semibold text-[16px]">{item.label}</span>
+                </div>
+                <ChevronRight size={20} className="text-text-secondary" />
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className="text-center pt-8">
-        <p className="text-xs text-gray-400">Pundi App v0.1.0 - MVP</p>
+        {/* Data Portability */}
+        <div className="space-y-2">
+          <h2 className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-2">Pengaturan & Data</h2>
+          <div className="bg-surface border border-border-subtle rounded-[24px] overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+            <button 
+              onClick={handleExport}
+              className="w-full flex items-center justify-between p-4 hover:bg-border-subtle/50 active:scale-[0.99] transition-all border-b border-border-subtle text-left"
+            >
+              <div className="flex items-center gap-4">
+                <div className="p-3 rounded-[16px] bg-border-subtle/50 text-text-secondary">
+                  <Download size={22} strokeWidth={2} />
+                </div>
+                <span className="font-semibold text-[16px]">Export Data (Backup)</span>
+              </div>
+            </button>
+            
+            <button 
+              onClick={handleImportClick}
+              className="w-full flex items-center justify-between p-4 hover:bg-border-subtle/50 active:scale-[0.99] transition-all border-b border-border-subtle text-left"
+            >
+              <div className="flex items-center gap-4">
+                <div className="p-3 rounded-[16px] bg-border-subtle/50 text-text-secondary">
+                  <Upload size={22} strokeWidth={2} />
+                </div>
+                <span className="font-semibold text-[16px]">Import Data (Restore)</span>
+              </div>
+              <input 
+                type="file" 
+                ref={fileInputRef} 
+                onChange={handleImport} 
+                accept=".json" 
+                className="hidden" 
+              />
+            </button>
+
+            <Link 
+              href="/settings"
+              className="flex items-center justify-between p-4 hover:bg-border-subtle/50 active:scale-[0.99] transition-all"
+            >
+              <div className="flex items-center gap-4">
+                <div className="p-3 rounded-[16px] bg-border-subtle/50 text-text-secondary">
+                  <Settings size={22} strokeWidth={2} />
+                </div>
+                <span className="font-semibold text-[16px]">Pengaturan Aplikasi</span>
+              </div>
+              <ChevronRight size={20} className="text-text-secondary" />
+            </Link>
+          </div>
+        </div>
+
+        <div className="text-center pt-8">
+          <p className="text-[12px] font-medium text-text-secondary">Pundi App v0.1.0 - MVP</p>
+        </div>
       </div>
     </div>
   );

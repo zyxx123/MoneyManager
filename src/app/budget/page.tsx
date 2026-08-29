@@ -119,17 +119,17 @@ export default function BudgetPage() {
 
   if (!budgetStatus && mode === "view") {
     return (
-      <div className="p-4 max-w-md mx-auto h-full flex flex-col items-center justify-center space-y-4">
-        <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center text-blue-500">
-          <AlertCircle size={40} />
+      <div className="p-4 max-w-md mx-auto min-h-screen bg-background flex flex-col items-center justify-center space-y-4">
+        <div className="w-24 h-24 bg-primary-soft rounded-full flex items-center justify-center text-primary shadow-[0_2px_10px_rgba(47,111,78,0.1)]">
+          <AlertCircle size={48} strokeWidth={1.5} />
         </div>
-        <h2 className="text-xl font-bold">Belum Ada Budget</h2>
-        <p className="text-center text-gray-500 text-sm">
+        <h2 className="text-[22px] font-bold text-text-main">Belum Ada Budget</h2>
+        <p className="text-center text-text-secondary text-[15px] px-4 leading-relaxed">
           Buat budget untuk mulai mengatur batas pengeluaran harian yang aman.
         </p>
         <button
           onClick={openCreateMode}
-          className="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold mt-4 hover:bg-blue-700"
+          className="bg-primary text-white px-8 py-4 rounded-full font-semibold mt-6 hover:opacity-90 active:scale-95 transition-all shadow-[0_8px_16px_rgba(47,111,78,0.2)]"
         >
           Buat Budget Baru
         </button>
@@ -139,15 +139,15 @@ export default function BudgetPage() {
 
   if (mode === "create" || mode === "edit") {
     return (
-      <div className="p-4 max-w-md mx-auto h-full flex flex-col justify-center pb-24 relative">
-        <h2 className="text-2xl font-bold mb-6">{mode === "create" ? "Tentukan Budget" : "Edit Budget"}</h2>
+      <div className="p-5 max-w-md mx-auto min-h-screen bg-background flex flex-col pb-24 relative">
+        <h2 className="text-[24px] font-bold text-text-main mb-8 mt-4">{mode === "create" ? "Tentukan Budget" : "Edit Budget"}</h2>
         <form onSubmit={handleCreateOrEditBudget} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
               Total Budget
             </label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">Rp</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary font-medium text-lg">Rp</span>
               <input
                 type="text"
                 inputMode="numeric"
@@ -155,19 +155,19 @@ export default function BudgetPage() {
                 value={newBudgetAmount}
                 onChange={handleAmountChange}
                 placeholder="0"
-                className="w-full p-4 pl-12 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none text-2xl font-bold text-gray-900 dark:text-white"
+                className="w-full p-5 pl-14 bg-surface border border-border-subtle rounded-[20px] focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all text-3xl font-bold text-text-main shadow-[0_2px_10px_rgba(0,0,0,0.02)]"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
               Berlaku Untuk Dompet
             </label>
             <select
               value={selectedWalletId}
               onChange={(e) => setSelectedWalletId(e.target.value)}
-              className="w-full p-4 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-full p-4 bg-surface border border-border-subtle rounded-[16px] focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[0_2px_10px_rgba(0,0,0,0.02)] appearance-none"
             >
               <option value="all">Semua Dompet (Global)</option>
               {wallets?.map(w => (
@@ -177,34 +177,34 @@ export default function BudgetPage() {
           </div>
 
           <div className="space-y-2 relative">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
               Periode Budget
             </label>
             <div className="relative">
               <button
                 type="button"
                 onClick={() => setShowDatePicker(!showDatePicker)}
-                className="w-full p-4 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none text-left flex justify-between items-center text-sm"
+                className="w-full p-4 bg-surface border border-border-subtle rounded-[16px] focus:ring-1 focus:ring-primary outline-none text-left flex justify-between items-center text-[15px] font-medium shadow-[0_2px_10px_rgba(0,0,0,0.02)] active:scale-[0.98] transition-transform"
               >
                 <span>
-                  {dateRange?.from ? format(dateRange.from, "d MMM yyyy", { locale: localeID }) : "Pilih Tanggal"} -{" "}
+                  {dateRange?.from ? format(dateRange.from, "d MMM", { locale: localeID }) : "Pilih Tanggal"} -{" "}
                   {dateRange?.to ? format(dateRange.to, "d MMM yyyy", { locale: localeID }) : "..."}
                 </span>
-                <CalendarIcon size={20} className="text-gray-500" />
+                <CalendarIcon size={20} className="text-text-secondary" />
               </button>
 
               {showDatePicker && (
-                <div className="absolute z-[100] mt-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl shadow-2xl p-4 right-0 left-0 flex flex-col items-center">
+                <div className="absolute z-[100] mt-2 bg-surface border border-border-subtle rounded-[24px] shadow-[0_12px_40px_rgba(0,0,0,0.12)] p-4 right-0 left-0 flex flex-col items-center">
                   <DayPicker
                     mode="range"
                     selected={dateRange}
                     onSelect={setDateRange}
                   />
-                  <div className="mt-2 flex justify-end w-full">
+                  <div className="mt-4 flex justify-end w-full border-t border-border-subtle pt-3">
                     <button
                       type="button"
                       onClick={() => setShowDatePicker(false)}
-                      className="bg-blue-600 text-white px-6 py-2 rounded-xl font-semibold"
+                      className="bg-primary text-white px-5 py-2.5 rounded-[12px] font-semibold text-[14px] hover:opacity-90 active:scale-95 transition-all"
                     >
                       Selesai
                     </button>
@@ -214,22 +214,22 @@ export default function BudgetPage() {
             </div>
           </div>
 
-          <div className="flex gap-3 pt-4">
+          <div className="flex gap-3 pt-6">
             <button
               type="button"
               onClick={() => {
                 if (budgetStatus) setMode("view");
                 else loadBudget();
               }}
-              className="flex-1 py-3.5 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200"
+              className="flex-1 py-4 bg-border-subtle/50 text-text-main rounded-full font-semibold hover:bg-border-subtle active:scale-95 transition-all"
             >
               Batal
             </button>
             <button
               type="submit"
-              className="flex-1 py-3.5 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700"
+              className="flex-[2] py-4 bg-primary text-white rounded-full font-semibold hover:opacity-90 active:scale-[0.98] transition-all shadow-[0_8px_16px_rgba(47,111,78,0.2)]"
             >
-              Simpan
+              Simpan Budget
             </button>
           </div>
         </form>
@@ -240,103 +240,103 @@ export default function BudgetPage() {
   const { budgetAmount, dailyLimit, todayExpenses, percentageUsed, status, walletId, periodStart, periodEnd } = budgetStatus;
   const linkedWalletName = walletId ? wallets?.find(w => w.id === walletId)?.name || "Dompet Terhapus" : "Semua Dompet";
 
-  // Determine colors based on status
-  let statusColor = "bg-green-500 text-white";
-  let bgGradient = "from-green-500 to-emerald-600";
+  // Determine colors based on status (Solid colors, no harsh gradients)
+  let statusColor = "bg-income";
   let StatusIcon = CheckCircle2;
   let statusText = "Pengeluaran Aman";
 
   if (status === 'warning') {
-    statusColor = "bg-yellow-500 text-white";
-    bgGradient = "from-yellow-400 to-amber-600";
+    statusColor = "bg-warning";
     StatusIcon = AlertTriangle;
     statusText = "Mendekati Limit";
   } else if (status === 'danger') {
-    statusColor = "bg-red-500 text-white";
-    bgGradient = "from-red-500 to-rose-700";
+    statusColor = "bg-expense";
     StatusIcon = AlertCircle;
     statusText = "Melebihi Limit!";
   }
 
   return (
-    <div className="p-4 max-w-md mx-auto space-y-6 pt-8 pb-24">
-      <div className="flex justify-between items-center mb-2">
-        <h1 className="text-2xl font-bold">Budgeting</h1>
-        <div className="flex gap-2">
-          <button onClick={openEditMode} className="p-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
+    <div className="p-4 max-w-md mx-auto space-y-6 pt-6 pb-24 bg-background min-h-screen">
+      <div className="flex justify-between items-center mb-2 px-1">
+        <h1 className="text-[24px] font-bold text-text-main">Budgeting</h1>
+        <div className="flex gap-1">
+          <button onClick={openEditMode} className="p-2.5 text-text-secondary hover:bg-surface rounded-full transition-colors active:scale-95">
             <Edit2 size={20} />
           </button>
-          <button onClick={handleDelete} className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors">
+          <button onClick={handleDelete} className="p-2.5 text-expense hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors active:scale-95">
             <Trash2 size={20} />
           </button>
         </div>
       </div>
       
       {/* Daily Limit Card */}
-      <div className={`bg-gradient-to-br ${bgGradient} rounded-3xl p-6 text-white shadow-lg relative overflow-hidden`}>
-        <div className="absolute top-4 right-4 flex items-center gap-1 bg-white/20 px-2 py-1 rounded-full text-xs font-medium backdrop-blur-sm">
-          <StatusIcon size={14} />
+      <div className={`${statusColor} rounded-[24px] p-6 text-white shadow-[0_8px_30px_rgba(0,0,0,0.12)] relative overflow-hidden transition-colors duration-500`}>
+        {/* Subtle decorative glow */}
+        <div className="absolute -top-12 -right-12 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+        
+        <div className="absolute top-5 right-5 flex items-center gap-1.5 bg-white/20 px-3 py-1.5 rounded-full text-[12px] font-semibold backdrop-blur-md">
+          <StatusIcon size={14} strokeWidth={2.5} />
           {statusText}
         </div>
         
-        <h2 className="text-white/90 font-medium mb-1 text-sm">Jatah Jajan Hari Ini</h2>
-        <div className="text-4xl font-bold tracking-tight mb-6">
+        <h2 className="text-white/80 font-medium mb-1 text-[13px] uppercase tracking-wider relative z-10 mt-2">Jatah Jajan Hari Ini</h2>
+        <div className="text-4xl font-bold tracking-tight mb-8 relative z-10">
           {formatter.format(dailyLimit)}
         </div>
         
-        <div className="bg-white/10 rounded-2xl p-4 backdrop-blur-md">
-          <div className="flex justify-between text-sm mb-2">
-            <span>Terpakai Hari Ini</span>
-            <span className="font-bold">{formatter.format(todayExpenses)}</span>
+        <div className="bg-white/10 rounded-[16px] p-4 backdrop-blur-md relative z-10 border border-white/10">
+          <div className="flex justify-between text-[14px] mb-3">
+            <span className="text-white/90">Terpakai Hari Ini</span>
+            <span className="font-bold tracking-wide">{formatter.format(todayExpenses)}</span>
           </div>
           
           {/* Progress Bar */}
-          <div className="h-2 w-full bg-black/20 rounded-full overflow-hidden">
+          <div className="h-2.5 w-full bg-black/20 rounded-full overflow-hidden">
             <div 
-              className="h-full bg-white rounded-full transition-all duration-500"
+              className="h-full bg-white rounded-full transition-all duration-700 ease-out"
               style={{ width: `${Math.min(percentageUsed, 100)}%` }}
             />
           </div>
-          <div className="text-xs text-white/80 mt-2 text-right">
-            {percentageUsed.toFixed(0)}% dari limit harian
+          <div className="text-[12px] font-medium text-white/80 mt-2 text-right">
+            {percentageUsed.toFixed(0)}% dari limit
           </div>
         </div>
       </div>
 
       {/* Overview */}
-      <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-5 shadow-sm">
-        <h3 className="font-bold mb-4">Ringkasan Budget</h3>
+      <div className="bg-surface border border-border-subtle rounded-[20px] p-5 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+        <h3 className="font-semibold text-text-main text-[16px] mb-5 px-1">Ringkasan Budget</h3>
         
-        <div className="space-y-4">
+        <div className="space-y-4 px-1">
           <div>
-            <div className="flex justify-between text-sm text-gray-500 mb-2">
+            <div className="flex justify-between text-[14px] text-text-secondary mb-2">
               <span>Periode</span>
-              <span className="font-medium text-gray-900 dark:text-gray-100">
-                {periodStart ? format(periodStart, "d MMM yyyy", { locale: localeID }) : "-"} s/d {periodEnd ? format(periodEnd, "d MMM yyyy", { locale: localeID }) : "-"}
+              <span className="font-medium text-text-main">
+                {periodStart ? format(periodStart, "d MMM", { locale: localeID }) : "-"} s/d {periodEnd ? format(periodEnd, "d MMM yyyy", { locale: localeID }) : "-"}
               </span>
             </div>
-            <div className="flex justify-between text-sm text-gray-500 mb-1">
+            <div className="flex justify-between text-[14px] text-text-secondary mb-1">
               <span>Berlaku Untuk</span>
-              <span className="font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded text-xs">{linkedWalletName}</span>
+              <span className="font-semibold text-primary bg-primary-soft px-2.5 py-0.5 rounded-[6px] text-[12px]">{linkedWalletName}</span>
             </div>
           </div>
           
-          <div className="pt-2 border-t border-gray-100 dark:border-gray-800">
-            <div className="flex justify-between text-sm text-gray-500 mb-1">
+          <div className="pt-4 border-t border-border-subtle">
+            <div className="flex justify-between text-[14px] text-text-secondary mb-1">
               <span>Total Budget</span>
-              <span className="font-medium text-gray-900 dark:text-gray-100">{formatter.format(budgetAmount)}</span>
+              <span className="font-medium text-text-main">{formatter.format(budgetAmount)}</span>
             </div>
           </div>
           
           <div className="pt-2">
-            <div className="flex justify-between text-sm text-gray-500 mb-1">
+            <div className="flex justify-between text-[14px] text-text-secondary mb-2">
               <span>Sisa Budget</span>
-              <span className="font-medium text-gray-900 dark:text-gray-100">{formatter.format(budgetStatus.remainingBudget)}</span>
+              <span className="font-medium text-text-main">{formatter.format(budgetStatus.remainingBudget)}</span>
             </div>
             {/* Progress */}
-            <div className="h-1.5 w-full bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden mt-2">
+            <div className="h-2 w-full bg-border-subtle/50 rounded-full overflow-hidden">
               <div 
-                className="h-full bg-blue-500 rounded-full"
+                className="h-full bg-primary rounded-full transition-all duration-700 ease-out"
                 style={{ width: `${Math.min((budgetStatus.totalExpenses / budgetAmount) * 100, 100)}%` }}
               />
             </div>

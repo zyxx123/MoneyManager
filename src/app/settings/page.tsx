@@ -23,40 +23,40 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="flex flex-col h-full max-w-md mx-auto bg-gray-50 dark:bg-gray-950">
-      <header className="flex items-center p-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-        <Link href="/more" className="p-2 -ml-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-24">
+      <header className="sticky top-0 z-10 flex items-center p-4 bg-background/90 backdrop-blur-md">
+        <Link href="/more" className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-full transition-colors active:scale-95">
           <ArrowLeft size={24} />
         </Link>
-        <h1 className="text-xl font-bold ml-2">Pengaturan Aplikasi</h1>
+        <h1 className="text-[20px] font-semibold ml-2">Pengaturan Aplikasi</h1>
       </header>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-6">
-        <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm">
-          <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
-            <div className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
-              <Moon size={20} />
-              <span className="font-medium">Mode Gelap</span>
+      <div className="flex-1 p-4 space-y-6">
+        <div className="bg-surface border border-border-subtle rounded-[24px] overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+          <div className="p-5 border-b border-border-subtle flex items-center justify-between">
+            <div className="flex items-center gap-4 text-text-main">
+              <Moon size={22} className="text-text-secondary" />
+              <span className="font-semibold text-[16px]">Mode Gelap</span>
             </div>
-            <span className="text-xs text-gray-400">Ikut Sistem</span>
+            <span className="text-[13px] font-medium text-text-secondary">Ikut Sistem</span>
           </div>
           
-          <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
-            <div className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
-              <Database size={20} />
-              <span className="font-medium">Pencadangan Data</span>
+          <div className="p-5 border-b border-border-subtle flex items-center justify-between">
+            <div className="flex items-center gap-4 text-text-main">
+              <Database size={22} className="text-text-secondary" />
+              <span className="font-semibold text-[16px]">Pencadangan Data</span>
             </div>
-            <span className="text-xs text-blue-500 font-medium">Segera Hadir</span>
+            <span className="text-[13px] text-primary font-semibold">Segera Hadir</span>
           </div>
 
           <button 
             onClick={handleResetData}
-            className="w-full p-4 flex items-center gap-3 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors text-left"
+            className="w-full p-5 flex items-center gap-4 text-expense hover:bg-expense/5 active:scale-[0.99] transition-all text-left"
           >
-            <Trash2 size={20} />
+            <Trash2 size={22} />
             <div className="flex flex-col">
-              <span className="font-medium">Hapus Semua Data</span>
-              <span className="text-xs text-red-400">Mengembalikan aplikasi ke kondisi awal</span>
+              <span className="font-semibold text-[16px]">Hapus Semua Data</span>
+              <span className="text-[13px] font-medium opacity-80 mt-0.5">Mengembalikan aplikasi ke kondisi awal</span>
             </div>
           </button>
         </div>

@@ -28,53 +28,61 @@ export default function TransactionsPage() {
   };
 
   return (
-    <div className="flex flex-col h-full max-w-md mx-auto bg-gray-50 dark:bg-gray-950">
-      <header className="flex flex-col p-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 space-y-4">
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-24">
+      <header className="sticky top-0 z-10 flex flex-col p-4 bg-surface/90 backdrop-blur-md border-b border-border-subtle space-y-4">
         <div className="flex items-center">
-          <Link href="/" className="p-2 -ml-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
+          <Link href="/" className="p-2 -ml-2 text-text-secondary hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors active:scale-95">
             <ArrowLeft size={24} />
           </Link>
-          <h1 className="text-xl font-bold ml-2">Semua Transaksi</h1>
+          <h1 className="text-[20px] font-semibold ml-2">Semua Transaksi</h1>
         </div>
         
         {/* Filter Bulan & Tahun */}
-        <div className="flex items-center gap-2">
-          <label className="text-sm font-medium text-gray-600 dark:text-gray-400">Pilih Periode:</label>
+        <div className="flex items-center gap-3">
+          <label className="text-[14px] font-medium text-text-secondary">Pilih Periode:</label>
           <input
             type="month"
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(e.target.value)}
-            className="flex-1 p-2 bg-gray-100 dark:bg-gray-800 border border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm font-semibold"
+            className="flex-1 p-2 bg-border-subtle/30 border border-border-subtle rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-[15px] font-medium transition-shadow"
           />
         </div>
       </header>
       
-      <div className="flex-1 overflow-y-auto p-4 pb-24 space-y-3">
-        {allTransactions === undefined ? (
-          <div className="text-center text-sm text-gray-500 py-8">Memuat transaksi...</div>
-        ) : transactions?.length === 0 ? (
-          <div className="text-center text-sm text-gray-500 py-8">Tidak ada transaksi di bulan ini.</div>
-        ) : (
-          transactions?.map((t) => (
-            <Link 
-              href={`/transactions/${t.id}/edit`}
-              key={t.id} 
-              className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-4 flex items-center justify-between shadow-sm hover:border-blue-200 dark:hover:border-blue-900 transition-colors cursor-pointer block"
-            >
-              <div>
-                <p className="font-medium capitalize">{t.type === 'transfer' ? 'Transfer' : t.note || 'Transaksi'}</p>
-                <p className="text-xs text-gray-500">{format(t.date, "d MMM yyyy", { locale: localeID })}</p>
-              </div>
-              <div className={`font-bold ${
-                t.type === 'income' ? 'text-green-600' : 
-                t.type === 'expense' ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500'
-              }`}>
-                {t.type === 'income' ? '+' : t.type === 'expense' ? '-' : ''}
-                {formatCurrency(t.amount)}
-              </div>
-            </Link>
-          ))
-        )}
+      <div className="flex-1 p-4">
+        <div className="bg-surface border border-border-subtle rounded-[20px] shadow-[0_2px_10px_rgba(0,0,0,0.02)] overflow-hidden">
+          {allTransactions === undefined ? (
+            <div className="text-center text-[14px] text-text-secondary py-10">Memuat transaksi...</div>
+          ) : transactions?.length === 0 ? (
+            <div className="text-center text-[14px] text-text-secondary py-10">Tidak ada transaksi di bulan ini.</div>
+          ) : (
+            <div className="divide-y divide-border-subtle">
+              {transactions?.map((t) => (
+                <Link 
+                  href={`/transactions/${t.id}/edit`}
+                  key={t.id} 
+                  className="p-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-800/50 active:bg-gray-100 dark:active:bg-gray-800 transition-colors block"
+                >
+                  <div>
+                    <p className="font-medium text-[15px] text-text-main capitalize">
+                      {t.type === 'transfer' ? 'Transfer' : t.note || 'Transaksi'}
+                    </p>
+                    <p className="text-[13px] text-text-secondary mt-0.5">
+                      {format(t.date, "d MMM yyyy", { locale: localeID })}
+                    </p>
+                  </div>
+                  <div className={`font-semibold text-[15px] ${
+                    t.type === 'income' ? 'text-income' : 
+                    t.type === 'expense' ? 'text-text-main' : 'text-text-secondary'
+                  }`}>
+                    {t.type === 'income' ? '+' : t.type === 'expense' ? '-' : ''}
+                    {formatCurrency(t.amount)}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

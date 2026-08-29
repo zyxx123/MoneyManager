@@ -44,32 +44,32 @@ export default function SavingsPage() {
 
   if (isCreating) {
     return (
-      <div className="flex flex-col h-full max-w-md mx-auto bg-gray-50 dark:bg-gray-950">
-        <header className="flex items-center p-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-          <button onClick={() => setIsCreating(false)} className="p-2 -ml-2 text-gray-600 dark:text-gray-300">
+      <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-24">
+        <header className="sticky top-0 z-10 flex items-center p-4 bg-background/90 backdrop-blur-md">
+          <button onClick={() => setIsCreating(false)} className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-full transition-colors active:scale-95">
             <ArrowLeft size={24} />
           </button>
-          <h1 className="text-xl font-bold ml-2">Tujuan Tabungan Baru</h1>
+          <h1 className="text-[20px] font-semibold ml-2">Target Tabungan Baru</h1>
         </header>
 
-        <div className="p-4 pt-8">
+        <div className="flex-1 p-5">
           <form onSubmit={handleCreate} className="space-y-6">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Nama Tabungan</label>
+              <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">Nama Tabungan</label>
               <input
                 type="text"
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Contoh: Beli Laptop Baru"
-                className="w-full p-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full p-4 bg-surface border border-border-subtle rounded-[16px] focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[0_2px_10px_rgba(0,0,0,0.02)]"
               />
             </div>
             
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Target Terkumpul</label>
+              <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">Target Terkumpul</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">Rp</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary font-medium text-lg">Rp</span>
                 <input
                   type="text"
                   inputMode="numeric"
@@ -77,16 +77,17 @@ export default function SavingsPage() {
                   value={targetAmount}
                   onChange={handleAmountChange}
                   placeholder="0"
-                  className="w-full p-3 pl-12 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-lg font-bold"
+                  className="w-full p-5 pl-14 bg-surface border border-border-subtle rounded-[20px] focus:ring-1 focus:ring-primary outline-none transition-all text-3xl font-bold text-text-main shadow-[0_2px_10px_rgba(0,0,0,0.02)]"
                 />
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full py-3.5 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700"
+              disabled={!name || !targetAmount}
+              className="w-full py-4 mt-4 bg-primary text-white rounded-full font-semibold text-[16px] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] transition-all shadow-[0_8px_16px_rgba(47,111,78,0.2)]"
             >
-              Simpan Target Tabungan
+              Simpan Target
             </button>
           </form>
         </div>
@@ -95,60 +96,63 @@ export default function SavingsPage() {
   }
 
   return (
-    <div className="flex flex-col h-full max-w-md mx-auto bg-gray-50 dark:bg-gray-950">
-      <header className="flex items-center justify-between p-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-24">
+      <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/90 backdrop-blur-md">
         <div className="flex items-center">
-          <Link href="/more" className="p-2 -ml-2 text-gray-600 dark:text-gray-300">
+          <Link href="/more" className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-full transition-colors active:scale-95">
             <ArrowLeft size={24} />
           </Link>
-          <h1 className="text-xl font-bold ml-2">Tabungan</h1>
+          <h1 className="text-[24px] font-bold ml-2">Tabungan</h1>
         </div>
         <button
           onClick={() => setIsCreating(true)}
-          className="flex items-center gap-1 bg-green-600 text-white px-3 py-1.5 rounded-full text-sm font-medium hover:bg-green-700"
+          className="flex items-center gap-1.5 bg-primary/10 text-primary px-4 py-2 rounded-full text-[14px] font-semibold hover:bg-primary/20 active:scale-95 transition-all"
         >
-          <Plus size={16} />
-          Target Baru
+          <Plus size={18} strokeWidth={2.5} />
+          Target
         </button>
       </header>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-24">
+      <div className="flex-1 p-4 space-y-4">
         {savings === undefined ? (
           <div className="animate-pulse space-y-4">
-            {[1, 2].map(i => <div key={i} className="h-32 bg-gray-200 dark:bg-gray-800 rounded-2xl" />)}
+            {[1, 2].map(i => <div key={i} className="h-32 bg-surface rounded-[24px]" />)}
           </div>
         ) : savings.length === 0 ? (
-          <div className="text-center text-gray-500 mt-10">
-            <PiggyBank size={48} className="mx-auto mb-2 text-gray-400" />
-            <p>Belum ada target tabungan.</p>
+          <div className="flex flex-col items-center justify-center mt-20 text-text-secondary">
+            <div className="w-20 h-20 bg-surface rounded-full flex items-center justify-center mb-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+              <PiggyBank size={32} className="text-text-secondary/50" />
+            </div>
+            <p className="font-semibold text-[16px] text-text-main">Belum ada target</p>
+            <p className="text-[14px] mt-1">Buat target tabungan pertamamu!</p>
           </div>
         ) : (
           savings.map(goal => {
             const percentage = Math.min((goal.currentAmount / goal.targetAmount) * 100, 100);
             return (
-              <div key={goal.id} className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-5 shadow-sm">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-bold text-gray-900 dark:text-gray-100">{goal.name}</h3>
+              <div key={goal.id} className="bg-surface border border-border-subtle rounded-[24px] p-5 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] transition-shadow">
+                <div className="flex justify-between items-start mb-4">
+                  <h3 className="font-semibold text-[17px] text-text-main tracking-tight">{goal.name}</h3>
                   <button 
                     onClick={() => handleAddFunds(goal.id)}
-                    className="text-xs bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 px-3 py-1.5 rounded-lg font-medium hover:bg-blue-200 transition"
+                    className="text-[13px] bg-primary/10 text-primary px-3 py-1.5 rounded-full font-semibold hover:bg-primary/20 active:scale-95 transition-all"
                   >
                     + Nabung
                   </button>
                 </div>
                 
-                <div className="flex justify-between text-sm mb-2 mt-4">
-                  <span className="font-semibold text-green-600">{formatCurrency(goal.currentAmount)}</span>
-                  <span className="text-gray-500">Target: {formatCurrency(goal.targetAmount)}</span>
+                <div className="flex justify-between text-[14px] mb-3 mt-5">
+                  <span className="font-bold text-income">{formatCurrency(goal.currentAmount)}</span>
+                  <span className="font-medium text-text-secondary text-[13px]">Target: {formatCurrency(goal.targetAmount)}</span>
                 </div>
                 
-                <div className="h-2 w-full bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                <div className="h-2.5 w-full bg-border-subtle/50 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-green-500 rounded-full transition-all duration-500"
+                    className="h-full bg-primary rounded-full transition-all duration-700 ease-out"
                     style={{ width: `${percentage}%` }}
                   />
                 </div>
-                <div className="text-right text-xs text-gray-400 mt-1">
+                <div className="text-right text-[12px] font-medium text-text-secondary mt-2">
                   {percentage.toFixed(1)}% Terkumpul
                 </div>
               </div>

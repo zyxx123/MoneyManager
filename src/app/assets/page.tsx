@@ -49,18 +49,18 @@ export default function AssetsPage() {
 
   if (isCreating) {
     return (
-      <div className="flex flex-col h-full max-w-md mx-auto bg-gray-50 dark:bg-gray-950">
-        <header className="flex items-center p-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-          <button onClick={() => setIsCreating(false)} className="p-2 -ml-2 text-gray-600 dark:text-gray-300">
+      <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-24">
+        <header className="sticky top-0 z-10 flex items-center p-4 bg-background/90 backdrop-blur-md">
+          <button onClick={() => setIsCreating(false)} className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-full transition-colors active:scale-95">
             <ArrowLeft size={24} />
           </button>
-          <h1 className="text-xl font-bold ml-2">Tambah Aset Baru</h1>
+          <h1 className="text-[20px] font-semibold ml-2">Tambah Aset Baru</h1>
         </header>
 
-        <div className="p-4 pt-8">
+        <div className="flex-1 p-5">
           <form onSubmit={handleCreate} className="space-y-6">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
                 Nama Aset
               </label>
               <input
@@ -69,19 +69,19 @@ export default function AssetsPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Contoh: Logam Mulia 10g"
-                className="w-full p-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full p-4 bg-surface border border-border-subtle rounded-[16px] focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[0_2px_10px_rgba(0,0,0,0.02)]"
               />
             </div>
             
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
                 Jenis Aset
               </label>
               <select
                 required
                 value={type}
                 onChange={(e) => setType(e.target.value)}
-                className="w-full p-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full p-4 bg-surface border border-border-subtle rounded-[16px] focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[0_2px_10px_rgba(0,0,0,0.02)] appearance-none"
               >
                 {ASSET_TYPES.map(t => (
                   <option key={t} value={t}>{t}</option>
@@ -90,9 +90,9 @@ export default function AssetsPage() {
             </div>
             
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Nilai Saat Ini</label>
+              <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">Nilai Saat Ini</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">Rp</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary font-medium text-lg">Rp</span>
                 <input
                   type="text"
                   inputMode="numeric"
@@ -100,14 +100,15 @@ export default function AssetsPage() {
                   value={value}
                   onChange={handleValueChange}
                   placeholder="0"
-                  className="w-full p-3 pl-12 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-lg font-bold"
+                  className="w-full p-5 pl-14 bg-surface border border-border-subtle rounded-[20px] focus:ring-1 focus:ring-primary outline-none transition-all text-3xl font-bold text-text-main shadow-[0_2px_10px_rgba(0,0,0,0.02)]"
                 />
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full py-3.5 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700"
+              disabled={!name || !value}
+              className="w-full py-4 mt-4 bg-primary text-white rounded-full font-semibold text-[16px] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] transition-all shadow-[0_8px_16px_rgba(47,111,78,0.2)]"
             >
               Simpan Aset
             </button>
@@ -118,51 +119,54 @@ export default function AssetsPage() {
   }
 
   return (
-    <div className="flex flex-col h-full max-w-md mx-auto bg-gray-50 dark:bg-gray-950">
-      <header className="flex items-center justify-between p-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-24">
+      <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/90 backdrop-blur-md">
         <div className="flex items-center">
-          <Link href="/more" className="p-2 -ml-2 text-gray-600 dark:text-gray-300">
+          <Link href="/more" className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-full transition-colors active:scale-95">
             <ArrowLeft size={24} />
           </Link>
-          <h1 className="text-xl font-bold ml-2">Aset & Investasi</h1>
+          <h1 className="text-[24px] font-bold ml-2">Aset & Investasi</h1>
         </div>
         <button
           onClick={() => setIsCreating(true)}
-          className="flex items-center gap-1 bg-blue-600 text-white px-3 py-1.5 rounded-full text-sm font-medium hover:bg-blue-700"
+          className="flex items-center gap-1.5 bg-primary/10 text-primary px-4 py-2 rounded-full text-[14px] font-semibold hover:bg-primary/20 active:scale-95 transition-all"
         >
-          <Plus size={16} />
+          <Plus size={18} strokeWidth={2.5} />
           Tambah
         </button>
       </header>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-24">
+      <div className="flex-1 p-4 space-y-4">
         {assets === undefined ? (
           <div className="animate-pulse space-y-4">
-            {[1, 2].map(i => <div key={i} className="h-24 bg-gray-200 dark:bg-gray-800 rounded-2xl" />)}
+            {[1, 2].map(i => <div key={i} className="h-24 bg-surface rounded-[24px]" />)}
           </div>
         ) : assets.length === 0 ? (
-          <div className="text-center text-gray-500 mt-10">
-            <Landmark size={48} className="mx-auto mb-2 text-gray-400" />
-            <p>Belum ada aset yang dicatat.</p>
+          <div className="flex flex-col items-center justify-center mt-20 text-text-secondary">
+            <div className="w-20 h-20 bg-surface rounded-full flex items-center justify-center mb-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+              <Landmark size={32} className="text-text-secondary/50" />
+            </div>
+            <p className="font-semibold text-[16px] text-text-main">Belum ada aset</p>
+            <p className="text-[14px] mt-1">Mulai catat kekayaan Anda.</p>
           </div>
         ) : (
           assets.map(asset => {
             return (
-              <div key={asset.id} className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-5 shadow-sm flex items-center justify-between">
+              <div key={asset.id} className="bg-surface border border-border-subtle rounded-[24px] p-5 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] transition-shadow flex items-center justify-between">
                 <div>
-                  <h3 className="font-bold text-gray-900 dark:text-gray-100">{asset.name}</h3>
-                  <p className="text-xs text-gray-500">{asset.type}</p>
+                  <h3 className="font-semibold text-[17px] text-text-main tracking-tight">{asset.name}</h3>
+                  <p className="text-[13px] font-medium text-text-secondary mt-0.5">{asset.type}</p>
                 </div>
                 
                 <div className="text-right">
-                  <p className="font-semibold text-blue-600 mb-1">
+                  <p className="font-bold text-income mb-2 text-[17px] tracking-tight">
                     {formatCurrency(asset.currentValue)}
                   </p>
                   <button 
                     onClick={() => handleUpdateValue(asset.id, asset.currentValue)}
-                    className="text-xs flex items-center gap-1 ml-auto text-gray-500 hover:text-gray-900 dark:hover:text-gray-300"
+                    className="text-[12px] flex items-center gap-1.5 ml-auto text-primary font-medium hover:opacity-80 transition-opacity"
                   >
-                    <TrendingUp size={14} /> Update Nilai
+                    <TrendingUp size={16} strokeWidth={2} /> Update Nilai
                   </button>
                 </div>
               </div>

@@ -20,8 +20,8 @@ export default function BottomNav() {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 pb-[env(safe-area-inset-bottom)]">
-      <div className="flex justify-around items-center h-16 max-w-md mx-auto">
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-md border-t border-border-subtle pb-[env(safe-area-inset-bottom)]">
+      <div className="flex justify-around items-center h-16 max-w-md mx-auto px-2">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           
@@ -30,9 +30,9 @@ export default function BottomNav() {
               <Link 
                 key={item.href} 
                 href={item.href}
-                className="flex items-center justify-center w-12 h-12 bg-blue-600 rounded-full text-white shadow-lg -mt-6 hover:bg-blue-700 transition-colors"
+                className="flex items-center justify-center w-14 h-14 bg-primary rounded-full text-white shadow-[0_8px_16px_rgba(47,111,78,0.2)] -mt-6 hover:scale-105 active:scale-95 transition-all duration-200"
               >
-                <item.icon size={24} />
+                <item.icon size={24} strokeWidth={2.5} />
               </Link>
             );
           }
@@ -41,12 +41,12 @@ export default function BottomNav() {
             <Link 
               key={item.href} 
               href={item.href}
-              className={`flex flex-col items-center justify-center w-16 h-full space-y-1 ${
-                isActive ? "text-blue-600" : "text-gray-500 hover:text-gray-900 dark:hover:text-gray-300"
+              className={`flex flex-col items-center justify-center w-16 h-full space-y-1 transition-colors duration-200 active:opacity-70 ${
+                isActive ? "text-primary" : "text-text-secondary hover:text-text-main"
               }`}
             >
-              <item.icon size={20} />
-              <span className="text-[10px] font-medium">{item.label}</span>
+              <item.icon size={22} strokeWidth={isActive ? 2.5 : 2} />
+              <span className={`text-[10px] ${isActive ? "font-semibold" : "font-medium"}`}>{item.label}</span>
             </Link>
           );
         })}

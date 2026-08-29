@@ -84,21 +84,20 @@ export default function EditWalletPage() {
   if (isLoading) return <div className="p-8 text-center">Memuat...</div>;
 
   return (
-    <div className="flex flex-col h-full max-w-md mx-auto bg-gray-50 dark:bg-gray-950">
-      <header className="flex items-center p-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-        <button onClick={() => router.back()} className="p-2 -ml-2 text-gray-600 dark:text-gray-300">
-          <ArrowLeft size={24} />
-        </button>
-        <h1 className="text-xl font-bold ml-2">Edit Dompet</h1>
-        <button type="button" onClick={handleDelete} className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors ml-auto">
-          <Trash2 size={20} />
-        </button>
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-[100px]">
+      <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/90 backdrop-blur-md">
+        <div className="flex items-center">
+          <Link href="/wallets" className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-full transition-colors active:scale-95">
+            <ArrowLeft size={24} />
+          </Link>
+          <h1 className="text-[20px] font-semibold ml-2">Edit Dompet</h1>
+        </div>
       </header>
 
-      <div className="flex-1 overflow-y-auto p-4 pb-24">
+      <div className="flex-1 p-5">
         <form id="wallet-form" onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
               Nama Dompet
             </label>
             <input
@@ -107,12 +106,12 @@ export default function EditWalletPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Contoh: BCA Utama, Uang Makan"
-              className="w-full p-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+              className="w-full p-4 bg-surface border border-border-subtle rounded-[16px] focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[0_2px_10px_rgba(0,0,0,0.02)]"
             />
           </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <div className="space-y-3">
+            <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
               Tipe Dompet
             </label>
             <div className="grid grid-cols-3 gap-2">
@@ -121,10 +120,10 @@ export default function EditWalletPage() {
                   key={t.value}
                   type="button"
                   onClick={() => setType(t.value as any)}
-                  className={`p-2 text-sm rounded-lg border text-center transition-colors ${
+                  className={`p-3 text-[13px] font-semibold rounded-[14px] text-center transition-all ${
                     type === t.value
-                      ? "bg-blue-50 border-blue-500 text-blue-700 dark:bg-blue-900/30 dark:border-blue-400 dark:text-blue-300"
-                      : "bg-white border-gray-200 text-gray-700 hover:bg-gray-50 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+                      ? "bg-primary-soft text-primary shadow-sm border border-primary/20"
+                      : "bg-surface border border-border-subtle text-text-secondary hover:text-text-main"
                   }`}
                 >
                   {t.label}
@@ -133,20 +132,20 @@ export default function EditWalletPage() {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <div className="space-y-3">
+            <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
               Warna
             </label>
-            <div className="flex gap-3 flex-wrap">
+            <div className="flex gap-4 flex-wrap bg-surface p-4 border border-border-subtle rounded-[20px] shadow-[0_2px_10px_rgba(0,0,0,0.02)] justify-center">
               {COLORS.map((c) => (
                 <button
                   key={c}
                   type="button"
                   onClick={() => setColor(c)}
-                  className="w-10 h-10 rounded-full flex items-center justify-center transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+                  className={`w-11 h-11 rounded-full flex items-center justify-center transition-all ${color === c ? 'scale-110 shadow-lg ring-2 ring-primary ring-offset-2 dark:ring-offset-background' : 'hover:scale-105 shadow-sm'}`}
                   style={{ backgroundColor: c }}
                 >
-                  {color === c && <Check size={20} className="text-white drop-shadow-md" />}
+                  {color === c && <Check size={22} className="text-white drop-shadow-md" strokeWidth={3} />}
                 </button>
               ))}
             </div>
@@ -154,15 +153,24 @@ export default function EditWalletPage() {
         </form>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 pb-[calc(1rem+env(safe-area-inset-bottom))]">
-        <button
-          type="submit"
-          form="wallet-form"
-          disabled={!name}
-          className="w-full max-w-md mx-auto block py-3.5 bg-blue-600 text-white rounded-xl font-semibold text-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
-        >
-          Simpan Perubahan
-        </button>
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/90 backdrop-blur-md pb-[calc(1rem+env(safe-area-inset-bottom))]">
+        <div className="max-w-md mx-auto grid grid-cols-4 gap-3">
+          <button
+            type="button"
+            onClick={handleDelete}
+            className="col-span-1 flex items-center justify-center py-4 bg-red-50 dark:bg-red-900/20 text-red-600 rounded-full hover:bg-red-100 dark:hover:bg-red-900/40 active:scale-[0.98] transition-all"
+          >
+            <Trash2 size={24} />
+          </button>
+          <button
+            type="submit"
+            form="wallet-form"
+            disabled={!name}
+            className="col-span-3 w-full py-4 bg-primary text-white rounded-full font-semibold text-[16px] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] transition-all shadow-[0_8px_16px_rgba(47,111,78,0.2)]"
+          >
+            Simpan Perubahan
+          </button>
+        </div>
       </div>
     </div>
   );
