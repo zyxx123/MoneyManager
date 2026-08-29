@@ -193,8 +193,10 @@ db.on('populate', async () => {
 
 // Run on every database load to ensure existing users get the new categories
 db.on('ready', async () => {
-  const hasNewDefaults = await db.categories.where('name').equals('Makanan & Minuman').count();
-  if (hasNewDefaults === 0) {
+  const allCategories = await db.categories.toArray();
+  const hasNewDefaults = allCategories.some(c => c.name === 'Makanan & Minuman');
+  
+  if (!hasNewDefaults) {
     const categoriesToAdd = DEFAULT_CATEGORIES.map(c => ({
       id: crypto.randomUUID(),
       ...c
@@ -202,8 +204,8 @@ db.on('ready', async () => {
     
     await db.categories.bulkAdd(categoriesToAdd);
     
-    // Optionally archive the old english default categories to hide them
-    const oldCategories = await db.categories.where('name').anyOf(['Food', 'Transport', 'Salary']).toArray();
+    // Archive the old english default categories to hide them
+    const oldCategories = allCategories.filter(c => ['Food', 'Transport', 'Salary'].includes(c.name));
     for (const old of oldCategories) {
       await db.categories.update(old.id, { isArchived: true });
     }
