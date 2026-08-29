@@ -14,20 +14,18 @@
   --warning: #4D96FF;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* High Contrast Dark Mode (Optional for Neobrutalism) */
-    --background: #171717;
-    --surface: #262626;
-    --primary: #34D399;
-    --primary-soft: #064E3B;
-    --text: #FFFFFF;
-    --text-secondary: #A3A3A3;
-    --border: #FFFFFF;
-    --income: #34D399;
-    --expense: #F87171;
-    --warning: #FBBF24;
-  }
+.dark {
+  /* Refined Neobrutalism Dark Mode */
+  --background: #1A1A1A;
+  --surface: #262626;
+  --primary: #FFD93D; 
+  --primary-soft: #4D4112; 
+  --text: #FDFBF7;
+  --text-secondary: #A3A3A3;
+  --border: #333333;
+  --income: #4ADE80;
+  --expense: #F87171;
+  --warning: #FBBF24;
 }
 
 @theme inline {

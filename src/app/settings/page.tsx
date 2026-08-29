@@ -3,10 +3,18 @@
 import { ArrowLeft, Trash2, Database, Moon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import { db } from "@/lib/db";
 
 export default function SettingsPage() {
   const router = useRouter();
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleResetData = async () => {
     if (confirm("PERINGATAN: Apakah Anda yakin ingin menghapus SEMUA data? Aksi ini tidak dapat dibatalkan!")) {
@@ -36,9 +44,19 @@ export default function SettingsPage() {
           <div className="p-5 border-b-[3px] border-black flex items-center justify-between">
             <div className="flex items-center gap-4 text-text-main">
               <Moon size={22} className="text-text-secondary" />
-              <span className="font-bold text-[16px]">Mode Gelap</span>
+              <span className="font-bold text-[16px]">Tema Tampilan</span>
             </div>
-            <span className="text-[13px] font-medium text-text-secondary">Ikut Sistem</span>
+            {mounted && (
+              <select 
+                value={theme}
+                onChange={(e) => setTheme(e.target.value)}
+                className="text-[13px] font-medium bg-transparent outline-none cursor-pointer border-2 border-black rounded-lg px-2 py-1 appearance-none focus:ring-2 ring-primary"
+              >
+                <option value="light">Terang</option>
+                <option value="dark">Gelap</option>
+                <option value="system">Sistem</option>
+              </select>
+            )}
           </div>
           
           <div className="p-5 border-b-[3px] border-black flex items-center justify-between">
