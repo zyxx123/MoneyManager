@@ -120,7 +120,7 @@ export default function BudgetPage() {
   if (!budgetStatus && mode === "view") {
     return (
       <div className="p-4 max-w-md mx-auto min-h-screen bg-background flex flex-col items-center justify-center space-y-4">
-        <div className="w-24 h-24 bg-primary-soft rounded-none flex items-center justify-center text-primary shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black">
+        <div className="w-24 h-24 bg-primary-soft rounded-2xl flex items-center justify-center text-primary shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black">
           <AlertCircle size={48} strokeWidth={1.5} />
         </div>
         <h2 className="text-[22px] font-bold text-text-main">Belum Ada Budget</h2>
@@ -129,7 +129,7 @@ export default function BudgetPage() {
         </p>
         <button
           onClick={openCreateMode}
-          className="bg-primary text-white px-8 py-4 rounded-none font-semibold mt-6 hover:opacity-90 active:translate-y-1.5 active:translate-x-1.5 active:shadow-none transition-all duration-200 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black"
+          className="bg-primary text-white px-8 py-4 rounded-2xl font-bold mt-6 hover:opacity-90 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black"
         >
           Buat Budget Baru
         </button>
@@ -143,7 +143,7 @@ export default function BudgetPage() {
         <h2 className="text-[24px] font-bold text-text-main mb-8 mt-4">{mode === "create" ? "Tentukan Budget" : "Edit Budget"}</h2>
         <form onSubmit={handleCreateOrEditBudget} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
+            <label className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-1">
               Total Budget
             </label>
             <div className="relative">
@@ -155,19 +155,19 @@ export default function BudgetPage() {
                 value={newBudgetAmount}
                 onChange={handleAmountChange}
                 placeholder="0"
-                className="w-full p-5 pl-14 bg-surface border-[3px] border-black rounded-none focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all duration-200 text-3xl font-bold text-text-main shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
+                className="w-full p-5 pl-14 bg-surface border-[3px] border-black rounded-2xl focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all duration-200 text-3xl font-bold text-text-main shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
+            <label className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-1">
               Berlaku Untuk Dompet
             </label>
             <select
               value={selectedWalletId}
               onChange={(e) => setSelectedWalletId(e.target.value)}
-              className="w-full p-4 bg-surface border-[3px] border-black rounded-none focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] appearance-none"
+              className="w-full p-4 bg-surface border-[3px] border-black rounded-2xl focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] appearance-none"
             >
               <option value="all">Semua Dompet (Global)</option>
               {wallets?.map(w => (
@@ -177,14 +177,14 @@ export default function BudgetPage() {
           </div>
 
           <div className="space-y-2 relative">
-            <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
+            <label className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-1">
               Periode Budget
             </label>
             <div className="relative">
               <button
                 type="button"
                 onClick={() => setShowDatePicker(!showDatePicker)}
-                className="w-full p-4 bg-surface border-[3px] border-black rounded-none focus:ring-1 focus:ring-primary outline-none text-left flex justify-between items-center text-[15px] font-medium shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:translate-y-1.5 active:translate-x-1.5 active:shadow-none transition-transform"
+                className="w-full p-4 bg-surface border-[3px] border-black rounded-2xl focus:ring-1 focus:ring-primary outline-none text-left flex justify-between items-center text-[15px] font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 active:shadow-none transition-transform"
               >
                 <span>
                   {dateRange?.from ? format(dateRange.from, "d MMM", { locale: localeID }) : "Pilih Tanggal"} -{" "}
@@ -194,7 +194,7 @@ export default function BudgetPage() {
               </button>
 
               {showDatePicker && (
-                <div className="absolute z-[100] mt-2 bg-surface border-[3px] border-black rounded-none shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-4 right-0 left-0 flex flex-col items-center">
+                <div className="absolute z-[100] mt-2 bg-surface border-[3px] border-black rounded-2xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 right-0 left-0 flex flex-col items-center">
                   <DayPicker
                     mode="range"
                     selected={dateRange}
@@ -204,7 +204,7 @@ export default function BudgetPage() {
                     <button
                       type="button"
                       onClick={() => setShowDatePicker(false)}
-                      className="bg-primary text-white px-5 py-2.5 rounded-[12px] font-semibold text-[14px] hover:opacity-90 active:translate-y-1.5 active:translate-x-1.5 active:shadow-none transition-all duration-200"
+                      className="bg-primary text-white px-5 py-2.5 rounded-[12px] font-bold text-[14px] hover:opacity-90 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200"
                     >
                       Selesai
                     </button>
@@ -221,13 +221,13 @@ export default function BudgetPage() {
                 if (budgetStatus) setMode("view");
                 else loadBudget();
               }}
-              className="flex-1 py-4 bg-border-subtle/50 text-text-main rounded-none font-semibold hover:bg-border-subtle active:translate-y-1.5 active:translate-x-1.5 active:shadow-none transition-all duration-200"
+              className="flex-1 py-4 bg-border-subtle/50 text-text-main rounded-2xl font-bold hover:bg-border-subtle active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200"
             >
               Batal
             </button>
             <button
               type="submit"
-              className="flex-[2] py-4 bg-primary text-white rounded-none font-semibold hover:opacity-90 active:translate-y-1.5 active:translate-x-1.5 active:shadow-none transition-all duration-200 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black"
+              className="flex-[2] py-4 bg-primary text-white rounded-2xl font-bold hover:opacity-90 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black"
             >
               Simpan Budget
             </button>
@@ -260,21 +260,21 @@ export default function BudgetPage() {
       <div className="flex justify-between items-center mb-2 px-1">
         <h1 className="text-[24px] font-bold text-text-main">Budgeting</h1>
         <div className="flex gap-1">
-          <button onClick={openEditMode} className="p-2.5 text-text-secondary hover:bg-surface rounded-none transition-colors active:translate-y-1.5 active:translate-x-1.5 active:shadow-none">
+          <button onClick={openEditMode} className="p-2.5 text-text-secondary hover:bg-surface rounded-2xl transition-colors active:translate-y-1 active:translate-x-1 active:shadow-none">
             <Edit2 size={20} />
           </button>
-          <button onClick={handleDelete} className="p-2.5 text-expense hover:bg-red-50 dark:hover:bg-red-900/20 rounded-none transition-colors active:translate-y-1.5 active:translate-x-1.5 active:shadow-none">
+          <button onClick={handleDelete} className="p-2.5 text-expense hover:bg-red-50 dark:hover:bg-red-900/20 rounded-2xl transition-colors active:translate-y-1 active:translate-x-1 active:shadow-none">
             <Trash2 size={20} />
           </button>
         </div>
       </div>
       
       {/* Daily Limit Card */}
-      <div className={`${statusColor} rounded-none p-6 text-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black relative overflow-hidden transition-colors duration-500`}>
+      <div className={`${statusColor} rounded-2xl p-6 text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black relative overflow-hidden transition-colors duration-500`}>
         {/* Subtle decorative glow */}
-        <div className="absolute -top-12 -right-12 w-32 h-32 bg-white/10 rounded-none blur-2xl"></div>
+        <div className="absolute -top-12 -right-12 w-32 h-32 bg-white/10 rounded-2xl blur-2xl"></div>
         
-        <div className="absolute top-5 right-5 flex items-center gap-1.5 bg-white/20 px-3 py-1.5 rounded-none text-[12px] font-semibold backdrop-blur-md">
+        <div className="absolute top-5 right-5 flex items-center gap-1.5 bg-white/20 px-3 py-1.5 rounded-2xl text-[12px] font-bold backdrop-blur-md">
           <StatusIcon size={14} strokeWidth={2.5} />
           {statusText}
         </div>
@@ -284,16 +284,16 @@ export default function BudgetPage() {
           {formatter.format(dailyLimit)}
         </div>
         
-        <div className="bg-white/10 rounded-none p-4 backdrop-blur-md relative z-10 border border-white/10">
+        <div className="bg-white/10 rounded-2xl p-4 backdrop-blur-md relative z-10 border border-white/10">
           <div className="flex justify-between text-[14px] mb-3">
             <span className="text-white/90">Terpakai Hari Ini</span>
             <span className="font-bold tracking-wide">{formatter.format(todayExpenses)}</span>
           </div>
           
           {/* Progress Bar */}
-          <div className="h-2.5 w-full bg-black/20 rounded-none overflow-hidden">
+          <div className="h-2.5 w-full bg-black/20 rounded-2xl overflow-hidden">
             <div 
-              className="h-full bg-white rounded-none transition-all duration-200 duration-700 ease-out"
+              className="h-full bg-white rounded-2xl transition-all duration-200 duration-700 ease-out"
               style={{ width: `${Math.min(percentageUsed, 100)}%` }}
             />
           </div>
@@ -304,8 +304,8 @@ export default function BudgetPage() {
       </div>
 
       {/* Overview */}
-      <div className="bg-surface border-[3px] border-black rounded-none p-5 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-        <h3 className="font-semibold text-text-main text-[16px] mb-5 px-1">Ringkasan Budget</h3>
+      <div className="bg-surface border-[3px] border-black rounded-2xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+        <h3 className="font-bold text-text-main text-[16px] mb-5 px-1">Ringkasan Budget</h3>
         
         <div className="space-y-4 px-1">
           <div>
@@ -317,7 +317,7 @@ export default function BudgetPage() {
             </div>
             <div className="flex justify-between text-[14px] text-text-secondary mb-1">
               <span>Berlaku Untuk</span>
-              <span className="font-semibold text-primary bg-primary-soft px-2.5 py-0.5 rounded-[6px] text-[12px]">{linkedWalletName}</span>
+              <span className="font-bold text-primary bg-primary-soft px-2.5 py-0.5 rounded-[6px] text-[12px]">{linkedWalletName}</span>
             </div>
           </div>
           
@@ -334,9 +334,9 @@ export default function BudgetPage() {
               <span className="font-medium text-text-main">{formatter.format(budgetStatus.remainingBudget)}</span>
             </div>
             {/* Progress */}
-            <div className="h-2 w-full bg-border-subtle/50 rounded-none overflow-hidden">
+            <div className="h-2 w-full bg-border-subtle/50 rounded-2xl overflow-hidden">
               <div 
-                className="h-full bg-primary rounded-none transition-all duration-200 duration-700 ease-out"
+                className="h-full bg-primary rounded-2xl transition-all duration-200 duration-700 ease-out"
                 style={{ width: `${Math.min((budgetStatus.totalExpenses / budgetAmount) * 100, 100)}%` }}
               />
             </div>

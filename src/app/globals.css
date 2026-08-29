@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  /* Neobrutalism Light Mode (Bright Pastel Yellow) */
-  --background: #FEF08A;
+  /* Refined Neobrutalism Light Mode (Cream White) */
+  --background: #FDFBF7;
   --surface: #FFFFFF;
-  --primary: #A7F3D0; 
-  --primary-soft: #ECFDF5;
-  --text: #000000;
+  --primary: #FFD93D; 
+  --primary-soft: #FFF4CB;
+  --text: #111111;
   --text-secondary: #404040;
   --border: #000000;
-  --income: #4ADE80;
-  --expense: #F87171;
-  --warning: #FBBF24;
+  --income: #6BCB77;
+  --expense: #FF6B6B;
+  --warning: #4D96FF;
 }
 
 @media (prefers-color-scheme: dark) {

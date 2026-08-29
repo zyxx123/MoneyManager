@@ -114,7 +114,7 @@ export default function EditTransactionPage() {
   return (
     <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-[100px]">
       <header className="sticky top-0 z-10 flex items-center p-4 bg-background/90 backdrop-blur-md">
-        <Link href="/" className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-none transition-colors active:translate-y-1.5 active:translate-x-1.5 active:shadow-none">
+        <Link href="/" className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-2xl transition-colors active:translate-y-1 active:translate-x-1 active:shadow-none">
           <ArrowLeft size={24} />
         </Link>
         <div className="flex bg-border-subtle/50 p-1 rounded-[12px] ml-auto">
@@ -126,7 +126,7 @@ export default function EditTransactionPage() {
                 setType(t);
                 setCategoryId("");
               }}
-              className={`px-4 py-1.5 text-[13px] font-semibold rounded-[10px] transition-all duration-200 capitalize ${
+              className={`px-4 py-1.5 text-[13px] font-bold rounded-[10px] transition-all duration-200 capitalize ${
                 type === t
                   ? "bg-surface text-text-main shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black"
                   : "text-text-secondary hover:text-text-main"
@@ -141,7 +141,7 @@ export default function EditTransactionPage() {
       <div className="flex-1 p-5">
         <form id="tx-form" onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-2">
-            <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
+            <label className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-1">
               Jumlah
             </label>
             <div className="relative">
@@ -155,21 +155,21 @@ export default function EditTransactionPage() {
                 value={amount}
                 onChange={handleAmountChange}
                 placeholder="0"
-                className="w-full p-5 pl-14 bg-surface border-[3px] border-black rounded-none focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all duration-200 text-3xl font-bold text-text-main shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
+                className="w-full p-5 pl-14 bg-surface border-[3px] border-black rounded-2xl focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all duration-200 text-3xl font-bold text-text-main shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
+              <label className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-1">
                 {type === 'transfer' ? 'Dari Dompet' : 'Dompet'}
               </label>
               <select
                 required
                 value={walletId}
                 onChange={(e) => setWalletId(e.target.value)}
-                className="w-full p-4 bg-surface border-[3px] border-black rounded-none focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] appearance-none"
+                className="w-full p-4 bg-surface border-[3px] border-black rounded-2xl focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] appearance-none"
               >
                 <option value="" disabled>Pilih Dompet</option>
                 {wallets?.map(w => (
@@ -180,14 +180,14 @@ export default function EditTransactionPage() {
 
             {type === 'transfer' && (
               <div className="space-y-2">
-                <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
+                <label className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-1">
                   Ke Dompet
                 </label>
                 <select
                   required
                   value={toWalletId}
                   onChange={(e) => setToWalletId(e.target.value)}
-                  className="w-full p-4 bg-surface border-[3px] border-black rounded-none focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] appearance-none"
+                  className="w-full p-4 bg-surface border-[3px] border-black rounded-2xl focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] appearance-none"
                 >
                   <option value="" disabled>Pilih Tujuan</option>
                   {wallets?.map(w => (
@@ -199,14 +199,14 @@ export default function EditTransactionPage() {
             
             {type !== 'transfer' && (
               <div className="space-y-2">
-                <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
+                <label className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-1">
                   Kategori
                 </label>
                 <select
                   required
                   value={categoryId}
                   onChange={(e) => setCategoryId(e.target.value)}
-                  className="w-full p-4 bg-surface border-[3px] border-black rounded-none focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] appearance-none"
+                  className="w-full p-4 bg-surface border-[3px] border-black rounded-2xl focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] appearance-none"
                 >
                   <option value="" disabled>Pilih Kategori</option>
                   {categories?.map(c => (
@@ -218,21 +218,21 @@ export default function EditTransactionPage() {
           </div>
 
           <div className="space-y-2 relative">
-            <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
+            <label className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-1">
               Tanggal
             </label>
             <div className="relative">
               <button
                 type="button"
                 onClick={() => setShowDatePicker(!showDatePicker)}
-                className="w-full p-4 bg-surface border-[3px] border-black rounded-none focus:ring-1 focus:ring-primary outline-none text-left flex justify-between items-center text-[15px] font-medium shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:translate-y-1.5 active:translate-x-1.5 active:shadow-none transition-transform"
+                className="w-full p-4 bg-surface border-[3px] border-black rounded-2xl focus:ring-1 focus:ring-primary outline-none text-left flex justify-between items-center text-[15px] font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 active:shadow-none transition-transform"
               >
                 <span>{format(date, "d MMMM yyyy", { locale: localeID })}</span>
                 <CalendarIcon size={20} className="text-text-secondary" />
               </button>
 
               {showDatePicker && (
-                <div className="absolute z-[100] mt-2 bg-surface border-[3px] border-black rounded-none shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-4 right-0 left-0 flex flex-col items-center">
+                <div className="absolute z-[100] mt-2 bg-surface border-[3px] border-black rounded-2xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 right-0 left-0 flex flex-col items-center">
                   <DayPicker
                     mode="single"
                     selected={date}
@@ -247,7 +247,7 @@ export default function EditTransactionPage() {
                     <button
                       type="button"
                       onClick={() => setShowDatePicker(false)}
-                      className="bg-border-subtle/50 text-text-main px-5 py-2.5 rounded-[12px] font-semibold text-[14px] hover:bg-border-subtle active:translate-y-1.5 active:translate-x-1.5 active:shadow-none transition-all duration-200"
+                      className="bg-border-subtle/50 text-text-main px-5 py-2.5 rounded-[12px] font-bold text-[14px] hover:bg-border-subtle active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200"
                     >
                       Selesai
                     </button>
@@ -258,7 +258,7 @@ export default function EditTransactionPage() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
+            <label className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-1">
               Catatan
             </label>
             <input
@@ -266,7 +266,7 @@ export default function EditTransactionPage() {
               value={note}
               onChange={(e) => setNote(e.target.value)}
               placeholder="Makan siang, bensin..."
-              className="w-full p-4 bg-surface border-[3px] border-black rounded-none focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
+              className="w-full p-4 bg-surface border-[3px] border-black rounded-2xl focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
             />
           </div>
         </form>
@@ -277,7 +277,7 @@ export default function EditTransactionPage() {
           <button
             type="button"
             onClick={handleDelete}
-            className="col-span-1 flex items-center justify-center py-4 bg-red-50 dark:bg-red-900/20 text-red-600 rounded-none hover:bg-red-100 dark:hover:bg-red-900/40 active:translate-y-1.5 active:translate-x-1.5 active:shadow-none transition-all duration-200"
+            className="col-span-1 flex items-center justify-center py-4 bg-red-50 dark:bg-red-900/20 text-red-600 rounded-2xl hover:bg-red-100 dark:hover:bg-red-900/40 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200"
           >
             <Trash2 size={24} />
           </button>
@@ -285,7 +285,7 @@ export default function EditTransactionPage() {
             type="submit"
             form="tx-form"
             disabled={!amount || !walletId}
-            className="col-span-3 py-4 bg-primary text-white rounded-none font-semibold text-[16px] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed active:translate-y-1.5 active:translate-x-1.5 active:shadow-none transition-all duration-200 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black"
+            className="col-span-3 py-4 bg-primary text-white rounded-2xl font-bold text-[16px] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black"
           >
             Simpan Perubahan
           </button>

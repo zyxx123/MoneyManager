@@ -87,17 +87,17 @@ export default function EditWalletPage() {
     <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-[100px]">
       <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/90 backdrop-blur-md">
         <div className="flex items-center">
-          <Link href="/wallets" className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-none transition-colors active:translate-y-1.5 active:translate-x-1.5 active:shadow-none">
+          <Link href="/wallets" className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-2xl transition-colors active:translate-y-1 active:translate-x-1 active:shadow-none">
             <ArrowLeft size={24} />
           </Link>
-          <h1 className="text-[20px] font-semibold ml-2">Edit Dompet</h1>
+          <h1 className="text-[20px] font-bold ml-2">Edit Dompet</h1>
         </div>
       </header>
 
       <div className="flex-1 p-5">
         <form id="wallet-form" onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
+            <label className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-1">
               Nama Dompet
             </label>
             <input
@@ -106,12 +106,12 @@ export default function EditWalletPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Contoh: BCA Utama, Uang Makan"
-              className="w-full p-4 bg-surface border-[3px] border-black rounded-none focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
+              className="w-full p-4 bg-surface border-[3px] border-black rounded-2xl focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
             />
           </div>
 
           <div className="space-y-3">
-            <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
+            <label className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-1">
               Tipe Dompet
             </label>
             <div className="grid grid-cols-3 gap-2">
@@ -120,7 +120,7 @@ export default function EditWalletPage() {
                   key={t.value}
                   type="button"
                   onClick={() => setType(t.value as any)}
-                  className={`p-3 text-[13px] font-semibold rounded-[14px] text-center transition-all duration-200 ${
+                  className={`p-3 text-[13px] font-bold rounded-[14px] text-center transition-all duration-200 ${
                     type === t.value
                       ? "bg-primary-soft text-primary shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border border-primary/20"
                       : "bg-surface border-[3px] border-black text-text-secondary hover:text-text-main"
@@ -133,16 +133,16 @@ export default function EditWalletPage() {
           </div>
 
           <div className="space-y-3">
-            <label className="text-[13px] font-semibold text-text-secondary uppercase tracking-wider ml-1">
+            <label className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-1">
               Warna
             </label>
-            <div className="flex gap-4 flex-wrap bg-surface p-4 border-[3px] border-black rounded-none shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] justify-center">
+            <div className="flex gap-4 flex-wrap bg-surface p-4 border-[3px] border-black rounded-2xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] justify-center">
               {COLORS.map((c) => (
                 <button
                   key={c}
                   type="button"
                   onClick={() => setColor(c)}
-                  className={`w-11 h-11 rounded-none flex items-center justify-center transition-all duration-200 ${color === c ? 'scale-110 shadow-lg ring-2 ring-primary ring-offset-2 dark:ring-offset-background' : 'hover:scale-105 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'}`}
+                  className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-200 ${color === c ? 'scale-110 shadow-lg ring-2 ring-primary ring-offset-2 dark:ring-offset-background' : 'hover:scale-105 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'}`}
                   style={{ backgroundColor: c }}
                 >
                   {color === c && <Check size={22} className="text-white drop-shadow-md" strokeWidth={3} />}
@@ -158,7 +158,7 @@ export default function EditWalletPage() {
           <button
             type="button"
             onClick={handleDelete}
-            className="col-span-1 flex items-center justify-center py-4 bg-red-50 dark:bg-red-900/20 text-red-600 rounded-none hover:bg-red-100 dark:hover:bg-red-900/40 active:translate-y-1.5 active:translate-x-1.5 active:shadow-none transition-all duration-200"
+            className="col-span-1 flex items-center justify-center py-4 bg-red-50 dark:bg-red-900/20 text-red-600 rounded-2xl hover:bg-red-100 dark:hover:bg-red-900/40 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200"
           >
             <Trash2 size={24} />
           </button>
@@ -166,7 +166,7 @@ export default function EditWalletPage() {
             type="submit"
             form="wallet-form"
             disabled={!name}
-            className="col-span-3 w-full py-4 bg-primary text-white rounded-none font-semibold text-[16px] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed active:translate-y-1.5 active:translate-x-1.5 active:shadow-none transition-all duration-200 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black"
+            className="col-span-3 w-full py-4 bg-primary text-white rounded-2xl font-bold text-[16px] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black"
           >
             Simpan Perubahan
           </button>

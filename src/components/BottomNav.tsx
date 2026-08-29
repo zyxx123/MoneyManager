@@ -30,7 +30,7 @@ export default function BottomNav() {
               <Link 
                 key={item.href} 
                 href={item.href}
-                className="flex items-center justify-center w-14 h-14 bg-primary border-[3px] border-black rounded-none text-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] -mt-6 hover:-translate-y-0.5 active:translate-y-1.5 active:translate-x-1.5 active:shadow-none transition-all duration-200"
+                className="flex items-center justify-center w-14 h-14 bg-primary border-[3px] border-black rounded-xl text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -mt-6 hover:-translate-y-0.5 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200"
               >
                 <item.icon size={24} strokeWidth={2.5} />
               </Link>
@@ -46,7 +46,7 @@ export default function BottomNav() {
               }`}
             >
               <item.icon size={22} strokeWidth={isActive ? 2.5 : 2} />
-              <span className={`text-[10px] ${isActive ? "font-semibold" : "font-medium"}`}>{item.label}</span>
+              <span className={`text-[10px] ${isActive ? "font-bold" : "font-medium"}`}>{item.label}</span>
             </Link>
           );
         })}
