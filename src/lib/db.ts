@@ -150,6 +150,27 @@ export class PundiDB extends Dexie {
 
 export const db = new PundiDB();
 
+// Define comprehensive default categories
+const DEFAULT_CATEGORIES: Omit<Category, 'id'>[] = [
+  // Pengeluaran
+  { name: 'Makanan & Minuman', type: 'expense', icon: 'utensils', color: '#f87171', isDefault: true, isArchived: false, sortOrder: 1 },
+  { name: 'Transportasi', type: 'expense', icon: 'car', color: '#60a5fa', isDefault: true, isArchived: false, sortOrder: 2 },
+  { name: 'Tagihan & Utilitas', type: 'expense', icon: 'zap', color: '#fbbf24', isDefault: true, isArchived: false, sortOrder: 3 },
+  { name: 'Belanja', type: 'expense', icon: 'shopping-bag', color: '#ec4899', isDefault: true, isArchived: false, sortOrder: 4 },
+  { name: 'Hiburan', type: 'expense', icon: 'film', color: '#a78bfa', isDefault: true, isArchived: false, sortOrder: 5 },
+  { name: 'Kesehatan', type: 'expense', icon: 'activity', color: '#10b981', isDefault: true, isArchived: false, sortOrder: 6 },
+  { name: 'Edukasi', type: 'expense', icon: 'book', color: '#6366f1', isDefault: true, isArchived: false, sortOrder: 7 },
+  { name: 'Donasi & Amal', type: 'expense', icon: 'heart', color: '#f43f5e', isDefault: true, isArchived: false, sortOrder: 8 },
+  { name: 'Lainnya (Pengeluaran)', type: 'expense', icon: 'more-horizontal', color: '#9ca3af', isDefault: true, isArchived: false, sortOrder: 9 },
+
+  // Pemasukan
+  { name: 'Gaji', type: 'income', icon: 'briefcase', color: '#4ade80', isDefault: true, isArchived: false, sortOrder: 10 },
+  { name: 'Bonus', type: 'income', icon: 'award', color: '#2dd4bf', isDefault: true, isArchived: false, sortOrder: 11 },
+  { name: 'Hasil Investasi', type: 'income', icon: 'trending-up', color: '#818cf8', isDefault: true, isArchived: false, sortOrder: 12 },
+  { name: 'Hadiah', type: 'income', icon: 'gift', color: '#f472b6', isDefault: true, isArchived: false, sortOrder: 13 },
+  { name: 'Lainnya (Pemasukan)', type: 'income', icon: 'plus-circle', color: '#9ca3af', isDefault: true, isArchived: false, sortOrder: 14 },
+];
+
 // Initialize default settings if not exists
 db.on('populate', async () => {
   await db.appSettings.add({
@@ -162,11 +183,29 @@ db.on('populate', async () => {
     schemaVersion: 1,
   });
 
-  // Basic default categories
-  const defaultCategories: Category[] = [
-    { id: crypto.randomUUID(), name: 'Food', type: 'expense', icon: 'utensils', color: '#f87171', isDefault: true, isArchived: false, sortOrder: 1 },
-    { id: crypto.randomUUID(), name: 'Transport', type: 'expense', icon: 'car', color: '#60a5fa', isDefault: true, isArchived: false, sortOrder: 2 },
-    { id: crypto.randomUUID(), name: 'Salary', type: 'income', icon: 'wallet', color: '#4ade80', isDefault: true, isArchived: false, sortOrder: 3 },
-  ];
-  await db.categories.bulkAdd(defaultCategories);
+  const categoriesToAdd = DEFAULT_CATEGORIES.map(c => ({
+    id: crypto.randomUUID(),
+    ...c
+  } as Category));
+  
+  await db.categories.bulkAdd(categoriesToAdd);
+});
+
+// Run on every database load to ensure existing users get the new categories
+db.on('ready', async () => {
+  const hasNewDefaults = await db.categories.where('name').equals('Makanan & Minuman').count();
+  if (hasNewDefaults === 0) {
+    const categoriesToAdd = DEFAULT_CATEGORIES.map(c => ({
+      id: crypto.randomUUID(),
+      ...c
+    } as Category));
+    
+    await db.categories.bulkAdd(categoriesToAdd);
+    
+    // Optionally archive the old english default categories to hide them
+    const oldCategories = await db.categories.where('name').anyOf(['Food', 'Transport', 'Salary']).toArray();
+    for (const old of oldCategories) {
+      await db.categories.update(old.id, { isArchived: true });
+    }
+  }
 });
