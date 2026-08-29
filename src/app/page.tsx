@@ -65,14 +65,14 @@ export default function Home() {
   return (
     <div className="p-4 max-w-md mx-auto space-y-6 pt-6 pb-20">
       {/* Total Balance Card */}
-      <div className="bg-primary rounded-2xl p-6 text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black relative overflow-hidden">
+      <div className="bg-primary rounded-2xl p-6 text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black relative overflow-hidden">
         {/* Subtle decorative circle */}
-        <div className="absolute -top-12 -right-12 w-32 h-32 bg-white/10 rounded-2xl blur-2xl"></div>
+        <div className="absolute -top-12 -right-12 w-32 h-32 bg-black/5 rounded-2xl blur-2xl"></div>
         <div className="flex justify-between items-center relative z-10 mb-1">
-          <p className="text-white/80 text-sm font-medium">Total Saldo</p>
+          <p className="text-black/80 text-sm font-medium">Total Saldo</p>
           <button 
             onClick={toggleShowBalance}
-            className="text-white/80 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors active:scale-95"
+            className="text-black/80 hover:text-black p-1 rounded-lg hover:bg-black/10 transition-colors active:scale-95"
           >
             {showBalance ? <Eye size={18} /> : <EyeOff size={18} />}
           </button>
