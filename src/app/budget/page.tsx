@@ -274,7 +274,11 @@ export default function BudgetPage() {
   let StatusIcon = CheckCircle2;
   let statusText = "Pengeluaran Aman";
 
-  if (status === 'warning') {
+  if (status === 'upcoming') {
+    statusColor = "bg-primary text-black";
+    StatusIcon = CalendarIcon;
+    statusText = "Akan Datang";
+  } else if (status === 'warning') {
     statusColor = "bg-warning";
     StatusIcon = AlertTriangle;
     statusText = "Mendekati Limit";

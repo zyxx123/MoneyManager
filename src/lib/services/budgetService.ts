@@ -4,9 +4,9 @@ import { startOfMonth, endOfMonth, differenceInDays, isSameDay, startOfDay, endO
 export const budgetService = {
   async getActiveBudget() {
     const now = new Date();
-    // Assuming active budget means period covers today
     const budgets = await db.budgets.toArray();
-    return budgets.find(b => b.isActive && startOfDay(b.periodStart) <= now && endOfDay(b.periodEnd) >= now);
+    // Kembalikan budget aktif selama belum kadaluarsa (bisa jadi sedang berjalan atau akan datang)
+    return budgets.find(b => b.isActive && endOfDay(b.periodEnd) >= now);
   },
 
   async createBudget(amount: number, startDate: Date, endDate: Date, walletIds?: string[]) {
@@ -76,7 +76,10 @@ export const budgetService = {
     const pastExpenses = totalExpenses - todayExpenses;
 
     const remainingBudgetBeforeToday = budget.amount - pastExpenses;
-    const daysRemaining = differenceInDays(budget.periodEnd, today) + 1; // including today
+    
+    // Jika budget belum mulai, hitung hari dari periodStart, bukan dari hari ini
+    const effectiveStart = today < startOfDay(budget.periodStart) ? startOfDay(budget.periodStart) : today;
+    const daysRemaining = differenceInDays(budget.periodEnd, effectiveStart) + 1; // including today/start day
 
     const dailyLimit = remainingBudgetBeforeToday > 0 && daysRemaining > 0
       ? remainingBudgetBeforeToday / daysRemaining
@@ -84,9 +87,11 @@ export const budgetService = {
 
     const percentageUsed = dailyLimit > 0 ? (todayExpenses / dailyLimit) * 100 : (todayExpenses > 0 ? 100 : 0);
     
-    let status: 'safe' | 'warning' | 'danger' = 'safe';
-    // Use app settings thresholds if available, but hardcode 70% and 100% for MVP
-    if (percentageUsed >= 100) {
+    let status: 'safe' | 'warning' | 'danger' | 'upcoming' = 'safe';
+    
+    if (today < startOfDay(budget.periodStart)) {
+      status = 'upcoming';
+    } else if (percentageUsed >= 100) {
       status = 'danger';
     } else if (percentageUsed >= 70) {
       status = 'warning';
