@@ -17,7 +17,7 @@ export default function BudgetPage() {
   // Modes: "view" | "create" | "edit"
   const [mode, setMode] = useState<"view" | "create" | "edit">("view");
   const [newBudgetAmount, setNewBudgetAmount] = useState("");
-  const [selectedWalletId, setSelectedWalletId] = useState("");
+  const [selectedWalletIds, setSelectedWalletIds] = useState<string[]>([]);
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: startOfMonth(new Date()),
     to: endOfMonth(new Date())
@@ -46,17 +46,17 @@ export default function BudgetPage() {
   const handleCreateOrEditBudget = async (e: React.FormEvent) => {
     e.preventDefault();
     const amount = Number(newBudgetAmount.replace(/\D/g, ""));
-    const finalWalletId = selectedWalletId === "all" ? undefined : selectedWalletId;
+    const finalWalletIds = selectedWalletIds.length > 0 ? selectedWalletIds : undefined;
     const start = dateRange?.from || startOfMonth(new Date());
     const end = dateRange?.to || endOfMonth(new Date());
 
     if (amount > 0 && start <= end) {
       if (mode === "create") {
-        await budgetService.createBudget(amount, start, end, finalWalletId);
+        await budgetService.createBudget(amount, start, end, finalWalletIds);
       } else if (mode === "edit" && budgetStatus?.id) {
         await budgetService.updateBudget(budgetStatus.id, {
           amount,
-          walletId: finalWalletId,
+          walletIds: finalWalletIds,
           periodStart: start,
           periodEnd: end,
         });
@@ -88,7 +88,7 @@ export default function BudgetPage() {
   const openEditMode = () => {
     if (budgetStatus) {
       setNewBudgetAmount(new Intl.NumberFormat("id-ID").format(budgetStatus.budgetAmount));
-      setSelectedWalletId(budgetStatus.walletId || "all");
+      setSelectedWalletIds(budgetStatus.walletIds || []);
       setDateRange({
         from: budgetStatus.periodStart || startOfMonth(new Date()),
         to: budgetStatus.periodEnd || endOfMonth(new Date())
@@ -99,7 +99,7 @@ export default function BudgetPage() {
 
   const openCreateMode = () => {
     setNewBudgetAmount("");
-    setSelectedWalletId("all");
+    setSelectedWalletIds([]);
     setDateRange({
       from: startOfMonth(new Date()),
       to: endOfMonth(new Date())
@@ -160,20 +160,46 @@ export default function BudgetPage() {
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-3">
             <label className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-1">
               Berlaku Untuk Dompet
             </label>
-            <select
-              value={selectedWalletId}
-              onChange={(e) => setSelectedWalletId(e.target.value)}
-              className="w-full p-4 bg-surface border-[3px] border-black rounded-2xl focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] appearance-none"
-            >
-              <option value="all">Semua Dompet (Global)</option>
-              {wallets?.map(w => (
-                <option key={w.id} value={w.id}>{w.name}</option>
-              ))}
-            </select>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => setSelectedWalletIds([])}
+                className={`px-4 py-2 rounded-xl font-medium border-[3px] transition-all ${
+                  selectedWalletIds.length === 0 
+                  ? "bg-primary border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-black font-bold" 
+                  : "bg-surface border-black/20 text-text-secondary hover:border-black/50"
+                }`}
+              >
+                Semua Dompet
+              </button>
+              {wallets?.map(w => {
+                const isSelected = selectedWalletIds.includes(w.id);
+                return (
+                  <button
+                    key={w.id}
+                    type="button"
+                    onClick={() => {
+                      if (isSelected) {
+                        setSelectedWalletIds(prev => prev.filter(id => id !== w.id));
+                      } else {
+                        setSelectedWalletIds(prev => [...prev, w.id]);
+                      }
+                    }}
+                    className={`px-4 py-2 rounded-xl font-medium border-[3px] transition-all ${
+                      isSelected 
+                      ? "bg-primary border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-black font-bold" 
+                      : "bg-surface border-black/20 text-text-secondary hover:border-black/50"
+                    }`}
+                  >
+                    {w.name}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <div className="space-y-2 relative">
@@ -237,8 +263,11 @@ export default function BudgetPage() {
     );
   }
 
-  const { budgetAmount, dailyLimit, todayExpenses, percentageUsed, status, walletId, periodStart, periodEnd } = budgetStatus;
-  const linkedWalletName = walletId ? wallets?.find(w => w.id === walletId)?.name || "Dompet Terhapus" : "Semua Dompet";
+  const { budgetAmount, dailyLimit, todayExpenses, percentageUsed, status, walletIds, periodStart, periodEnd } = budgetStatus;
+  
+  const linkedWalletName = walletIds && walletIds.length > 0
+    ? wallets?.filter(w => walletIds.includes(w.id)).map(w => w.name).join(", ") || "Dompet Terhapus"
+    : "Semua Dompet";
 
   // Determine colors based on status (Solid colors, no harsh gradients)
   let statusColor = "bg-income";

@@ -9,14 +9,14 @@ export const budgetService = {
     return db.budgets.filter(b => b.isActive && b.periodStart <= now && b.periodEnd >= now).first();
   },
 
-  async createBudget(amount: number, startDate: Date, endDate: Date, walletId?: string) {
+  async createBudget(amount: number, startDate: Date, endDate: Date, walletIds?: string[]) {
     const now = new Date();
 
     const newBudget: Budget = {
       id: crypto.randomUUID(),
       name: `Budget ${startDate.toLocaleString('default', { month: 'short', year: '2-digit' })} - ${endDate.toLocaleString('default', { month: 'short', year: '2-digit' })}`,
       amount,
-      walletId,
+      walletIds,
       periodStart: startDate,
       periodEnd: endDate,
       isActive: true,
@@ -54,7 +54,9 @@ export const budgetService = {
       .between(budget.periodStart, budget.periodEnd, true, true)
       .filter(t => t.type === 'expense');
 
-    if (budget.walletId) {
+    if (budget.walletIds && budget.walletIds.length > 0) {
+      expensesQuery = expensesQuery.filter(t => t.type === 'expense' && budget.walletIds!.includes(t.walletId));
+    } else if (budget.walletId) {
       expensesQuery = expensesQuery.filter(t => t.type === 'expense' && t.walletId === budget.walletId);
     }
 
@@ -91,7 +93,7 @@ export const budgetService = {
     return {
       id: budget.id,
       budgetAmount: budget.amount,
-      walletId: budget.walletId,
+      walletIds: budget.walletIds || (budget.walletId ? [budget.walletId] : []),
       periodStart: budget.periodStart,
       periodEnd: budget.periodEnd,
       totalExpenses,
