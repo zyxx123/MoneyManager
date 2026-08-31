@@ -1,12 +1,12 @@
 import { db, type Budget } from '../db';
-import { startOfMonth, endOfMonth, differenceInDays, isSameDay } from 'date-fns';
+import { startOfMonth, endOfMonth, differenceInDays, isSameDay, startOfDay, endOfDay } from 'date-fns';
 
 export const budgetService = {
   async getActiveBudget() {
     const now = new Date();
     // Assuming active budget means period covers today
-    const budgets = await db.budgets.where('isActive').equals('true').toArray(); // using quotes if boolean indexed issue, but we'll use filter to be safe
-    return db.budgets.filter(b => b.isActive && b.periodStart <= now && b.periodEnd >= now).first();
+    const budgets = await db.budgets.toArray();
+    return budgets.find(b => b.isActive && startOfDay(b.periodStart) <= now && endOfDay(b.periodEnd) >= now);
   },
 
   async createBudget(amount: number, startDate: Date, endDate: Date, walletIds?: string[]) {
@@ -17,8 +17,8 @@ export const budgetService = {
       name: `Budget ${startDate.toLocaleString('default', { month: 'short', year: '2-digit' })} - ${endDate.toLocaleString('default', { month: 'short', year: '2-digit' })}`,
       amount,
       walletIds,
-      periodStart: startDate,
-      periodEnd: endDate,
+      periodStart: startOfDay(startDate),
+      periodEnd: endOfDay(endDate),
       isActive: true,
       createdAt: now
     };
@@ -34,6 +34,8 @@ export const budgetService = {
   },
 
   async updateBudget(id: string, updates: Partial<Budget>) {
+    if (updates.periodStart) updates.periodStart = startOfDay(updates.periodStart);
+    if (updates.periodEnd) updates.periodEnd = endOfDay(updates.periodEnd);
     await db.budgets.update(id, updates);
   },
 
