@@ -7,10 +7,10 @@ import {
   CreditCard, 
   Landmark, 
   Settings, 
-  Download,
-  Upload,
-  ChevronRight,
-  PieChart
+  Download, 
+  Upload, 
+  ChevronRight, 
+  PieChart 
 } from "lucide-react";
 import { dataService } from "@/lib/services/dataService";
 
@@ -63,7 +63,7 @@ export default function MorePage() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28">
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28 animate-fade-in-up">
       <header className="sticky top-0 z-10 flex items-center p-4 bg-background/90 backdrop-blur-md">
         <h1 className="text-[22px] font-bold ml-1 tracking-tight">Menu Lainnya</h1>
       </header>
@@ -72,21 +72,21 @@ export default function MorePage() {
         {/* Analytics */}
         <div className="space-y-2">
           <h2 className="text-[12px] font-bold text-text-secondary uppercase tracking-wider ml-1">Analisis & Laporan</h2>
-          <div className="bg-surface rounded-3xl border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden">
+          <div className="bg-surface rounded-3xl border border-border/80 shadow-fintech overflow-hidden card-smooth">
             <Link 
               href="/reports"
-              className="flex items-center justify-between p-4 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
+              className="flex items-center justify-between p-4 hover:bg-[#EBF7F2]/40 dark:hover:bg-white/[0.03] transition-colors group"
             >
               <div className="flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-2xl bg-[#EBF7F2] dark:bg-[#14382E] text-[#083328] dark:text-[#A3F03A] flex items-center justify-center">
+                <div className="w-10 h-10 rounded-2xl bg-[#EBF7F2] dark:bg-[#14382E] text-[#083328] dark:text-[#A3F03A] flex items-center justify-center transition-transform duration-300 group-hover:scale-108">
                   <PieChart size={20} strokeWidth={2.2} />
                 </div>
                 <div>
-                  <span className="font-semibold text-sm text-text-main block">Laporan Bulanan</span>
+                  <span className="font-semibold text-sm text-text-main block group-hover:text-[#083328] dark:group-hover:text-[#A3F03A] transition-colors">Laporan Bulanan</span>
                   <span className="text-xs text-text-secondary">Statistik arus kas & grafik kategori</span>
                 </div>
               </div>
-              <ChevronRight size={18} className="text-text-secondary/60" />
+              <ChevronRight size={18} className="text-text-secondary/60 group-hover:translate-x-0.5 group-hover:text-text-main transition-transform" />
             </Link>
           </div>
         </div>
@@ -94,23 +94,23 @@ export default function MorePage() {
         {/* Advanced Features */}
         <div className="space-y-2">
           <h2 className="text-[12px] font-bold text-text-secondary uppercase tracking-wider ml-1">Fitur Keuangan</h2>
-          <div className="bg-surface rounded-3xl border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] divide-y divide-border/50 overflow-hidden">
+          <div className="bg-surface rounded-3xl border border-border/80 shadow-fintech divide-y divide-border/50 overflow-hidden card-smooth">
             {advancedFeatures.map((item, i) => (
               <Link 
                 key={i} 
                 href={item.href}
-                className="flex items-center justify-between p-4 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
+                className="flex items-center justify-between p-4 hover:bg-[#EBF7F2]/40 dark:hover:bg-white/[0.03] transition-colors group"
               >
                 <div className="flex items-center gap-3.5">
-                  <div className={`w-10 h-10 rounded-2xl flex items-center justify-center ${item.bg} ${item.color}`}>
+                  <div className={`w-10 h-10 rounded-2xl flex items-center justify-center ${item.bg} ${item.color} transition-transform duration-300 group-hover:scale-108`}>
                     <item.icon size={20} strokeWidth={2.2} />
                   </div>
                   <div>
-                    <span className="font-semibold text-sm text-text-main block">{item.label}</span>
+                    <span className="font-semibold text-sm text-text-main block group-hover:text-[#083328] dark:group-hover:text-[#A3F03A] transition-colors">{item.label}</span>
                     <span className="text-xs text-text-secondary">{item.desc}</span>
                   </div>
                 </div>
-                <ChevronRight size={18} className="text-text-secondary/60" />
+                <ChevronRight size={18} className="text-text-secondary/60 group-hover:translate-x-0.5 group-hover:text-text-main transition-transform" />
               </Link>
             ))}
           </div>
@@ -119,37 +119,37 @@ export default function MorePage() {
         {/* Data Portability */}
         <div className="space-y-2">
           <h2 className="text-[12px] font-bold text-text-secondary uppercase tracking-wider ml-1">Penyimpanan & Pengaturan</h2>
-          <div className="bg-surface rounded-3xl border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] divide-y divide-border/50 overflow-hidden">
+          <div className="bg-surface rounded-3xl border border-border/80 shadow-fintech divide-y divide-border/50 overflow-hidden card-smooth">
             <button 
               onClick={handleExport}
-              className="w-full flex items-center justify-between p-4 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors text-left"
+              className="w-full flex items-center justify-between p-4 hover:bg-[#EBF7F2]/40 dark:hover:bg-white/[0.03] transition-colors text-left group press-spring"
             >
               <div className="flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-2xl bg-surface-muted text-text-secondary flex items-center justify-center">
+                <div className="w-10 h-10 rounded-2xl bg-surface-muted text-text-secondary flex items-center justify-center transition-transform duration-300 group-hover:scale-108">
                   <Download size={18} strokeWidth={2.2} />
                 </div>
                 <div>
-                  <span className="font-semibold text-sm text-text-main block">Export Data (Backup)</span>
+                  <span className="font-semibold text-sm text-text-main block group-hover:text-[#083328] dark:group-hover:text-[#A3F03A] transition-colors">Export Data (Backup)</span>
                   <span className="text-xs text-text-secondary">Simpan file JSON cadangan lokal</span>
                 </div>
               </div>
-              <ChevronRight size={18} className="text-text-secondary/60" />
+              <ChevronRight size={18} className="text-text-secondary/60 group-hover:translate-x-0.5 group-hover:text-text-main transition-transform" />
             </button>
             
             <button 
               onClick={handleImportClick}
-              className="w-full flex items-center justify-between p-4 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors text-left"
+              className="w-full flex items-center justify-between p-4 hover:bg-[#EBF7F2]/40 dark:hover:bg-white/[0.03] transition-colors text-left group press-spring"
             >
               <div className="flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-2xl bg-surface-muted text-text-secondary flex items-center justify-center">
+                <div className="w-10 h-10 rounded-2xl bg-surface-muted text-text-secondary flex items-center justify-center transition-transform duration-300 group-hover:scale-108">
                   <Upload size={18} strokeWidth={2.2} />
                 </div>
                 <div>
-                  <span className="font-semibold text-sm text-text-main block">Import Data (Restore)</span>
+                  <span className="font-semibold text-sm text-text-main block group-hover:text-[#083328] dark:group-hover:text-[#A3F03A] transition-colors">Import Data (Restore)</span>
                   <span className="text-xs text-text-secondary">Pulihkan data dari cadangan</span>
                 </div>
               </div>
-              <ChevronRight size={18} className="text-text-secondary/60" />
+              <ChevronRight size={18} className="text-text-secondary/60 group-hover:translate-x-0.5 group-hover:text-text-main transition-transform" />
               <input 
                 type="file" 
                 ref={fileInputRef} 
@@ -161,18 +161,18 @@ export default function MorePage() {
 
             <Link 
               href="/settings"
-              className="flex items-center justify-between p-4 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
+              className="flex items-center justify-between p-4 hover:bg-[#EBF7F2]/40 dark:hover:bg-white/[0.03] transition-colors group"
             >
               <div className="flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-2xl bg-surface-muted text-text-secondary flex items-center justify-center">
+                <div className="w-10 h-10 rounded-2xl bg-surface-muted text-text-secondary flex items-center justify-center transition-transform duration-300 group-hover:scale-108">
                   <Settings size={18} strokeWidth={2.2} />
                 </div>
                 <div>
-                  <span className="font-semibold text-sm text-text-main block">Pengaturan Aplikasi</span>
+                  <span className="font-semibold text-sm text-text-main block group-hover:text-[#083328] dark:group-hover:text-[#A3F03A] transition-colors">Pengaturan Aplikasi</span>
                   <span className="text-xs text-text-secondary">Tema tampilan & reset sistem</span>
                 </div>
               </div>
-              <ChevronRight size={18} className="text-text-secondary/60" />
+              <ChevronRight size={18} className="text-text-secondary/60 group-hover:translate-x-0.5 group-hover:text-text-main transition-transform" />
             </Link>
           </div>
         </div>

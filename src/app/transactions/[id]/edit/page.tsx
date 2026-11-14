@@ -108,12 +108,12 @@ export default function EditTransactionPage() {
     }
   };
 
-  if (isLoading) return <div className="p-8 text-center text-xs text-text-secondary">Memuat transaksi...</div>;
+  if (isLoading) return <div className="p-8 text-center text-xs text-text-secondary animate-pulse">Memuat transaksi...</div>;
 
   return (
-    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28">
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28 animate-fade-in-up">
       <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/90 backdrop-blur-md">
-        <Link href="/" className="w-10 h-10 rounded-full bg-surface border border-border/80 flex items-center justify-center text-text-secondary hover:text-text-main transition-colors active:scale-95">
+        <Link href="/" className="w-10 h-10 rounded-full bg-surface border border-border/80 flex items-center justify-center text-text-secondary hover:text-text-main press-spring tap-pill">
           <ArrowLeft size={20} />
         </Link>
         <div className="flex bg-surface-muted p-1 rounded-full border border-border/60">
@@ -125,7 +125,7 @@ export default function EditTransactionPage() {
                 setType(t);
                 setCategoryId("");
               }}
-              className={`px-3.5 py-1.5 text-xs font-bold rounded-full transition-all duration-200 capitalize ${
+              className={`px-3.5 py-1.5 text-xs font-bold rounded-full transition-spring press-spring tap-pill capitalize ${
                 type === t
                   ? "bg-[#083328] text-white shadow-sm"
                   : "text-text-secondary hover:text-text-main"
@@ -140,7 +140,7 @@ export default function EditTransactionPage() {
       <div className="flex-1 p-5 space-y-5">
         <form id="tx-form" onSubmit={handleSubmit} className="space-y-5">
           {/* Amount Card */}
-          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] space-y-2">
+          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-2 card-smooth">
             <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
               Nominal Transaksi
             </label>
@@ -155,13 +155,13 @@ export default function EditTransactionPage() {
                 value={amount}
                 onChange={handleAmountChange}
                 placeholder="0"
-                className="w-full p-4 pl-12 bg-surface-muted border border-border/80 rounded-2xl outline-none text-2xl font-bold text-text-main focus:ring-2 focus:ring-[#A3F03A]"
+                className="w-full p-4 pl-12 bg-surface-muted border border-border/80 rounded-2xl outline-none text-2xl font-bold text-text-main focus:ring-2 focus:ring-[#A3F03A]/60 transition-smooth"
               />
             </div>
           </div>
 
           {/* Wallets & Category Card */}
-          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] space-y-4">
+          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-4 card-smooth">
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
                 <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
@@ -171,7 +171,7 @@ export default function EditTransactionPage() {
                   required
                   value={walletId}
                   onChange={(e) => setWalletId(e.target.value)}
-                  className="w-full p-3.5 bg-surface-muted border border-border/80 rounded-2xl outline-none text-[13px] font-semibold text-text-main appearance-none cursor-pointer"
+                  className="w-full p-3.5 bg-surface-muted border border-border/80 rounded-2xl outline-none text-[13px] font-semibold text-text-main appearance-none cursor-pointer focus:ring-2 focus:ring-[#A3F03A]/60 transition-smooth"
                 >
                   <option value="" disabled>Pilih Dompet</option>
                   {wallets?.map(w => (
@@ -189,7 +189,7 @@ export default function EditTransactionPage() {
                     required
                     value={toWalletId}
                     onChange={(e) => setToWalletId(e.target.value)}
-                    className="w-full p-3.5 bg-surface-muted border border-border/80 rounded-2xl outline-none text-[13px] font-semibold text-text-main appearance-none cursor-pointer"
+                    className="w-full p-3.5 bg-surface-muted border border-border/80 rounded-2xl outline-none text-[13px] font-semibold text-text-main appearance-none cursor-pointer focus:ring-2 focus:ring-[#A3F03A]/60 transition-smooth"
                   >
                     <option value="" disabled>Pilih Tujuan</option>
                     {wallets?.map(w => (
@@ -208,7 +208,7 @@ export default function EditTransactionPage() {
                     required
                     value={categoryId}
                     onChange={(e) => setCategoryId(e.target.value)}
-                    className="w-full p-3.5 bg-surface-muted border border-border/80 rounded-2xl outline-none text-[13px] font-semibold text-text-main appearance-none cursor-pointer"
+                    className="w-full p-3.5 bg-surface-muted border border-border/80 rounded-2xl outline-none text-[13px] font-semibold text-text-main appearance-none cursor-pointer focus:ring-2 focus:ring-[#A3F03A]/60 transition-smooth"
                   >
                     <option value="" disabled>Pilih Kategori</option>
                     {categories?.map(c => (
@@ -227,33 +227,43 @@ export default function EditTransactionPage() {
               <div className="relative">
                 <button
                   type="button"
-                  onClick={() => setShowDatePicker(!showDatePicker)}
-                  className="w-full p-3.5 bg-surface-muted border border-border/80 rounded-2xl outline-none text-left flex justify-between items-center text-[13px] font-semibold text-text-main active:scale-[0.99] transition-transform"
+                  onClick={() => setShowDatePicker(true)}
+                  className="w-full p-3.5 bg-surface-muted border border-border/80 rounded-2xl outline-none text-left flex justify-between items-center text-[13px] font-semibold text-text-main press-spring tap-pill"
                 >
                   <span>{format(date, "d MMMM yyyy", { locale: localeID })}</span>
                   <CalendarIcon size={18} className="text-text-secondary" />
                 </button>
 
                 {showDatePicker && (
-                  <div className="absolute z-[100] mt-2 bg-surface border border-border/80 rounded-3xl shadow-xl p-4 right-0 left-0 flex flex-col items-center">
-                    <DayPicker
-                      mode="single"
-                      selected={date}
-                      onSelect={(d) => {
-                        if (d) {
-                          setDate(d);
-                          setShowDatePicker(false);
-                        }
-                      }}
-                    />
-                    <div className="mt-3 flex justify-end w-full border-t border-border/60 pt-2">
-                      <button
-                        type="button"
-                        onClick={() => setShowDatePicker(false)}
-                        className="bg-[#083328] text-[#A3F03A] px-4 py-1.5 rounded-full font-bold text-xs hover:opacity-90 active:scale-95 transition-all"
-                      >
-                        Selesai
-                      </button>
+                  <div 
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in"
+                    onClick={() => setShowDatePicker(false)}
+                  >
+                    <div 
+                      className="bg-surface border border-border/80 rounded-[32px] shadow-2xl p-5 w-full max-w-sm flex flex-col items-center animate-scale-up"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="w-10 h-1 bg-border/80 rounded-full mb-3"></div>
+                      <h3 className="text-sm font-bold text-text-main mb-2">Pilih Tanggal Transaksi</h3>
+                      <DayPicker
+                        mode="single"
+                        selected={date}
+                        onSelect={(d) => {
+                          if (d) {
+                            setDate(d);
+                            setShowDatePicker(false);
+                          }
+                        }}
+                      />
+                      <div className="mt-3 flex justify-end w-full border-t border-border/60 pt-2">
+                        <button
+                          type="button"
+                          onClick={() => setShowDatePicker(false)}
+                          className="bg-[#083328] text-[#A3F03A] px-5 py-2 rounded-full font-bold text-xs press-spring tap-pill"
+                        >
+                          Selesai
+                        </button>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -270,20 +280,20 @@ export default function EditTransactionPage() {
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
                 placeholder="Makan siang, bensin, gaji..."
-                className="w-full p-3.5 bg-surface-muted border border-border/80 rounded-2xl outline-none text-[13px] font-semibold text-text-main focus:ring-2 focus:ring-[#A3F03A]"
+                className="w-full p-3.5 bg-surface-muted border border-border/80 rounded-2xl outline-none text-[13px] font-semibold text-text-main focus:ring-2 focus:ring-[#A3F03A]/60 transition-smooth"
               />
             </div>
           </div>
         </form>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/90 backdrop-blur-md pb-[calc(1rem+env(safe-area-inset-bottom))]">
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/90 backdrop-blur-md pb-[calc(1rem+env(safe-area-inset-bottom))] z-20">
         <div className="max-w-md mx-auto grid grid-cols-4 gap-3">
           <button
             type="button"
             onClick={handleDelete}
             aria-label="Delete Transaction"
-            className="col-span-1 flex items-center justify-center py-3.5 bg-red-50 dark:bg-red-950/20 text-red-600 rounded-full hover:bg-red-100 transition-all active:scale-95"
+            className="col-span-1 flex items-center justify-center py-3.5 bg-red-50 dark:bg-red-950/20 text-red-600 rounded-full hover:bg-red-100 dark:hover:bg-red-950/40 press-spring tap-pill"
           >
             <Trash2 size={20} />
           </button>
@@ -291,7 +301,7 @@ export default function EditTransactionPage() {
             type="submit"
             form="tx-form"
             disabled={!amount || !walletId}
-            className="col-span-3 w-full py-3.5 bg-[#A3F03A] text-[#083328] rounded-full font-bold text-[15px] shadow-[0_4px_14px_rgba(163,240,58,0.4)] disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 transition-all"
+            className="col-span-3 w-full py-3.5 bg-gradient-to-r from-[#A3F03A] to-[#B6FF4D] text-[#083328] rounded-full font-bold text-[15px] shadow-lime-glow hover:shadow-lime-glow-lg disabled:opacity-50 disabled:cursor-not-allowed press-spring tap-pill"
           >
             Simpan Perubahan
           </button>

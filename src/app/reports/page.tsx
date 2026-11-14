@@ -20,7 +20,7 @@ export default function ReportsPage() {
   const categories = useLiveQuery(() => db.categories.toArray());
 
   if (!transactions || !categories) {
-    return <div className="p-8 max-w-md mx-auto pt-16 flex justify-center text-xs text-text-secondary">Memuat laporan...</div>;
+    return <div className="p-8 max-w-md mx-auto pt-16 flex justify-center text-xs text-text-secondary animate-pulse">Memuat laporan...</div>;
   }
 
   // Calculate totals
@@ -53,9 +53,9 @@ export default function ReportsPage() {
     .sort((a, b) => b.amount - a.amount);
 
   return (
-    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28">
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28 animate-fade-in-up">
       <header className="sticky top-0 z-10 flex items-center p-4 bg-background/90 backdrop-blur-md">
-        <Link href="/more" className="w-10 h-10 rounded-full bg-surface border border-border/80 flex items-center justify-center text-text-secondary hover:text-text-main transition-colors active:scale-95">
+        <Link href="/more" className="w-10 h-10 rounded-full bg-surface border border-border/80 flex items-center justify-center text-text-secondary hover:text-text-main press-spring tap-pill">
           <ArrowLeft size={20} />
         </Link>
         <h1 className="text-[20px] font-bold ml-3 tracking-tight">Laporan Bulan Ini</h1>
@@ -64,9 +64,9 @@ export default function ReportsPage() {
       <div className="flex-1 p-4 space-y-5">
         {/* Cashflow Summary */}
         <div className="grid grid-cols-2 gap-3">
-          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech card-smooth press-spring">
             <div className="flex items-center gap-2 mb-2">
-              <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 flex items-center justify-center transition-transform hover:scale-110">
                 <ArrowDownLeft size={16} strokeWidth={2.5} />
               </div>
               <span className="text-xs font-medium text-text-secondary">Pemasukan</span>
@@ -74,9 +74,9 @@ export default function ReportsPage() {
             <p className="font-bold text-income text-[17px] tracking-tight">{formatCurrency(totalIncome)}</p>
           </div>
 
-          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech card-smooth press-spring">
             <div className="flex items-center gap-2 mb-2">
-              <div className="w-8 h-8 rounded-xl bg-red-50 dark:bg-red-950/40 text-red-500 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-xl bg-red-50 dark:bg-red-950/40 text-red-500 flex items-center justify-center transition-transform hover:scale-110">
                 <ArrowUpRight size={16} strokeWidth={2.5} />
               </div>
               <span className="text-xs font-medium text-text-secondary">Pengeluaran</span>
@@ -86,14 +86,14 @@ export default function ReportsPage() {
         </div>
         
         {/* Net Surplus Card */}
-        <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex justify-between items-center">
+        <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech card-smooth flex justify-between items-center">
           <div>
             <span className="text-xs font-medium text-text-secondary">Sisa / Surplus Bulanan</span>
-            <p className={`font-bold text-xl tracking-tight mt-0.5 ${totalIncome - totalExpense >= 0 ? 'text-income' : 'text-expense'}`}>
+            <p className={`font-bold text-xl tracking-tight mt-0.5 transition-colors ${totalIncome - totalExpense >= 0 ? 'text-income' : 'text-expense'}`}>
               {formatCurrency(totalIncome - totalExpense)}
             </p>
           </div>
-          <span className={`text-xs font-bold px-3 py-1 rounded-full ${
+          <span className={`text-xs font-bold px-3 py-1 rounded-full transition-colors ${
             totalIncome - totalExpense >= 0 
               ? 'bg-[#EBF7F2] text-[#083328] dark:bg-[#14382E] dark:text-[#A3F03A]' 
               : 'bg-red-50 text-red-600'
@@ -110,7 +110,7 @@ export default function ReportsPage() {
           </h2>
           
           {categoryBreakdown.length === 0 ? (
-            <div className="bg-surface rounded-3xl border border-border/80 p-8 text-center">
+            <div className="bg-surface rounded-3xl border border-border/80 p-8 text-center animate-fade-in">
               <p className="text-text-secondary text-sm">Belum ada pengeluaran bulan ini.</p>
             </div>
           ) : (
@@ -121,25 +121,25 @@ export default function ReportsPage() {
                   <div 
                     key={cat.id} 
                     style={{ width: `${cat.percentage}%`, backgroundColor: cat.color }} 
-                    className="h-full border-r border-background/50 last:border-0 hover:opacity-80 transition-opacity"
+                    className="h-full border-r border-background/50 last:border-0 hover:opacity-80 transition-all duration-700 ease-out"
                     title={`${cat.name}: ${cat.percentage.toFixed(1)}%`}
                   />
                 ))}
               </div>
               
-              <div className="bg-surface rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-border/80 divide-y divide-border/50 overflow-hidden">
-                {categoryBreakdown.map((cat) => (
-                  <div key={cat.id} className="flex items-center justify-between p-4 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors">
+              <div className="bg-surface rounded-3xl shadow-fintech border border-border/80 divide-y divide-border/50 overflow-hidden">
+                {categoryBreakdown.map((cat, idx) => (
+                  <div key={cat.id} className={`flex items-center justify-between p-4 hover:bg-[#EBF7F2]/40 dark:hover:bg-white/[0.03] transition-colors group stagger-${Math.min(idx + 1, 8)}`}>
                     <div className="flex items-center gap-3.5">
-                      <div className="w-10 h-10 rounded-2xl flex items-center justify-center text-white shadow-sm" style={{ backgroundColor: cat.color }}>
+                      <div className="w-10 h-10 rounded-2xl flex items-center justify-center text-white shadow-sm transition-transform duration-300 group-hover:scale-108" style={{ backgroundColor: cat.color }}>
                         <DynamicIcon name={cat.icon} size={18} />
                       </div>
                       <div>
-                        <p className="font-semibold text-sm text-text-main">{cat.name}</p>
+                        <p className="font-semibold text-sm text-text-main group-hover:text-[#083328] dark:group-hover:text-[#A3F03A] transition-colors">{cat.name}</p>
                         <p className="text-xs text-text-secondary mt-0.5">{cat.percentage.toFixed(1)}%</p>
                       </div>
                     </div>
-                    <span className="font-bold text-sm text-text-main tracking-tight">
+                    <span className="font-bold text-sm text-text-main tracking-tight transition-transform group-hover:scale-105">
                       {formatCurrency(cat.amount)}
                     </span>
                   </div>

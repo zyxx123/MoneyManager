@@ -21,12 +21,12 @@ export default function WalletsPage() {
     .reduce((sum, w) => sum + w.cachedBalance, 0) ?? 0;
 
   return (
-    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28">
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28 animate-fade-in-up">
       <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/90 backdrop-blur-md">
         <h1 className="text-[22px] font-bold ml-1 tracking-tight">Dompet Saya</h1>
         <Link
           href="/wallets/new"
-          className="flex items-center gap-1.5 bg-[#A3F03A] text-[#083328] px-4 py-2 rounded-full text-xs font-bold shadow-[0_4px_12px_rgba(163,240,58,0.35)] active:scale-95 transition-all"
+          className="flex items-center gap-1.5 bg-gradient-to-r from-[#A3F03A] to-[#B6FF4D] text-[#083328] px-4 py-2 rounded-full text-xs font-bold shadow-lime-glow hover:shadow-lime-glow-lg press-spring tap-pill"
         >
           <Plus size={16} strokeWidth={2.8} />
           <span>Tambah</span>
@@ -35,10 +35,10 @@ export default function WalletsPage() {
 
       <div className="flex-1 p-4 space-y-4">
         {/* Total Saldo Card */}
-        <div className="bg-[#083328] rounded-3xl p-5 text-white shadow-[0_8px_30px_rgba(8,51,40,0.25)] relative overflow-hidden">
-          <div className="absolute -top-12 -right-12 w-32 h-32 bg-[#A3F03A]/15 rounded-full blur-2xl pointer-events-none"></div>
+        <div className="bg-[#083328] rounded-3xl p-5 text-white shadow-[0_8px_30px_rgba(8,51,40,0.25)] relative overflow-hidden card-smooth">
+          <div className="absolute -top-12 -right-12 w-32 h-32 bg-[#A3F03A]/15 rounded-full blur-2xl pointer-events-none animate-pulse-subtle"></div>
           <p className="text-white/70 text-xs font-normal mb-1">Total Saldo Dompet</p>
-          <div className="text-2xl font-bold text-white tracking-tight">
+          <div className="text-2xl font-bold text-white tracking-tight transition-smooth">
             {wallets === undefined ? "Menghitung..." : formatCurrency(totalBalance)}
           </div>
           <p className="text-[11px] text-white/60 mt-1">
@@ -53,8 +53,8 @@ export default function WalletsPage() {
             ))}
           </div>
         ) : wallets.length === 0 ? (
-          <div className="flex flex-col items-center justify-center mt-16 text-text-secondary">
-            <div className="w-16 h-16 bg-[#EBF7F2] dark:bg-[#14382E] text-[#083328] dark:text-[#A3F03A] rounded-3xl flex items-center justify-center mb-3">
+          <div className="flex flex-col items-center justify-center mt-16 text-text-secondary animate-fade-in">
+            <div className="w-16 h-16 bg-[#EBF7F2] dark:bg-[#14382E] text-[#083328] dark:text-[#A3F03A] rounded-3xl flex items-center justify-center mb-3 animate-bounce-subtle">
               <WalletIcon size={28} />
             </div>
             <p className="font-bold text-[15px] text-text-main">Belum Ada Dompet</p>
@@ -62,21 +62,21 @@ export default function WalletsPage() {
           </div>
         ) : (
           <div className="space-y-3">
-            {wallets.map((wallet) => (
+            {wallets.map((wallet, idx) => (
               <Link
                 key={wallet.id}
                 href={`/wallets/${wallet.id}/edit`}
-                className="bg-surface rounded-3xl p-4 border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex items-center justify-between hover:shadow-md active:scale-[0.99] transition-all block"
+                className={`bg-surface rounded-3xl p-4 border border-border/80 shadow-fintech flex items-center justify-between card-smooth press-spring block group stagger-${Math.min(idx + 1, 8)}`}
               >
                 <div className="flex items-center gap-3.5">
                   <div 
-                    className="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-sm"
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-sm transition-transform duration-300 group-hover:scale-108"
                     style={{ backgroundColor: wallet.color || "#083328" }}
                   >
                     <WalletIcon size={22} strokeWidth={2.2} />
                   </div>
                   <div>
-                    <h3 className="font-bold text-[15px] text-text-main tracking-tight line-clamp-1">
+                    <h3 className="font-bold text-[15px] text-text-main tracking-tight line-clamp-1 group-hover:text-[#083328] dark:group-hover:text-[#A3F03A] transition-colors">
                       {wallet.name}
                     </h3>
                     <div className="flex items-center gap-1.5 mt-0.5">
@@ -93,7 +93,7 @@ export default function WalletsPage() {
                       {formatCurrency(wallet.cachedBalance)}
                     </p>
                   </div>
-                  <ChevronRight size={16} className="text-text-secondary/50" />
+                  <ChevronRight size={16} className="text-text-secondary/50 group-hover:translate-x-0.5 group-hover:text-text-main transition-transform" />
                 </div>
               </Link>
             ))}

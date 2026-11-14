@@ -81,13 +81,13 @@ export default function EditWalletPage() {
     }
   };
 
-  if (isLoading) return <div className="p-8 text-center text-xs text-text-secondary">Memuat dompet...</div>;
+  if (isLoading) return <div className="p-8 text-center text-xs text-text-secondary animate-pulse">Memuat dompet...</div>;
 
   return (
-    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28">
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28 animate-fade-in-up">
       <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/90 backdrop-blur-md">
         <div className="flex items-center">
-          <Link href="/wallets" className="w-10 h-10 rounded-full bg-surface border border-border/80 flex items-center justify-center text-text-secondary hover:text-text-main transition-colors active:scale-95">
+          <Link href="/wallets" className="w-10 h-10 rounded-full bg-surface border border-border/80 flex items-center justify-center text-text-secondary hover:text-text-main press-spring tap-pill">
             <ArrowLeft size={20} />
           </Link>
           <h1 className="text-[20px] font-bold ml-3 tracking-tight">Edit Dompet</h1>
@@ -96,7 +96,7 @@ export default function EditWalletPage() {
 
       <div className="flex-1 p-5">
         <form id="wallet-form" onSubmit={handleSubmit} className="space-y-6">
-          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] space-y-2">
+          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-2 card-smooth">
             <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
               Nama Dompet
             </label>
@@ -106,11 +106,11 @@ export default function EditWalletPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Contoh: BCA Utama, Uang Makan"
-              className="w-full p-4 bg-surface-muted border border-border/80 rounded-2xl outline-none text-[15px] font-semibold text-text-main focus:ring-2 focus:ring-[#A3F03A]"
+              className="w-full p-4 bg-surface-muted border border-border/80 rounded-2xl outline-none text-[15px] font-semibold text-text-main focus:ring-2 focus:ring-[#A3F03A]/60 transition-smooth"
             />
           </div>
 
-          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] space-y-3">
+          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-3 card-smooth">
             <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
               Tipe Dompet
             </label>
@@ -120,9 +120,9 @@ export default function EditWalletPage() {
                   key={t.value}
                   type="button"
                   onClick={() => setType(t.value as any)}
-                  className={`p-3 text-[13px] font-bold rounded-2xl text-center transition-all duration-200 ${
+                  className={`p-3 text-[13px] font-bold rounded-2xl text-center transition-spring press-spring tap-pill ${
                     type === t.value
-                      ? "bg-[#083328] text-white shadow-md"
+                      ? "bg-[#083328] text-white shadow-md scale-[1.02]"
                       : "bg-surface-muted text-text-secondary hover:bg-black/5"
                   }`}
                 >
@@ -132,7 +132,7 @@ export default function EditWalletPage() {
             </div>
           </div>
 
-          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] space-y-3">
+          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-3 card-smooth">
             <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
               Warna Dompet
             </label>
@@ -142,7 +142,7 @@ export default function EditWalletPage() {
                   key={c}
                   type="button"
                   onClick={() => setColor(c)}
-                  className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all duration-200 ${color === c ? 'scale-110 shadow-md ring-2 ring-[#083328] dark:ring-[#A3F03A]' : 'hover:scale-105 opacity-80'}`}
+                  className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-spring press-spring tap-pill ${color === c ? 'scale-115 shadow-md ring-2 ring-[#083328] dark:ring-[#A3F03A]' : 'hover:scale-105 opacity-80'}`}
                   style={{ backgroundColor: c }}
                 >
                   {color === c && <Check size={18} className="text-white drop-shadow-md" strokeWidth={3} />}
@@ -153,13 +153,13 @@ export default function EditWalletPage() {
         </form>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/90 backdrop-blur-md pb-[calc(1rem+env(safe-area-inset-bottom))]">
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/90 backdrop-blur-md pb-[calc(1rem+env(safe-area-inset-bottom))] z-20">
         <div className="max-w-md mx-auto grid grid-cols-4 gap-3">
           <button
             type="button"
             onClick={handleDelete}
             aria-label="Delete Wallet"
-            className="col-span-1 flex items-center justify-center py-3.5 bg-red-50 dark:bg-red-950/20 text-red-600 rounded-full hover:bg-red-100 transition-all active:scale-95"
+            className="col-span-1 flex items-center justify-center py-3.5 bg-red-50 dark:bg-red-950/20 text-red-600 rounded-full hover:bg-red-100 dark:hover:bg-red-950/40 press-spring tap-pill"
           >
             <Trash2 size={20} />
           </button>
@@ -167,7 +167,7 @@ export default function EditWalletPage() {
             type="submit"
             form="wallet-form"
             disabled={!name}
-            className="col-span-3 w-full py-3.5 bg-[#A3F03A] text-[#083328] rounded-full font-bold text-[15px] shadow-[0_4px_14px_rgba(163,240,58,0.4)] disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 transition-all"
+            className="col-span-3 w-full py-3.5 bg-gradient-to-r from-[#A3F03A] to-[#B6FF4D] text-[#083328] rounded-full font-bold text-[15px] shadow-lime-glow hover:shadow-lime-glow-lg disabled:opacity-50 disabled:cursor-not-allowed press-spring tap-pill"
           >
             Simpan Perubahan
           </button>

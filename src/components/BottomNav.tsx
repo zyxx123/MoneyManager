@@ -20,8 +20,11 @@ export default function BottomNav() {
   }
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 max-w-md mx-auto z-50">
-      <nav aria-label="Bottom Navigation" className="bg-[#083328] text-white rounded-full py-2.5 px-3 flex justify-around items-center shadow-[0_12px_32px_rgba(8,51,40,0.45)] border border-white/10 backdrop-blur-md">
+    <div className="fixed bottom-4 left-4 right-4 max-w-md mx-auto z-50 animate-fade-in-up">
+      <nav 
+        aria-label="Bottom Navigation" 
+        className="bg-[#083328]/95 text-white rounded-full py-2 px-3 flex justify-around items-center shadow-nav border border-white/10 backdrop-blur-xl transition-smooth"
+      >
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           
@@ -31,9 +34,9 @@ export default function BottomNav() {
                 key={item.href} 
                 href={item.href}
                 aria-label={item.label}
-                className="flex items-center justify-center w-11 h-11 bg-[#A3F03A] rounded-full text-[#083328] shadow-[0_4px_14px_rgba(163,240,58,0.45)] hover:scale-105 active:scale-95 transition-all duration-200"
+                className="flex items-center justify-center w-12 h-12 bg-gradient-to-tr from-[#A3F03A] to-[#B8FF4F] rounded-full text-[#083328] shadow-lime-glow hover:shadow-lime-glow-lg hover:scale-110 active:scale-90 transition-spring animate-bounce-subtle"
               >
-                <item.icon size={22} strokeWidth={2.8} />
+                <item.icon size={24} strokeWidth={2.8} />
               </Link>
             );
           }
@@ -42,14 +45,20 @@ export default function BottomNav() {
             <Link 
               key={item.href} 
               href={item.href}
-              className={`flex flex-col items-center justify-center py-1.5 px-3 rounded-full transition-all duration-200 ${
+              className={`flex flex-col items-center justify-center py-1.5 px-3.5 rounded-full tap-pill ${
                 isActive 
-                  ? "text-[#A3F03A] bg-white/10 font-bold" 
-                  : "text-white/60 hover:text-white"
+                  ? "text-[#A3F03A] bg-white/12 shadow-[0_2px_12px_rgba(163,240,58,0.2)] font-bold scale-105" 
+                  : "text-white/65 hover:text-white/95"
               }`}
             >
-              <item.icon size={20} strokeWidth={isActive ? 2.5 : 2} />
-              <span className="text-[10px] mt-0.5 font-medium">{item.label}</span>
+              <item.icon 
+                size={20} 
+                strokeWidth={isActive ? 2.5 : 2} 
+                className={`transition-transform duration-300 ${isActive ? "scale-110" : ""}`} 
+              />
+              <span className={`text-[10px] mt-0.5 tracking-tight transition-all duration-300 ${isActive ? "font-bold text-[#A3F03A]" : "font-medium"}`}>
+                {item.label}
+              </span>
             </Link>
           );
         })}
