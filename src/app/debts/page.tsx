@@ -49,23 +49,24 @@ export default function DebtsPage() {
 
   if (isCreating) {
     return (
-      <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-24">
+      <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28">
         <header className="sticky top-0 z-10 flex items-center p-4 bg-background/90 backdrop-blur-md">
-          <button onClick={() => setIsCreating(false)} className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-2xl transition-colors active:translate-y-1 active:translate-x-1 active:shadow-none">
-            <ArrowLeft size={24} />
+          <button onClick={() => setIsCreating(false)} className="w-10 h-10 rounded-full bg-surface border border-border/80 flex items-center justify-center text-text-secondary hover:text-text-main transition-colors active:scale-95">
+            <ArrowLeft size={20} />
           </button>
-          <h1 className="text-[20px] font-bold ml-2">Catat Hutang/Piutang</h1>
+          <h1 className="text-[20px] font-bold ml-3 tracking-tight">Catat Hutang/Piutang</h1>
         </header>
 
         <div className="flex-1 p-5">
-          <form onSubmit={handleCreate} className="space-y-6">
-            <div className="flex bg-surface border-[3px] border-black p-1 rounded-2xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <form onSubmit={handleCreate} className="space-y-5">
+            {/* Direction Switcher */}
+            <div className="flex bg-surface-muted p-1 rounded-full border border-border/80">
               <button
                 type="button"
                 onClick={() => setDirection("payable")}
-                className={`flex-1 py-2.5 text-[14px] font-bold rounded-[12px] transition-all duration-200 ${
+                className={`flex-1 py-2 text-xs font-bold rounded-full transition-all duration-200 ${
                   direction === "payable"
-                    ? "bg-expense/10 text-expense shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border border-expense/20"
+                    ? "bg-[#083328] text-white shadow-sm"
                     : "text-text-secondary hover:text-text-main"
                 }`}
               >
@@ -74,9 +75,9 @@ export default function DebtsPage() {
               <button
                 type="button"
                 onClick={() => setDirection("receivable")}
-                className={`flex-1 py-2.5 text-[14px] font-bold rounded-[12px] transition-all duration-200 ${
+                className={`flex-1 py-2 text-xs font-bold rounded-full transition-all duration-200 ${
                   direction === "receivable"
-                    ? "bg-income/10 text-income shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border border-income/20"
+                    ? "bg-[#083328] text-white shadow-sm"
                     : "text-text-secondary hover:text-text-main"
                 }`}
               >
@@ -84,8 +85,8 @@ export default function DebtsPage() {
               </button>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-1">
+            <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] space-y-2">
+              <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
                 {direction === 'payable' ? 'Kepada Siapa / Untuk Apa' : 'Siapa yang Berhutang'}
               </label>
               <input
@@ -94,12 +95,14 @@ export default function DebtsPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Contoh: Budi, Pinjol X"
-                className="w-full p-4 bg-surface border-[3px] border-black rounded-2xl focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                className="w-full p-4 bg-surface-muted border border-border/80 rounded-2xl outline-none text-[15px] font-semibold text-text-main focus:ring-2 focus:ring-[#A3F03A]"
               />
             </div>
             
-            <div className="space-y-2">
-              <label className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-1">Total Nominal</label>
+            <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] space-y-2">
+              <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
+                Nominal
+              </label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary font-medium text-lg">Rp</span>
                 <input
@@ -109,7 +112,7 @@ export default function DebtsPage() {
                   value={amount}
                   onChange={handleAmountChange}
                   placeholder="0"
-                  className="w-full p-5 pl-14 bg-surface border-[3px] border-black rounded-2xl focus:ring-1 focus:ring-primary outline-none transition-all duration-200 text-3xl font-bold text-text-main shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                  className="w-full p-4 pl-12 bg-surface-muted border border-border/80 rounded-2xl outline-none text-2xl font-bold text-text-main focus:ring-2 focus:ring-[#A3F03A]"
                 />
               </div>
             </div>
@@ -117,7 +120,7 @@ export default function DebtsPage() {
             <button
               type="submit"
               disabled={!name || !amount}
-              className="w-full py-4 mt-4 bg-primary text-white rounded-2xl font-bold text-[16px] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black"
+              className="w-full py-3.5 mt-2 bg-[#A3F03A] text-[#083328] rounded-full font-bold text-[15px] shadow-[0_4px_14px_rgba(163,240,58,0.4)] disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 transition-all"
             >
               Simpan
             </button>
@@ -128,76 +131,85 @@ export default function DebtsPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-24">
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28">
       <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/90 backdrop-blur-md">
         <div className="flex items-center">
-          <Link href="/more" className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-2xl transition-colors active:translate-y-1 active:translate-x-1 active:shadow-none">
-            <ArrowLeft size={24} />
+          <Link href="/more" className="w-10 h-10 rounded-full bg-surface border border-border/80 flex items-center justify-center text-text-secondary hover:text-text-main transition-colors active:scale-95">
+            <ArrowLeft size={20} />
           </Link>
-          <h1 className="text-[24px] font-bold ml-2">Hutang & Piutang</h1>
+          <h1 className="text-[20px] font-bold ml-3 tracking-tight">Hutang & Piutang</h1>
         </div>
         <button
           onClick={() => setIsCreating(true)}
-          className="flex items-center gap-1.5 bg-expense/10 text-expense px-4 py-2 rounded-2xl text-[14px] font-bold hover:bg-expense/20 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200"
+          className="flex items-center gap-1.5 bg-[#A3F03A] text-[#083328] px-4 py-2 rounded-full text-xs font-bold shadow-[0_4px_12px_rgba(163,240,58,0.35)] active:scale-95 transition-all"
         >
-          <Plus size={18} strokeWidth={2.5} />
-          Catat Baru
+          <Plus size={16} strokeWidth={2.8} />
+          <span>Tambah</span>
         </button>
       </header>
 
       <div className="flex-1 p-4 space-y-4">
         {debts === undefined ? (
           <div className="animate-pulse space-y-4">
-            {[1, 2].map(i => <div key={i} className="h-32 bg-surface rounded-2xl" />)}
+            {[1, 2].map(i => <div key={i} className="h-32 bg-surface rounded-3xl border border-border/80" />)}
           </div>
         ) : debts.length === 0 ? (
-          <div className="flex flex-col items-center justify-center mt-20 text-text-secondary">
-            <div className="w-20 h-20 bg-surface rounded-2xl flex items-center justify-center mb-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-              <CreditCard size={32} className="text-text-secondary/50" />
+          <div className="flex flex-col items-center justify-center mt-16 text-text-secondary">
+            <div className="w-16 h-16 bg-[#EBF7F2] dark:bg-[#14382E] text-[#083328] dark:text-[#A3F03A] rounded-3xl flex items-center justify-center mb-3">
+              <CreditCard size={28} />
             </div>
-            <p className="font-bold text-[16px] text-text-main">Bebas hutang!</p>
-            <p className="text-[14px] mt-1">Lanjutkan kebiasaan baik ini.</p>
+            <p className="font-bold text-[15px] text-text-main">Tidak Ada Hutang / Piutang</p>
+            <p className="text-[13px] mt-0.5">Catat pinjaman atau tagihan teman Anda.</p>
           </div>
         ) : (
           debts.map(debt => {
-            const isPayable = debt.direction === 'payable';
-            const percentage = ((debt.amount - debt.remainingAmount) / debt.amount) * 100;
+            const isPayable = debt.direction === "payable";
+            const paid = debt.amount - debt.remainingAmount;
+            const percentage = Math.min((paid / debt.amount) * 100, 100);
             
             return (
-              <div key={debt.id} className="bg-surface border-[3px] border-black rounded-2xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 hover:-translate-x-0.5 transition-all duration-200">
-                <div className="flex justify-between items-start mb-5">
-                  <div className="flex items-center gap-4">
-                    <div className={`p-3 rounded-2xl shadow-[inset_2px_2px_0px_0px_rgba(0,0,0,0.2)] ${isPayable ? 'bg-expense/10 text-expense' : 'bg-income/10 text-income'}`}>
-                      {isPayable ? <ArrowUpRight size={22} strokeWidth={2} /> : <ArrowDownRight size={22} strokeWidth={2} />}
+              <div key={debt.id} className="bg-surface rounded-3xl p-5 border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] space-y-3">
+                <div className="flex justify-between items-start">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center ${
+                      isPayable ? "bg-red-50 text-red-500 dark:bg-red-950/40" : "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40"
+                    }`}>
+                      {isPayable ? <ArrowDownRight size={20} /> : <ArrowUpRight size={20} />}
                     </div>
                     <div>
-                      <h3 className="font-bold text-[17px] text-text-main tracking-tight">{debt.name}</h3>
-                      <p className="text-[13px] font-medium text-text-secondary mt-0.5">{isPayable ? 'Hutang Saya' : 'Piutang Orang'}</p>
+                      <h3 className="font-bold text-[16px] text-text-main tracking-tight">{debt.name}</h3>
+                      <p className="text-xs text-text-secondary mt-0.5">
+                        {isPayable ? "Hutang Anda" : "Piutang Teman"}
+                      </p>
                     </div>
                   </div>
-                  <button 
-                    onClick={() => handleAddPayment(debt.id, debt.remainingAmount)}
-                    className="text-[13px] bg-border-subtle/50 text-text-main px-3 py-1.5 rounded-2xl font-bold hover:bg-border-subtle active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200"
-                  >
-                    + Bayar
-                  </button>
+                  
+                  {debt.remainingAmount > 0 ? (
+                    <button 
+                      onClick={() => handleAddPayment(debt.id, debt.remainingAmount)}
+                      className="text-xs bg-[#EBF7F2] dark:bg-[#14382E] text-[#083328] dark:text-[#A3F03A] hover:bg-[#A3F03A] hover:text-[#083328] px-3.5 py-1.5 rounded-full font-bold transition-all active:scale-95"
+                    >
+                      Bayar
+                    </button>
+                  ) : (
+                    <span className="text-xs bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full font-bold">
+                      Lunas
+                    </span>
+                  )}
                 </div>
                 
-                <div className="flex justify-between text-[14px] mb-3">
-                  <span className={`font-bold ${isPayable ? 'text-expense' : 'text-income'}`}>
-                    Sisa: {formatCurrency(debt.remainingAmount)}
-                  </span>
-                  <span className="font-medium text-text-secondary text-[13px]">Total: {formatCurrency(debt.amount)}</span>
-                </div>
-                
-                <div className="h-2.5 w-full bg-border-subtle/50 rounded-2xl overflow-hidden">
-                  <div 
-                    className={`h-full rounded-2xl transition-all duration-200 duration-700 ease-out ${isPayable ? 'bg-expense' : 'bg-income'}`}
-                    style={{ width: `${percentage}%` }}
-                  />
-                </div>
-                <div className="text-right text-[12px] font-medium text-text-secondary mt-2">
-                  {percentage.toFixed(1)}% Lunas
+                <div className="pt-2">
+                  <div className="flex justify-between text-xs mb-2">
+                    <span className="font-bold text-text-main">Sisa: {formatCurrency(debt.remainingAmount)}</span>
+                    <span className="text-text-secondary">Total: {formatCurrency(debt.amount)}</span>
+                  </div>
+                  
+                  <div className="h-2 w-full bg-surface-muted rounded-full overflow-hidden">
+                    <div 
+                      className={`h-full rounded-full transition-all duration-700 ease-out ${isPayable ? "bg-red-400" : "bg-[#A3F03A]"}`}
+                      style={{ width: `${percentage}%` }}
+                    />
+                  </div>
                 </div>
               </div>
             );

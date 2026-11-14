@@ -51,63 +51,66 @@ export default function MorePage() {
       }
     }
     
-    // Reset file input
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
   };
 
   const advancedFeatures = [
-    { icon: PiggyBank, label: "Tabungan", href: "/savings", color: "text-green-500", bg: "bg-green-100 dark:bg-green-500/20" },
-    { icon: CreditCard, label: "Hutang & Piutang", href: "/debts", color: "text-red-500", bg: "bg-red-100 dark:bg-red-500/20" },
-    { icon: Landmark, label: "Aset & Investasi", href: "/assets", color: "text-blue-500", bg: "bg-blue-100 dark:bg-blue-500/20" },
+    { icon: PiggyBank, label: "Tabungan", desc: "Target menabung & simpanan", href: "/savings", color: "text-emerald-600", bg: "bg-emerald-50 dark:bg-emerald-950/40" },
+    { icon: CreditCard, label: "Hutang & Piutang", desc: "Catat pinjaman & tagihan", href: "/debts", color: "text-red-500", bg: "bg-red-50 dark:bg-red-950/40" },
+    { icon: Landmark, label: "Aset & Investasi", desc: "Pantau kekayaan bersih", href: "/assets", color: "text-blue-500", bg: "bg-blue-50 dark:bg-blue-950/40" },
   ];
 
   return (
-    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-24">
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28">
       <header className="sticky top-0 z-10 flex items-center p-4 bg-background/90 backdrop-blur-md">
-        <h1 className="text-[24px] font-bold ml-1">Menu Lainnya</h1>
+        <h1 className="text-[22px] font-bold ml-1 tracking-tight">Menu Lainnya</h1>
       </header>
 
       <div className="flex-1 p-4 space-y-6">
         {/* Analytics */}
         <div className="space-y-2">
-          <h2 className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-2">Analisis & Laporan</h2>
-          <div className="bg-surface border-[3px] border-black rounded-2xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <h2 className="text-[12px] font-bold text-text-secondary uppercase tracking-wider ml-1">Analisis & Laporan</h2>
+          <div className="bg-surface rounded-3xl border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden">
             <Link 
               href="/reports"
-              className="flex items-center justify-between p-4 hover:bg-border-subtle/50 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200"
+              className="flex items-center justify-between p-4 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
             >
-              <div className="flex items-center gap-4">
-                <div className="p-3 rounded-2xl bg-purple-100/50 text-purple-600 dark:bg-purple-900/30">
-                  <PieChart size={22} strokeWidth={2} />
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-2xl bg-[#EBF7F2] dark:bg-[#14382E] text-[#083328] dark:text-[#A3F03A] flex items-center justify-center">
+                  <PieChart size={20} strokeWidth={2.2} />
                 </div>
-                <span className="font-bold text-[16px]">Laporan Bulanan</span>
+                <div>
+                  <span className="font-semibold text-sm text-text-main block">Laporan Bulanan</span>
+                  <span className="text-xs text-text-secondary">Statistik arus kas & grafik kategori</span>
+                </div>
               </div>
-              <ChevronRight size={20} className="text-text-secondary" />
+              <ChevronRight size={18} className="text-text-secondary/60" />
             </Link>
           </div>
         </div>
 
         {/* Advanced Features */}
         <div className="space-y-2">
-          <h2 className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-2">Fitur Lanjutan</h2>
-          <div className="bg-surface border-[3px] border-black rounded-2xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <h2 className="text-[12px] font-bold text-text-secondary uppercase tracking-wider ml-1">Fitur Keuangan</h2>
+          <div className="bg-surface rounded-3xl border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] divide-y divide-border/50 overflow-hidden">
             {advancedFeatures.map((item, i) => (
               <Link 
                 key={i} 
                 href={item.href}
-                className={`flex items-center justify-between p-4 hover:bg-border-subtle/50 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200 ${
-                  i !== advancedFeatures.length - 1 ? 'border-b-[3px] border-black' : ''
-                }`}
+                className="flex items-center justify-between p-4 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
               >
-                <div className="flex items-center gap-4">
-                  <div className={`p-3 rounded-2xl ${item.bg} ${item.color}`}>
-                    <item.icon size={22} strokeWidth={2} />
+                <div className="flex items-center gap-3.5">
+                  <div className={`w-10 h-10 rounded-2xl flex items-center justify-center ${item.bg} ${item.color}`}>
+                    <item.icon size={20} strokeWidth={2.2} />
                   </div>
-                  <span className="font-bold text-[16px]">{item.label}</span>
+                  <div>
+                    <span className="font-semibold text-sm text-text-main block">{item.label}</span>
+                    <span className="text-xs text-text-secondary">{item.desc}</span>
+                  </div>
                 </div>
-                <ChevronRight size={20} className="text-text-secondary" />
+                <ChevronRight size={18} className="text-text-secondary/60" />
               </Link>
             ))}
           </div>
@@ -115,30 +118,38 @@ export default function MorePage() {
 
         {/* Data Portability */}
         <div className="space-y-2">
-          <h2 className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-2">Pengaturan & Data</h2>
-          <div className="bg-surface border-[3px] border-black rounded-2xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <h2 className="text-[12px] font-bold text-text-secondary uppercase tracking-wider ml-1">Penyimpanan & Pengaturan</h2>
+          <div className="bg-surface rounded-3xl border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] divide-y divide-border/50 overflow-hidden">
             <button 
               onClick={handleExport}
-              className="w-full flex items-center justify-between p-4 hover:bg-border-subtle/50 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200 border-b-[3px] border-black text-left"
+              className="w-full flex items-center justify-between p-4 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors text-left"
             >
-              <div className="flex items-center gap-4">
-                <div className="p-3 rounded-2xl bg-border-subtle/50 text-text-secondary">
-                  <Download size={22} strokeWidth={2} />
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-2xl bg-surface-muted text-text-secondary flex items-center justify-center">
+                  <Download size={18} strokeWidth={2.2} />
                 </div>
-                <span className="font-bold text-[16px]">Export Data (Backup)</span>
+                <div>
+                  <span className="font-semibold text-sm text-text-main block">Export Data (Backup)</span>
+                  <span className="text-xs text-text-secondary">Simpan file JSON cadangan lokal</span>
+                </div>
               </div>
+              <ChevronRight size={18} className="text-text-secondary/60" />
             </button>
             
             <button 
               onClick={handleImportClick}
-              className="w-full flex items-center justify-between p-4 hover:bg-border-subtle/50 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200 border-b-[3px] border-black text-left"
+              className="w-full flex items-center justify-between p-4 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors text-left"
             >
-              <div className="flex items-center gap-4">
-                <div className="p-3 rounded-2xl bg-border-subtle/50 text-text-secondary">
-                  <Upload size={22} strokeWidth={2} />
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-2xl bg-surface-muted text-text-secondary flex items-center justify-center">
+                  <Upload size={18} strokeWidth={2.2} />
                 </div>
-                <span className="font-bold text-[16px]">Import Data (Restore)</span>
+                <div>
+                  <span className="font-semibold text-sm text-text-main block">Import Data (Restore)</span>
+                  <span className="text-xs text-text-secondary">Pulihkan data dari cadangan</span>
+                </div>
               </div>
+              <ChevronRight size={18} className="text-text-secondary/60" />
               <input 
                 type="file" 
                 ref={fileInputRef} 
@@ -150,21 +161,24 @@ export default function MorePage() {
 
             <Link 
               href="/settings"
-              className="flex items-center justify-between p-4 hover:bg-border-subtle/50 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200"
+              className="flex items-center justify-between p-4 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
             >
-              <div className="flex items-center gap-4">
-                <div className="p-3 rounded-2xl bg-border-subtle/50 text-text-secondary">
-                  <Settings size={22} strokeWidth={2} />
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-2xl bg-surface-muted text-text-secondary flex items-center justify-center">
+                  <Settings size={18} strokeWidth={2.2} />
                 </div>
-                <span className="font-bold text-[16px]">Pengaturan Aplikasi</span>
+                <div>
+                  <span className="font-semibold text-sm text-text-main block">Pengaturan Aplikasi</span>
+                  <span className="text-xs text-text-secondary">Tema tampilan & reset sistem</span>
+                </div>
               </div>
-              <ChevronRight size={20} className="text-text-secondary" />
+              <ChevronRight size={18} className="text-text-secondary/60" />
             </Link>
           </div>
         </div>
 
-        <div className="text-center pt-8">
-          <p className="text-[12px] font-medium text-text-secondary">Pundi App v0.1.0 - MVP</p>
+        <div className="text-center pt-4">
+          <p className="text-[11px] text-text-secondary font-medium">Pundi Keuangan Pribadi • 100% Offline</p>
         </div>
       </div>
     </div>

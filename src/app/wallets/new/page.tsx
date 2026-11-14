@@ -17,8 +17,8 @@ const WALLET_TYPES = [
 ];
 
 const COLORS = [
-  "#3b82f6", "#ef4444", "#10b981", "#f59e0b", 
-  "#8b5cf6", "#ec4899", "#14b8a6", "#64748b"
+  "#083328", "#10b981", "#3b82f6", "#ef4444", 
+  "#f59e0b", "#8b5cf6", "#ec4899", "#64748b"
 ];
 
 export default function NewWalletPage() {
@@ -37,9 +37,9 @@ export default function NewWalletPage() {
         name,
         type,
         openingBalance: Number(balance.replace(/\D/g, "")) || 0,
-        icon: "wallet", // Default icon for now
+        icon: "wallet",
         color,
-        currency: "IDR", // Default from app settings in real app
+        currency: "IDR",
         isArchived: false,
         sortOrder: 0,
       });
@@ -61,18 +61,18 @@ export default function NewWalletPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-[80px]">
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28">
       <header className="sticky top-0 z-10 flex items-center p-4 bg-background/90 backdrop-blur-md">
-        <Link href="/wallets" className="p-2 -ml-2 text-text-secondary hover:bg-surface rounded-2xl transition-colors active:translate-y-1 active:translate-x-1 active:shadow-none">
-          <ArrowLeft size={24} />
+        <Link href="/wallets" className="w-10 h-10 rounded-full bg-surface border border-border/80 flex items-center justify-center text-text-secondary hover:text-text-main transition-colors active:scale-95">
+          <ArrowLeft size={20} />
         </Link>
-        <h1 className="text-[20px] font-bold ml-2">Dompet Baru</h1>
+        <h1 className="text-[20px] font-bold ml-3 tracking-tight">Dompet Baru</h1>
       </header>
 
       <div className="flex-1 p-5">
         <form id="wallet-form" onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <label className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-1">
+          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] space-y-2">
+            <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
               Nama Dompet
             </label>
             <input
@@ -80,13 +80,13 @@ export default function NewWalletPage() {
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Contoh: BCA Utama, Uang Makan"
-              className="w-full p-4 bg-surface border-[3px] border-black rounded-2xl focus:ring-1 focus:ring-primary outline-none text-[15px] font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+              placeholder="Contoh: BCA Utama, Cash Dompet"
+              className="w-full p-4 bg-surface-muted border border-border/80 rounded-2xl outline-none text-[15px] font-semibold text-text-main focus:ring-2 focus:ring-[#A3F03A]"
             />
           </div>
 
-          <div className="space-y-3">
-            <label className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-1">
+          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] space-y-3">
+            <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
               Tipe Dompet
             </label>
             <div className="grid grid-cols-3 gap-2">
@@ -95,10 +95,10 @@ export default function NewWalletPage() {
                   key={t.value}
                   type="button"
                   onClick={() => setType(t.value as any)}
-                  className={`p-3 text-[13px] font-bold rounded-[14px] text-center transition-all duration-200 ${
+                  className={`p-3 text-[13px] font-bold rounded-2xl text-center transition-all duration-200 ${
                     type === t.value
-                      ? "bg-primary-soft text-primary shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border border-primary/20"
-                      : "bg-surface border-[3px] border-black text-text-secondary hover:text-text-main"
+                      ? "bg-[#083328] text-white shadow-md"
+                      : "bg-surface-muted text-text-secondary hover:bg-black/5"
                   }`}
                 >
                   {t.label}
@@ -107,27 +107,27 @@ export default function NewWalletPage() {
             </div>
           </div>
 
-          <div className="space-y-3">
-            <label className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-1">
-              Warna
+          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] space-y-3">
+            <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
+              Warna Dompet
             </label>
-            <div className="flex gap-4 flex-wrap bg-surface p-4 border-[3px] border-black rounded-2xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] justify-center">
+            <div className="flex gap-3 flex-wrap justify-center pt-1">
               {COLORS.map((c) => (
                 <button
                   key={c}
                   type="button"
                   onClick={() => setColor(c)}
-                  className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-200 ${color === c ? 'scale-110 shadow-lg ring-2 ring-primary ring-offset-2 dark:ring-offset-background' : 'hover:scale-105 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'}`}
+                  className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all duration-200 ${color === c ? 'scale-110 shadow-md ring-2 ring-[#083328] dark:ring-[#A3F03A]' : 'hover:scale-105 opacity-80'}`}
                   style={{ backgroundColor: c }}
                 >
-                  {color === c && <Check size={22} className="text-white drop-shadow-md" strokeWidth={3} />}
+                  {color === c && <Check size={18} className="text-white drop-shadow-md" strokeWidth={3} />}
                 </button>
               ))}
             </div>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-[13px] font-bold text-text-secondary uppercase tracking-wider ml-1">
+          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] space-y-2">
+            <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
               Saldo Awal
             </label>
             <div className="relative">
@@ -140,7 +140,7 @@ export default function NewWalletPage() {
                 value={balance}
                 onChange={handleBalanceChange}
                 placeholder="0"
-                className="w-full p-5 pl-14 bg-surface border-[3px] border-black rounded-2xl focus:ring-1 focus:ring-primary outline-none transition-all duration-200 text-3xl font-bold text-text-main shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                className="w-full p-4 pl-12 bg-surface-muted border border-border/80 rounded-2xl outline-none text-2xl font-bold text-text-main focus:ring-2 focus:ring-[#A3F03A]"
               />
             </div>
           </div>
@@ -153,7 +153,7 @@ export default function NewWalletPage() {
             type="submit"
             form="wallet-form"
             disabled={!name}
-            className="w-full py-4 bg-primary text-white rounded-2xl font-bold text-[16px] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-[3px] border-black"
+            className="w-full py-3.5 bg-[#A3F03A] text-[#083328] rounded-full font-bold text-[15px] shadow-[0_4px_14px_rgba(163,240,58,0.4)] disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 transition-all"
           >
             Simpan Dompet
           </button>

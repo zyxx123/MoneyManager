@@ -50,7 +50,24 @@ export const budgetService = {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-    // Get all expenses in the current budget period
+    // Ambil semua dompet aktif
+    const allActiveWallets = await db.wallets.filter(w => !w.isArchived).toArray();
+    
+    // Tentukan dompet yang dipilih
+    let targetWallets = allActiveWallets;
+    if (budget.walletIds && budget.walletIds.length > 0) {
+      targetWallets = allActiveWallets.filter(w => budget.walletIds!.includes(w.id));
+    } else if (budget.walletId) {
+      targetWallets = allActiveWallets.filter(w => w.id === budget.walletId);
+    } else {
+      // Semua dompet (tidak termasuk tabungan khusus)
+      targetWallets = allActiveWallets.filter(w => w.type !== 'savings');
+    }
+
+    const targetWalletIds = targetWallets.map(w => w.id);
+    const currentWalletBalance = targetWallets.reduce((sum, w) => sum + w.cachedBalance, 0);
+
+    // Ambil seluruh pengeluaran dalam rentang periode budget untuk dompet yang dipilih
     let expensesQuery = db.transactions
       .where('date')
       .between(budget.periodStart, budget.periodEnd, true, true)
@@ -60,6 +77,8 @@ export const budgetService = {
       expensesQuery = expensesQuery.filter(t => t.type === 'expense' && budget.walletIds!.includes(t.walletId));
     } else if (budget.walletId) {
       expensesQuery = expensesQuery.filter(t => t.type === 'expense' && t.walletId === budget.walletId);
+    } else {
+      expensesQuery = expensesQuery.filter(t => t.type === 'expense' && targetWalletIds.includes(t.walletId));
     }
 
     const expenses = await expensesQuery.toArray();
@@ -72,14 +91,19 @@ export const budgetService = {
       .filter(t => isSameDay(t.date, now))
       .reduce((sum, t) => sum + t.amount, 0);
 
-    // Expenses made before today in this period
-    const pastExpenses = totalExpenses - todayExpenses;
+    // Saldo real-time dompet adalah sisa budget saat ini
+    const remainingBudget = currentWalletBalance;
 
-    const remainingBudgetBeforeToday = budget.amount - pastExpenses;
-    
+    // Dana yang tersedia sebelum pengeluaran hari ini dilakukan
+    // (karena pengeluaran hari ini sudah memotong cachedBalance dompet secara realtime)
+    const remainingBudgetBeforeToday = Math.max(0, currentWalletBalance + todayExpenses);
+
+    // Total alokasi budget untuk periode ini (sisa saldo dompet + total pengeluaran periode ini)
+    const budgetAmount = Math.max(0, currentWalletBalance + totalExpenses);
+
     // Jika budget belum mulai, hitung hari dari periodStart, bukan dari hari ini
     const effectiveStart = today < startOfDay(budget.periodStart) ? startOfDay(budget.periodStart) : today;
-    const daysRemaining = differenceInDays(budget.periodEnd, effectiveStart) + 1; // including today/start day
+    const daysRemaining = Math.max(1, differenceInDays(budget.periodEnd, effectiveStart) + 1); // including today/start day
 
     const dailyLimit = remainingBudgetBeforeToday > 0 && daysRemaining > 0
       ? remainingBudgetBeforeToday / daysRemaining
@@ -91,7 +115,7 @@ export const budgetService = {
     
     if (today < startOfDay(budget.periodStart)) {
       status = 'upcoming';
-    } else if (percentageUsed >= 100) {
+    } else if (percentageUsed >= 100 || (remainingBudget <= 0 && todayExpenses > 0)) {
       status = 'danger';
     } else if (percentageUsed >= 70) {
       status = 'warning';
@@ -99,14 +123,15 @@ export const budgetService = {
 
     return {
       id: budget.id,
-      budgetAmount: budget.amount,
+      budgetAmount,
       walletIds: budget.walletIds || (budget.walletId ? [budget.walletId] : []),
       periodStart: budget.periodStart,
       periodEnd: budget.periodEnd,
       totalExpenses,
       todayExpenses,
       dailyLimit,
-      remainingBudget: budget.amount - totalExpenses,
+      remainingBudget,
+      currentWalletBalance,
       percentageUsed,
       status
     };
