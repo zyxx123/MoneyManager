@@ -4,6 +4,8 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { walletService } from "@/lib/services/walletService";
 import { transactionService } from "@/lib/services/transactionService";
 import { budgetService } from "@/lib/services/budgetService";
+import { currencyService, SUPPORTED_CURRENCIES } from "@/lib/services/currencyService";
+import CashflowChart from "@/components/CashflowChart";
 import { db } from "@/lib/db";
 import { format, startOfMonth, endOfMonth } from "date-fns";
 import { id as localeID } from "date-fns/locale";
@@ -16,7 +18,6 @@ import {
   Sun, 
   ArrowDownLeft, 
   ArrowUpRight, 
-  MoreVertical,
   Wallet,
   CreditCard,
   PieChart,
@@ -36,12 +37,27 @@ export default function Home() {
   const [showBalance, setShowBalance] = useState(true);
   const [activeSlide, setActiveSlide] = useState(0);
 
+  // Currency Selection & Realtime Rates
+  const [selectedCurrency, setSelectedCurrency] = useState("IDR");
+  const [showCurrencyModal, setShowCurrencyModal] = useState(false);
+  const [exchangeRates, setExchangeRates] = useState<Record<string, number>>({});
+
   useEffect(() => {
     setMounted(true);
-    const saved = localStorage.getItem("showBalance");
-    if (saved !== null) {
-      setShowBalance(saved === "true");
+    const savedBalance = localStorage.getItem("showBalance");
+    if (savedBalance !== null) {
+      setShowBalance(savedBalance === "true");
     }
+
+    const savedCurrency = localStorage.getItem("preferredCurrency");
+    if (savedCurrency && SUPPORTED_CURRENCIES[savedCurrency]) {
+      setSelectedCurrency(savedCurrency);
+    }
+
+    // Fetch exchange rates from API / cache
+    currencyService.getRates().then((rates) => {
+      setExchangeRates(rates);
+    });
   }, []);
 
   const wallets = useLiveQuery(() => walletService.getAllActive());
@@ -70,12 +86,8 @@ export default function Home() {
     ?.filter(t => t.type === 'expense')
     .reduce((sum, t) => sum + t.amount, 0) ?? 0;
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(amount);
+  const formatCurrency = (amountInIDR: number, prefix: string = '') => {
+    return currencyService.format(amountInIDR, selectedCurrency, exchangeRates, prefix);
   };
 
   const toggleShowBalance = () => {
@@ -85,8 +97,9 @@ export default function Home() {
   };
 
   const displayAmount = (amount: number, prefix: string = '') => {
-    if (!showBalance) return `${prefix}Rp •••••••`;
-    return `${prefix}${formatCurrency(amount)}`;
+    const curr = SUPPORTED_CURRENCIES[selectedCurrency] || SUPPORTED_CURRENCIES.IDR;
+    if (!showBalance) return `${prefix}${curr.symbol} •••••••`;
+    return formatCurrency(amount, prefix);
   };
 
   const getGreeting = () => {
@@ -148,51 +161,50 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Total Balance Card */}
+        {/* Total Balance Card with Interactive Currency Selector */}
         <div className="relative z-10 mb-6 animate-fade-in-up">
           <div className="flex justify-between items-center mb-1.5">
             <p className="text-white/70 text-xs font-medium tracking-wide">Total Balance</p>
-            <div className="bg-white/10 border border-white/10 px-2.5 py-0.5 rounded-full text-[11px] text-white/90 flex items-center gap-1 font-medium transition-spring hover:scale-105 active:scale-95 backdrop-blur-sm cursor-default select-none">
-              <span>IDR</span>
+            
+            {/* Currency Selector Pill */}
+            <button
+              onClick={() => setShowCurrencyModal(true)}
+              aria-label="Pilih Kurs Mata Uang"
+              className="bg-white/12 hover:bg-white/22 border border-white/15 px-3 py-1 rounded-full text-[11px] text-white flex items-center gap-1.5 font-bold transition-spring hover:scale-105 active:scale-95 backdrop-blur-md cursor-pointer shadow-sm select-none"
+            >
+              <span className="text-xs">{SUPPORTED_CURRENCIES[selectedCurrency]?.flag || "🇮🇩"}</span>
+              <span>{selectedCurrency}</span>
               <span className="text-[9px] opacity-70">▾</span>
-            </div>
+            </button>
           </div>
           <div className="text-[34px] font-extrabold text-white tracking-tight leading-none py-1 transition-smooth">
             {wallets === undefined ? "Menghitung..." : displayAmount(totalBalance)}
           </div>
         </div>
 
-        {/* Action Buttons (Request, Transfer, More) */}
-        <div className="flex items-center gap-2.5 relative z-10 animate-fade-in-up">
+        {/* Action Buttons: Pemasukan & Pengeluaran (Equal Width) */}
+        <div className="flex items-center gap-3 relative z-10 animate-fade-in-up">
           <Link
             href="/transactions/new?type=income"
-            className="flex-1 py-3 px-4 rounded-full bg-white/10 hover:bg-white/18 border border-white/15 text-white font-semibold text-sm flex items-center justify-center gap-2 press-spring tap-pill backdrop-blur-md shadow-sm"
+            className="flex-1 py-3.5 px-4 rounded-full bg-white/10 hover:bg-white/18 border border-white/15 text-white font-bold text-sm flex items-center justify-center gap-2 press-spring tap-pill backdrop-blur-md shadow-sm"
           >
-            <ArrowDownLeft size={16} strokeWidth={2.5} className="text-[#A3F03A]" />
-            <span>Request</span>
+            <ArrowDownLeft size={18} strokeWidth={2.6} className="text-[#A3F03A]" />
+            <span>Pemasukan</span>
           </Link>
 
           <Link
             href="/transactions/new?type=expense"
-            className="flex-1 py-3 px-4 rounded-full bg-gradient-to-r from-[#A3F03A] to-[#B6FF4D] text-[#083328] font-bold text-sm flex items-center justify-center gap-2 shadow-lime-glow hover:shadow-lime-glow-lg press-spring tap-pill"
+            className="flex-1 py-3.5 px-4 rounded-full bg-gradient-to-r from-[#A3F03A] to-[#B6FF4D] text-[#083328] font-extrabold text-sm flex items-center justify-center gap-2 shadow-lime-glow hover:shadow-lime-glow-lg press-spring tap-pill"
           >
-            <ArrowUpRight size={16} strokeWidth={2.5} />
-            <span>Transfer</span>
-          </Link>
-
-          <Link
-            href="/transactions/new?type=transfer"
-            aria-label="Transfer Antar Dompet"
-            className="w-11 h-11 rounded-full bg-white/10 hover:bg-white/18 border border-white/15 text-white flex items-center justify-center press-spring tap-pill backdrop-blur-md"
-          >
-            <MoreVertical size={18} />
+            <ArrowUpRight size={18} strokeWidth={2.6} />
+            <span>Pengeluaran</span>
           </Link>
         </div>
       </div>
 
-      {/* Main Curved White Sheet with Smooth Transition */}
+      {/* Main Curved Sheet with Content */}
       <div className="rounded-t-[40px] bg-background pt-7 px-4 pb-14 -mt-6 shadow-2xl relative z-10 space-y-6">
-        {/* Categories Card (4x2 Grid with Staggered Cascading Animation) */}
+        {/* Categories Card (4x2 Grid) */}
         <div className="bg-surface rounded-[28px] p-5 border border-border/70 shadow-fintech transition-smooth hover:shadow-fintech-lg">
           <h2 className="text-text-main font-bold text-base mb-4 tracking-tight px-1">Categories</h2>
           <div className="grid grid-cols-4 gap-y-4 gap-x-2 text-center">
@@ -256,11 +268,11 @@ export default function Home() {
               />
             </div>
 
-            {/* Card Footer with Interactive Carousel Indicator Dots */}
+            {/* Card Footer with Carousel Indicator Dots */}
             <div className="flex justify-between items-center pt-2.5 border-t border-border/40 text-xs text-text-secondary">
               <span className="flex items-center gap-1.5 font-medium">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                Sisa: <strong className="text-text-main font-bold">{formatCurrency(budgetStatus.remainingBudget)}</strong>
+                Sisa Dompet: <strong className="text-text-main font-bold">{formatCurrency(budgetStatus.remainingBudget)}</strong>
               </span>
               <div className="flex items-center gap-1.5 cursor-pointer">
                 {[0, 1, 2].map((i) => (
@@ -296,6 +308,9 @@ export default function Home() {
             </div>
           </div>
         )}
+
+        {/* 7-Day Spending Trend Chart (Grafik Keuangan) */}
+        <CashflowChart formatValue={formatCurrency} />
 
         {/* Cashflow Summary (Pemasukan & Pengeluaran) */}
         <div className="grid grid-cols-2 gap-3 animate-fade-in-up">
@@ -362,7 +377,7 @@ export default function Home() {
                       ) : t.type === 'expense' ? (
                         <ArrowUpRight size={18} strokeWidth={2.5} />
                       ) : (
-                        <MoreVertical size={18} />
+                        <ArrowUpRight size={18} strokeWidth={2.5} />
                       )}
                     </div>
                     <div>
@@ -386,6 +401,83 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* Currency Selection Dialog Modal */}
+      {showCurrencyModal && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+          onClick={() => setShowCurrencyModal(false)}
+        >
+          <div 
+            className="bg-surface border border-border/80 rounded-[32px] shadow-2xl p-5 w-full max-w-sm flex flex-col max-h-[85vh] animate-scale-up"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-10 h-1 bg-border/80 rounded-full mx-auto mb-3"></div>
+            <div className="flex justify-between items-center mb-1">
+              <h3 className="text-base font-bold text-text-main">Pilih Mata Uang</h3>
+              <span className="text-[11px] text-emerald-600 dark:text-[#A3F03A] font-semibold bg-[#EBF7F2] dark:bg-[#14382E] px-2.5 py-0.5 rounded-full">
+                Realtime Kurs
+              </span>
+            </div>
+            <p className="text-xs text-text-secondary mb-4">
+              Nilai saldo akan dikonversikan otomatis secara realtime sesuai kurs yang dipilih.
+            </p>
+
+            <div className="overflow-y-auto space-y-1.5 pr-0.5 divide-y divide-border/40">
+              {Object.entries(SUPPORTED_CURRENCIES).map(([code, info]) => {
+                const isSelected = selectedCurrency === code;
+                const currentRate = exchangeRates[code] || info.defaultRate;
+                return (
+                  <button
+                    key={code}
+                    type="button"
+                    onClick={() => {
+                      setSelectedCurrency(code);
+                      localStorage.setItem("preferredCurrency", code);
+                      setShowCurrencyModal(false);
+                    }}
+                    className={`w-full flex items-center justify-between p-3 rounded-2xl transition-spring press-spring tap-pill text-left ${
+                      isSelected 
+                        ? "bg-[#083328] text-white shadow-md font-bold" 
+                        : "hover:bg-surface-muted text-text-main"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl">{info.flag}</span>
+                      <div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-extrabold text-sm">{code}</span>
+                          <span className={`text-xs ${isSelected ? "text-white/80" : "text-text-secondary"}`}>({info.symbol})</span>
+                        </div>
+                        <span className={`text-[11px] block ${isSelected ? "text-white/70" : "text-text-secondary"}`}>{info.name}</span>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      {code === "IDR" ? (
+                        <span className={`text-[11px] font-semibold ${isSelected ? "text-[#A3F03A]" : "text-text-secondary"}`}>Mata Uang Utama</span>
+                      ) : (
+                        <span className={`text-[11px] font-mono font-medium ${isSelected ? "text-[#A3F03A]" : "text-text-secondary"}`}>
+                          1 {code} ≈ Rp {new Intl.NumberFormat("id-ID").format(Math.round(1 / currentRate))}
+                        </span>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="mt-4 pt-3 border-t border-border/60 flex justify-end">
+              <button
+                type="button"
+                onClick={() => setShowCurrencyModal(false)}
+                className="bg-surface-muted hover:bg-black/5 dark:hover:bg-white/5 text-text-main px-5 py-2 rounded-full font-bold text-xs press-spring tap-pill"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
