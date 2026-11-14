@@ -296,7 +296,8 @@ export default function BudgetPage() {
     walletIds, 
     periodStart, 
     periodEnd,
-    remainingBudget
+    remainingBudget,
+    remainingDailyBudget = Math.max(0, dailyLimit - todayExpenses)
   } = budgetStatus;
   
   const linkedWalletName = walletIds && walletIds.length > 0
@@ -353,21 +354,36 @@ export default function BudgetPage() {
           </div>
         </div>
         
-        <div className="bg-white/10 rounded-2xl p-4 backdrop-blur-md relative z-10 border border-white/10">
-          <div className="flex justify-between text-[13px] mb-2.5">
-            <span className="text-white/80">Terpakai Hari Ini</span>
-            <span className="font-bold tracking-wide text-white">{formatter.format(todayExpenses)}</span>
+        <div className="bg-white/10 rounded-2xl p-4 backdrop-blur-md relative z-10 border border-white/10 space-y-3">
+          <div className="grid grid-cols-2 gap-3 pb-2.5 border-b border-white/10">
+            <div>
+              <span className="text-white/70 text-[11px] block">Terpakai Hari Ini</span>
+              <span className="font-bold text-sm tracking-wide text-white">{formatter.format(todayExpenses)}</span>
+            </div>
+            <div className="text-right">
+              <span className="text-white/70 text-[11px] block">Sisa Budget Hari Ini</span>
+              <span className={`font-extrabold text-sm tracking-wide ${remainingDailyBudget > 0 ? 'text-[#A3F03A]' : 'text-red-300'}`}>
+                {formatter.format(remainingDailyBudget)}
+              </span>
+            </div>
           </div>
           
-          {/* Dual-Tone Lime Progress Bar */}
-          <div className="h-2.5 w-full bg-black/20 rounded-full overflow-hidden p-0.5">
-            <div 
-              className="h-full bg-gradient-to-r from-[#A3F03A] to-[#B6FF4D] rounded-full shadow-[0_0_10px_rgba(163,240,58,0.5)] transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1)"
-              style={{ width: `${Math.min(percentageUsed, 100)}%` }}
-            />
-          </div>
-          <div className="text-[11px] font-medium text-white/70 mt-2 text-right">
-            {percentageUsed.toFixed(0)}% dari limit harian
+          <div>
+            {/* Dual-Tone Lime Progress Bar */}
+            <div className="h-2.5 w-full bg-black/20 rounded-full overflow-hidden p-0.5">
+              <div 
+                className="h-full bg-gradient-to-r from-[#A3F03A] to-[#B6FF4D] rounded-full shadow-[0_0_10px_rgba(163,240,58,0.5)] transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1)"
+                style={{ width: `${Math.min(percentageUsed, 100)}%` }}
+              />
+            </div>
+            <div className="flex justify-between items-center text-[11px] font-medium text-white/70 mt-2">
+              <span>{percentageUsed.toFixed(0)}% terpakai</span>
+              <span>
+                {remainingDailyBudget <= 0 && todayExpenses > dailyLimit 
+                  ? `Over ${formatter.format(todayExpenses - dailyLimit)}` 
+                  : `${formatter.format(remainingDailyBudget)} tersisa`}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -398,8 +414,14 @@ export default function BudgetPage() {
             <span className="font-semibold text-text-main">{formatter.format(budgetAmount)}</span>
           </div>
           <div className="flex justify-between text-[13px] text-text-secondary">
-            <span>Total Terpakai</span>
+            <span>Total Terpakai (Periode)</span>
             <span className="font-semibold text-expense">-{formatter.format(totalExpenses)}</span>
+          </div>
+          <div className="flex justify-between text-[13px] text-text-secondary items-center">
+            <span>Sisa Budget Hari Ini</span>
+            <span className={`font-bold text-[13px] ${remainingDailyBudget > 0 ? 'text-[#083328] dark:text-[#A3F03A]' : 'text-expense'}`}>
+              {formatter.format(remainingDailyBudget)}
+            </span>
           </div>
         </div>
         

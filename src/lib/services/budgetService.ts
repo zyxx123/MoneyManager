@@ -121,6 +121,8 @@ export const budgetService = {
       status = 'warning';
     }
 
+    const remainingDailyBudget = Math.max(0, dailyLimit - todayExpenses);
+
     return {
       id: budget.id,
       budgetAmount,
@@ -130,6 +132,7 @@ export const budgetService = {
       totalExpenses,
       todayExpenses,
       dailyLimit,
+      remainingDailyBudget,
       remainingBudget,
       currentWalletBalance,
       percentageUsed,

@@ -239,9 +239,14 @@ export default function Home() {
               </span>
             </div>
 
-            <p className="text-[13px] text-text-secondary mb-3.5">
-              Terpakai hari ini: <span className="font-semibold text-text-main">{formatCurrency(budgetStatus.todayExpenses)}</span>
-            </p>
+            <div className="flex justify-between items-center text-[13px] mb-3.5">
+              <span className="text-text-secondary">
+                Terpakai: <span className="font-semibold text-text-main">{formatCurrency(budgetStatus.todayExpenses)}</span>
+              </span>
+              <span className="text-text-secondary">
+                Sisa hari ini: <span className={`font-bold ${budgetStatus.remainingDailyBudget > 0 ? 'text-[#083328] dark:text-[#A3F03A]' : 'text-red-500'}`}>{formatCurrency(budgetStatus.remainingDailyBudget)}</span>
+              </span>
+            </div>
 
             {/* Glowing Lime Progress Bar */}
             <div className="h-2.5 w-full bg-surface-muted rounded-full overflow-hidden mb-4 p-0.5">
