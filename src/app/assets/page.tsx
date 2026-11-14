@@ -50,16 +50,16 @@ export default function AssetsPage() {
   if (isCreating) {
     return (
       <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28 animate-fade-in-up">
-        <header className="sticky top-0 z-10 flex items-center p-4 bg-background/90 backdrop-blur-md">
-          <button onClick={() => setIsCreating(false)} className="w-10 h-10 rounded-full bg-surface border border-border/80 flex items-center justify-center text-text-secondary hover:text-text-main press-spring tap-pill">
-            <ArrowLeft size={20} />
+        <header className="sticky top-0 z-10 flex items-center p-4 bg-background/80 backdrop-blur-xl">
+          <button onClick={() => setIsCreating(false)} className="w-10 h-10 rounded-full liquid-glass-pill flex items-center justify-center text-text-secondary hover:text-text-main press-spring">
+            <ArrowLeft size={18} />
           </button>
           <h1 className="text-[20px] font-bold ml-3 tracking-tight">Tambah Aset Baru</h1>
         </header>
 
         <div className="flex-1 p-5">
-          <form onSubmit={handleCreate} className="space-y-5">
-            <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-2 card-smooth">
+          <form onSubmit={handleCreate} className="space-y-4">
+            <div className="bubble-card p-6 space-y-2 card-smooth">
               <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
                 Nama Aset
               </label>
@@ -73,7 +73,7 @@ export default function AssetsPage() {
               />
             </div>
             
-            <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-2 card-smooth">
+            <div className="bubble-card p-6 space-y-2 card-smooth">
               <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
                 Jenis Aset
               </label>
@@ -89,7 +89,7 @@ export default function AssetsPage() {
               </select>
             </div>
             
-            <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-2 card-smooth">
+            <div className="bubble-card p-6 space-y-2 card-smooth">
               <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">Nilai Saat Ini</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary font-medium text-lg">Rp</span>
@@ -120,10 +120,10 @@ export default function AssetsPage() {
 
   return (
     <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28 animate-fade-in-up">
-      <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/90 backdrop-blur-md">
+      <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/80 backdrop-blur-xl">
         <div className="flex items-center">
-          <Link href="/more" className="w-10 h-10 rounded-full bg-surface border border-border/80 flex items-center justify-center text-text-secondary hover:text-text-main press-spring tap-pill">
-            <ArrowLeft size={20} />
+          <Link href="/more" className="w-10 h-10 rounded-full liquid-glass-pill flex items-center justify-center text-text-secondary hover:text-text-main press-spring">
+            <ArrowLeft size={18} />
           </Link>
           <h1 className="text-[20px] font-bold ml-3 tracking-tight">Aset & Investasi</h1>
         </div>
@@ -139,23 +139,23 @@ export default function AssetsPage() {
       <div className="flex-1 p-4 space-y-4">
         {assets === undefined ? (
           <div className="animate-pulse space-y-4">
-            {[1, 2].map(i => <div key={i} className="h-24 bg-surface rounded-3xl border border-border/80" />)}
+            {[1, 2].map(i => <div key={i} className="h-24 bubble-card" />)}
           </div>
         ) : assets.length === 0 ? (
-          <div className="flex flex-col items-center justify-center mt-16 text-text-secondary animate-fade-in">
-            <div className="w-16 h-16 bg-[#EBF7F2] dark:bg-[#14382E] text-[#083328] dark:text-[#A3F03A] rounded-3xl flex items-center justify-center mb-3 animate-bounce-subtle">
+          <div className="flex flex-col items-center justify-center mt-16 text-text-secondary animate-fade-in bubble-card p-8 text-center">
+            <div className="w-16 h-16 bg-[#083328]/10 dark:bg-white/10 text-[#083328] dark:text-[#A3F03A] rounded-full flex items-center justify-center mb-3 animate-bounce-subtle">
               <Landmark size={28} />
             </div>
-            <p className="font-bold text-[15px] text-text-main">Belum Ada Aset</p>
-            <p className="text-[13px] mt-0.5">Mulai catat aset dan investasi kekayaan Anda.</p>
+            <p className="font-bold text-[16px] text-text-main">Belum Ada Aset</p>
+            <p className="text-[13px] mt-1 text-text-secondary">Mulai catat aset dan investasi kekayaan Anda.</p>
           </div>
         ) : (
           assets.map((asset, idx) => {
             return (
-              <div key={asset.id} className={`bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech flex items-center justify-between card-smooth stagger-${Math.min(idx + 1, 8)}`}>
+              <div key={asset.id} className={`bubble-card p-5 flex items-center justify-between card-smooth stagger-${Math.min(idx + 1, 8)}`}>
                 <div>
                   <h3 className="font-bold text-[16px] text-text-main tracking-tight">{asset.name}</h3>
-                  <span className="text-[11px] font-semibold text-text-secondary bg-surface-muted px-2.5 py-0.5 rounded-full inline-block mt-1">
+                  <span className="text-[11px] font-semibold text-text-secondary bg-[#083328]/5 dark:bg-white/5 px-2.5 py-0.5 rounded-full inline-block mt-1">
                     {asset.type}
                   </span>
                 </div>
@@ -166,7 +166,7 @@ export default function AssetsPage() {
                   </p>
                   <button 
                     onClick={() => handleUpdateValue(asset.id, asset.currentValue)}
-                    className="text-xs flex items-center gap-1 ml-auto text-[#083328] dark:text-[#A3F03A] font-bold hover:opacity-80 transition-opacity press-spring tap-pill"
+                    className="text-xs flex items-center gap-1 ml-auto text-[#083328] dark:text-[#A3F03A] font-bold liquid-glass-pill px-3 py-1.5 press-spring"
                   >
                     <TrendingUp size={14} /> 
                     <span>Update Nilai</span>

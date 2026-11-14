@@ -45,16 +45,16 @@ export default function SavingsPage() {
   if (isCreating) {
     return (
       <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28 animate-fade-in-up">
-        <header className="sticky top-0 z-10 flex items-center p-4 bg-background/90 backdrop-blur-md">
-          <button onClick={() => setIsCreating(false)} className="w-10 h-10 rounded-full bg-surface border border-border/80 flex items-center justify-center text-text-secondary hover:text-text-main press-spring tap-pill">
-            <ArrowLeft size={20} />
+        <header className="sticky top-0 z-10 flex items-center p-4 bg-background/80 backdrop-blur-xl">
+          <button onClick={() => setIsCreating(false)} className="w-10 h-10 rounded-full liquid-glass-pill flex items-center justify-center text-text-secondary hover:text-text-main press-spring">
+            <ArrowLeft size={18} />
           </button>
           <h1 className="text-[20px] font-bold ml-3 tracking-tight">Target Tabungan Baru</h1>
         </header>
 
         <div className="flex-1 p-5">
-          <form onSubmit={handleCreate} className="space-y-5">
-            <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-2 card-smooth">
+          <form onSubmit={handleCreate} className="space-y-4">
+            <div className="bubble-card p-6 space-y-2 card-smooth">
               <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">Nama Tabungan</label>
               <input
                 type="text"
@@ -66,7 +66,7 @@ export default function SavingsPage() {
               />
             </div>
             
-            <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-2 card-smooth">
+            <div className="bubble-card p-6 space-y-2 card-smooth">
               <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">Target Terkumpul</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary font-medium text-lg">Rp</span>
@@ -97,10 +97,10 @@ export default function SavingsPage() {
 
   return (
     <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28 animate-fade-in-up">
-      <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/90 backdrop-blur-md">
+      <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/80 backdrop-blur-xl">
         <div className="flex items-center">
-          <Link href="/more" className="w-10 h-10 rounded-full bg-surface border border-border/80 flex items-center justify-center text-text-secondary hover:text-text-main press-spring tap-pill">
-            <ArrowLeft size={20} />
+          <Link href="/more" className="w-10 h-10 rounded-full liquid-glass-pill flex items-center justify-center text-text-secondary hover:text-text-main press-spring">
+            <ArrowLeft size={18} />
           </Link>
           <h1 className="text-[20px] font-bold ml-3 tracking-tight">Tabungan & Goals</h1>
         </div>
@@ -116,21 +116,21 @@ export default function SavingsPage() {
       <div className="flex-1 p-4 space-y-4">
         {savings === undefined ? (
           <div className="animate-pulse space-y-4">
-            {[1, 2].map(i => <div key={i} className="h-32 bg-surface rounded-3xl border border-border/80" />)}
+            {[1, 2].map(i => <div key={i} className="h-32 bubble-card" />)}
           </div>
         ) : savings.length === 0 ? (
-          <div className="flex flex-col items-center justify-center mt-16 text-text-secondary animate-fade-in">
-            <div className="w-16 h-16 bg-[#EBF7F2] dark:bg-[#14382E] text-[#083328] dark:text-[#A3F03A] rounded-3xl flex items-center justify-center mb-3 animate-bounce-subtle">
+          <div className="flex flex-col items-center justify-center mt-16 text-text-secondary animate-fade-in bubble-card p-8 text-center">
+            <div className="w-16 h-16 bg-[#083328]/10 dark:bg-white/10 text-[#083328] dark:text-[#A3F03A] rounded-full flex items-center justify-center mb-3 animate-bounce-subtle">
               <PiggyBank size={28} />
             </div>
-            <p className="font-bold text-[15px] text-text-main">Belum Ada Target</p>
-            <p className="text-[13px] mt-0.5">Buat target tabungan pertamamu!</p>
+            <p className="font-bold text-[16px] text-text-main">Belum Ada Target</p>
+            <p className="text-[13px] mt-1 text-text-secondary">Buat target tabungan pertamamu!</p>
           </div>
         ) : (
           savings.map((goal, idx) => {
             const percentage = Math.min((goal.currentAmount / goal.targetAmount) * 100, 100);
             return (
-              <div key={goal.id} className={`bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-3 card-smooth stagger-${Math.min(idx + 1, 8)}`}>
+              <div key={goal.id} className={`bubble-card p-6 space-y-3.5 card-smooth stagger-${Math.min(idx + 1, 8)}`}>
                 <div className="flex justify-between items-start">
                   <div>
                     <h3 className="font-bold text-[16px] text-text-main tracking-tight">{goal.name}</h3>
@@ -138,7 +138,7 @@ export default function SavingsPage() {
                   </div>
                   <button 
                     onClick={() => handleAddFunds(goal.id)}
-                    className="text-xs bg-[#EBF7F2] dark:bg-[#14382E] text-[#083328] dark:text-[#A3F03A] hover:bg-[#A3F03A] hover:text-[#083328] px-3.5 py-1.5 rounded-full font-bold press-spring tap-pill"
+                    className="text-xs liquid-glass-pill text-[#083328] dark:text-[#A3F03A] px-3.5 py-1.5 rounded-full font-bold press-spring"
                   >
                     + Nabung
                   </button>
@@ -151,7 +151,7 @@ export default function SavingsPage() {
                   </div>
                   
                   {/* Lime Progress Bar */}
-                  <div className="h-2 w-full bg-surface-muted rounded-full overflow-hidden p-0.5">
+                  <div className="h-2.5 w-full bg-surface-muted rounded-full overflow-hidden p-0.5">
                     <div 
                       className="h-full bg-gradient-to-r from-[#A3F03A] to-[#B6FF4D] rounded-full shadow-[0_0_8px_rgba(163,240,58,0.4)] transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1)"
                       style={{ width: `${percentage}%` }}

@@ -64,42 +64,40 @@ export default function MorePage() {
 
   return (
     <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28 animate-fade-in-up">
-      <header className="sticky top-0 z-10 flex items-center p-4 bg-background/90 backdrop-blur-md">
+      <header className="sticky top-0 z-10 flex items-center p-4 bg-background/80 backdrop-blur-xl">
         <h1 className="text-[22px] font-bold ml-1 tracking-tight">Menu Lainnya</h1>
       </header>
 
       <div className="flex-1 p-4 space-y-6">
         {/* Analytics */}
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           <h2 className="text-[12px] font-bold text-text-secondary uppercase tracking-wider ml-1">Analisis & Laporan</h2>
-          <div className="bg-surface rounded-3xl border border-border/80 shadow-fintech overflow-hidden card-smooth">
-            <Link 
-              href="/reports"
-              className="flex items-center justify-between p-4 hover:bg-[#EBF7F2]/40 dark:hover:bg-white/[0.03] transition-colors group"
-            >
-              <div className="flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-2xl bg-[#EBF7F2] dark:bg-[#14382E] text-[#083328] dark:text-[#A3F03A] flex items-center justify-center transition-transform duration-300 group-hover:scale-108">
-                  <PieChart size={20} strokeWidth={2.2} />
-                </div>
-                <div>
-                  <span className="font-semibold text-sm text-text-main block group-hover:text-[#083328] dark:group-hover:text-[#A3F03A] transition-colors">Laporan Bulanan</span>
-                  <span className="text-xs text-text-secondary">Statistik arus kas & grafik kategori</span>
-                </div>
+          <Link 
+            href="/reports"
+            className="bubble-item rounded-[24px] p-4 flex items-center justify-between card-smooth press-spring block group"
+          >
+            <div className="flex items-center gap-3.5">
+              <div className="w-10 h-10 rounded-2xl bg-[#083328]/10 dark:bg-white/10 text-[#083328] dark:text-[#A3F03A] flex items-center justify-center transition-transform duration-300 group-hover:scale-108">
+                <PieChart size={20} strokeWidth={2.2} />
               </div>
-              <ChevronRight size={18} className="text-text-secondary/60 group-hover:translate-x-0.5 group-hover:text-text-main transition-transform" />
-            </Link>
-          </div>
+              <div>
+                <span className="font-semibold text-sm text-text-main block group-hover:text-[#083328] dark:group-hover:text-[#A3F03A] transition-colors">Laporan Bulanan</span>
+                <span className="text-xs text-text-secondary">Statistik arus kas & grafik kategori</span>
+              </div>
+            </div>
+            <ChevronRight size={18} className="text-text-secondary/60 group-hover:translate-x-0.5 group-hover:text-text-main transition-transform" />
+          </Link>
         </div>
 
         {/* Advanced Features */}
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           <h2 className="text-[12px] font-bold text-text-secondary uppercase tracking-wider ml-1">Fitur Keuangan</h2>
-          <div className="bg-surface rounded-3xl border border-border/80 shadow-fintech divide-y divide-border/50 overflow-hidden card-smooth">
+          <div className="space-y-2.5">
             {advancedFeatures.map((item, i) => (
               <Link 
                 key={i} 
                 href={item.href}
-                className="flex items-center justify-between p-4 hover:bg-[#EBF7F2]/40 dark:hover:bg-white/[0.03] transition-colors group"
+                className="bubble-item rounded-[24px] p-4 flex items-center justify-between card-smooth press-spring block group"
               >
                 <div className="flex items-center gap-3.5">
                   <div className={`w-10 h-10 rounded-2xl flex items-center justify-center ${item.bg} ${item.color} transition-transform duration-300 group-hover:scale-108`}>
@@ -117,12 +115,12 @@ export default function MorePage() {
         </div>
 
         {/* Data Portability */}
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           <h2 className="text-[12px] font-bold text-text-secondary uppercase tracking-wider ml-1">Penyimpanan & Pengaturan</h2>
-          <div className="bg-surface rounded-3xl border border-border/80 shadow-fintech divide-y divide-border/50 overflow-hidden card-smooth">
+          <div className="space-y-2.5">
             <button 
               onClick={handleExport}
-              className="w-full flex items-center justify-between p-4 hover:bg-[#EBF7F2]/40 dark:hover:bg-white/[0.03] transition-colors text-left group press-spring"
+              className="w-full bubble-item rounded-[24px] p-4 flex items-center justify-between card-smooth press-spring text-left group"
             >
               <div className="flex items-center gap-3.5">
                 <div className="w-10 h-10 rounded-2xl bg-surface-muted text-text-secondary flex items-center justify-center transition-transform duration-300 group-hover:scale-108">
@@ -138,7 +136,7 @@ export default function MorePage() {
             
             <button 
               onClick={handleImportClick}
-              className="w-full flex items-center justify-between p-4 hover:bg-[#EBF7F2]/40 dark:hover:bg-white/[0.03] transition-colors text-left group press-spring"
+              className="w-full bubble-item rounded-[24px] p-4 flex items-center justify-between card-smooth press-spring text-left group"
             >
               <div className="flex items-center gap-3.5">
                 <div className="w-10 h-10 rounded-2xl bg-surface-muted text-text-secondary flex items-center justify-center transition-transform duration-300 group-hover:scale-108">
@@ -161,7 +159,7 @@ export default function MorePage() {
 
             <Link 
               href="/settings"
-              className="flex items-center justify-between p-4 hover:bg-[#EBF7F2]/40 dark:hover:bg-white/[0.03] transition-colors group"
+              className="bubble-item rounded-[24px] p-4 flex items-center justify-between card-smooth press-spring block group"
             >
               <div className="flex items-center gap-3.5">
                 <div className="w-10 h-10 rounded-2xl bg-surface-muted text-text-secondary flex items-center justify-center transition-transform duration-300 group-hover:scale-108">

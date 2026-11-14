@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  /* Modern Fintech Green & Lime Theme */
-  --background: #F8FAF9;
-  --surface: #FFFFFF;
-  --surface-muted: #F1F5F3;
+  /* Modern Fintech Green & Lime Theme - Liquid Glass Edition */
+  --background: #F4F7F5;
+  --surface: rgba(255, 255, 255, 0.88);
+  --surface-muted: rgba(241, 245, 243, 0.7);
   --header-bg: #083328;
   --header-surface: #0E3E32;
   --primary: #A3F03A; /* Vibrant Lime */
@@ -13,17 +13,17 @@
   --primary-dark: #083328; /* Deep Forest Green */
   --text: #0F172A;
   --text-secondary: #64748B;
-  --border: #E8ECE9;
+  --border: rgba(8, 51, 40, 0.05); /* Ultra-soft liquid border */
   --income: #10B981;
   --expense: #EF4444;
   --warning: #F59E0B;
 }
 
 .dark {
-  /* Modern Fintech Dark Mode */
-  --background: #071713;
-  --surface: #0E231D;
-  --surface-muted: #142F28;
+  /* Modern Fintech Dark Mode - Liquid Glass */
+  --background: #061511;
+  --surface: rgba(14, 35, 29, 0.8);
+  --surface-muted: rgba(20, 47, 40, 0.6);
   --header-bg: #051C17;
   --header-surface: #0B2A22;
   --primary: #A3F03A;
@@ -32,7 +32,7 @@
   --primary-dark: #A3F03A;
   --text: #F8FAFC;
   --text-secondary: #94A3B8;
-  --border: #16382F;
+  --border: rgba(255, 255, 255, 0.06); /* Soft specular border */
   --income: #34D399;
   --expense: #F87171;
   --warning: #FBBF24;
@@ -128,15 +128,6 @@ body {
   }
 }
 
-@keyframes shimmerEffect {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
 @keyframes bounceSubtle {
   0%, 100% {
     transform: translateY(0);
@@ -204,12 +195,73 @@ body {
   transform: scale(0.92);
 }
 
+/* 🫧 Liquid Glass & Bubble Surfaces 🫧 */
+.bubble-card {
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 
+    0 12px 36px -4px rgba(8, 51, 40, 0.06),
+    0 4px 16px -2px rgba(8, 51, 40, 0.02),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bubble-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 18px 44px -4px rgba(8, 51, 40, 0.09),
+    0 6px 20px -2px rgba(8, 51, 40, 0.04),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 1);
+}
+
+.dark .bubble-card {
+  background: rgba(14, 35, 29, 0.78);
+  box-shadow: 
+    0 14px 40px -4px rgba(0, 0, 0, 0.5),
+    0 4px 16px -2px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.bubble-item {
+  border-radius: 22px;
+  background: rgba(241, 245, 243, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 2px 8px rgba(8, 51, 40, 0.02);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.bubble-item:hover {
+  background: rgba(235, 247, 242, 0.95);
+  transform: scale(1.01);
+}
+.dark .bubble-item {
+  background: rgba(20, 47, 40, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.dark .bubble-item:hover {
+  background: rgba(20, 56, 46, 0.85);
+}
+
+.liquid-glass-pill {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.3),
+    0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
 .card-smooth {
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .card-smooth:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 28px -6px rgba(8, 51, 40, 0.08), 0 4px 12px -2px rgba(8, 51, 40, 0.03);
 }
 .card-smooth:active {
   transform: scale(0.98) translateY(0);
@@ -221,11 +273,11 @@ body {
 }
 
 .shadow-fintech {
-  box-shadow: 0 10px 30px -5px rgba(8, 51, 40, 0.05), 0 4px 12px -2px rgba(8, 51, 40, 0.02);
+  box-shadow: 0 12px 36px -4px rgba(8, 51, 40, 0.06), 0 4px 16px -2px rgba(8, 51, 40, 0.02);
 }
 
 .shadow-fintech-lg {
-  box-shadow: 0 20px 40px -10px rgba(8, 51, 40, 0.08), 0 8px 16px -4px rgba(8, 51, 40, 0.03);
+  box-shadow: 0 20px 48px -6px rgba(8, 51, 40, 0.09), 0 8px 20px -3px rgba(8, 51, 40, 0.03);
 }
 
 .shadow-lime-glow {
@@ -237,7 +289,10 @@ body {
 }
 
 .shadow-nav {
-  box-shadow: 0 16px 40px -8px rgba(8, 51, 40, 0.45), 0 4px 12px -2px rgba(8, 51, 40, 0.2);
+  box-shadow: 
+    0 16px 40px -8px rgba(8, 51, 40, 0.45), 
+    0 4px 12px -2px rgba(8, 51, 40, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
 }
 
 /* Minimalist Scrollbar */

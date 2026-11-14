@@ -122,17 +122,17 @@ export default function Home() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-24 overflow-x-hidden">
-      {/* Top Header - Deep Forest Green Gradient with ambient glows */}
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28 overflow-x-hidden">
+      {/* Top Header - Deep Forest Green Liquid Glass Gradient with Ambient Glows */}
       <div className="bg-gradient-to-b from-[#0A3D30] via-[#083328] to-[#06281F] text-white pt-6 pb-12 px-5 relative overflow-hidden transition-colors duration-500">
-        {/* Subtle decorative floating glows */}
+        {/* Subtle decorative floating liquid glows */}
         <div className="absolute -top-16 -right-16 w-56 h-56 bg-[#A3F03A]/15 rounded-full blur-3xl pointer-events-none animate-pulse-subtle"></div>
         <div className="absolute top-24 -left-12 w-44 h-44 bg-emerald-400/10 rounded-full blur-2xl pointer-events-none animate-float"></div>
 
         {/* User Greeting & Top Controls */}
         <div className="flex justify-between items-center relative z-10 mb-6 animate-fade-in">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-white/10 border border-[#A3F03A]/30 flex items-center justify-center text-[#A3F03A] shadow-inner transition-spring hover:scale-105 hover:rotate-6 active:scale-90 cursor-pointer">
+            <div className="w-10 h-10 rounded-[18px] liquid-glass-pill flex items-center justify-center text-[#A3F03A] shadow-inner transition-spring hover:scale-105 hover:rotate-6 active:scale-90 cursor-pointer">
               <Hexagon size={24} strokeWidth={2.2} />
             </div>
             <div>
@@ -146,7 +146,7 @@ export default function Home() {
               <button
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
                 aria-label="Toggle Theme"
-                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white press-spring tap-pill backdrop-blur-sm"
+                className="w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-white press-spring tap-pill"
               >
                 {theme === "dark" ? <Sun size={17} className="transition-transform duration-300 rotate-0 hover:rotate-45" /> : <Moon size={17} className="transition-transform duration-300 rotate-0 hover:-rotate-12" />}
               </button>
@@ -154,23 +154,23 @@ export default function Home() {
             <button
               onClick={toggleShowBalance}
               aria-label="Toggle Balance Visibility"
-              className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white press-spring tap-pill backdrop-blur-sm"
+              className="w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-white press-spring tap-pill"
             >
               {showBalance ? <Eye size={17} /> : <EyeOff size={17} />}
             </button>
           </div>
         </div>
 
-        {/* Total Balance Card with Interactive Currency Selector */}
+        {/* Total Balance Card with Liquid Glass Currency Selector */}
         <div className="relative z-10 mb-6 animate-fade-in-up">
           <div className="flex justify-between items-center mb-1.5">
             <p className="text-white/70 text-xs font-medium tracking-wide">Total Balance</p>
             
-            {/* Currency Selector Pill */}
+            {/* Currency Selector Pill (Liquid Glass) */}
             <button
               onClick={() => setShowCurrencyModal(true)}
               aria-label="Pilih Kurs Mata Uang"
-              className="bg-white/12 hover:bg-white/22 border border-white/15 px-3 py-1 rounded-full text-[11px] text-white flex items-center gap-1.5 font-bold transition-spring hover:scale-105 active:scale-95 backdrop-blur-md cursor-pointer shadow-sm select-none"
+              className="liquid-glass-pill px-3.5 py-1 rounded-full text-[11px] text-white flex items-center gap-1.5 font-bold transition-spring hover:scale-105 active:scale-95 cursor-pointer select-none"
             >
               <span className="text-xs">{SUPPORTED_CURRENCIES[selectedCurrency]?.flag || "🇮🇩"}</span>
               <span>{selectedCurrency}</span>
@@ -182,11 +182,11 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Action Buttons: Pemasukan & Pengeluaran (Equal Width) */}
+        {/* Action Buttons: Pemasukan & Pengeluaran (Liquid Bubble Pills) */}
         <div className="flex items-center gap-3 relative z-10 animate-fade-in-up">
           <Link
             href="/transactions/new?type=income"
-            className="flex-1 py-3.5 px-4 rounded-full bg-white/10 hover:bg-white/18 border border-white/15 text-white font-bold text-sm flex items-center justify-center gap-2 press-spring tap-pill backdrop-blur-md shadow-sm"
+            className="flex-1 py-3.5 px-4 rounded-full liquid-glass-pill hover:bg-white/20 text-white font-bold text-sm flex items-center justify-center gap-2 press-spring tap-pill"
           >
             <ArrowDownLeft size={18} strokeWidth={2.6} className="text-[#A3F03A]" />
             <span>Pemasukan</span>
@@ -202,10 +202,10 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Main Curved Sheet with Content */}
-      <div className="rounded-t-[40px] bg-background pt-7 px-4 pb-14 -mt-6 shadow-2xl relative z-10 space-y-6">
-        {/* Categories Card (4x2 Grid) */}
-        <div className="bg-surface rounded-[28px] p-5 border border-border/70 shadow-fintech transition-smooth hover:shadow-fintech-lg">
+      {/* Main Curved Bubble Sheet with Smooth Elevation */}
+      <div className="rounded-t-[44px] bg-background pt-7 px-4 pb-14 -mt-6 relative z-10 space-y-5">
+        {/* Categories Card (Bubble & Liquid Pill) */}
+        <div className="bubble-card p-5 animate-fade-in-up">
           <h2 className="text-text-main font-bold text-base mb-4 tracking-tight px-1">Categories</h2>
           <div className="grid grid-cols-4 gap-y-4 gap-x-2 text-center">
             {categoriesGrid.map((item, idx) => (
@@ -214,7 +214,7 @@ export default function Home() {
                 href={item.href}
                 className={`group flex flex-col items-center cursor-pointer ${item.stagger}`}
               >
-                <div className="w-14 h-14 rounded-2xl bg-[#EBF7F2] dark:bg-[#14382E] text-[#083328] dark:text-[#A3F03A] flex items-center justify-center mb-1.5 shadow-fintech-sm press-spring tap-pill group-hover:scale-108 group-hover:bg-[#DCF3E8] dark:group-hover:bg-[#194639] group-hover:shadow-md">
+                <div className="w-14 h-14 rounded-[22px] bg-[#EBF7F2] dark:bg-[#14382E] text-[#083328] dark:text-[#A3F03A] flex items-center justify-center mb-1.5 shadow-[inset_0_1px_2px_rgba(255,255,255,0.8),0_4px_12px_rgba(8,51,40,0.04)] press-spring tap-pill group-hover:scale-108 group-hover:bg-[#DCF3E8] dark:group-hover:bg-[#194639]">
                   <item.icon size={23} strokeWidth={2.2} className="transition-transform duration-300 group-hover:scale-110" />
                 </div>
                 <span className="text-[12px] font-semibold text-text-main leading-tight transition-colors group-hover:text-[#083328] dark:group-hover:text-[#A3F03A]">
@@ -228,9 +228,9 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Featured Card - Daily Spending Limit */}
+        {/* Featured Card - Daily Spending Limit (Bubble Card) */}
         {budgetStatus ? (
-          <div className="bg-surface rounded-[28px] p-5 border border-border/70 shadow-fintech card-smooth relative overflow-hidden animate-fade-in-up">
+          <div className="bubble-card p-6 relative overflow-hidden animate-fade-in-up">
             <div className="flex justify-between items-start mb-2.5">
               <div>
                 <span className="text-[11px] font-bold uppercase tracking-wider text-text-secondary">
@@ -240,11 +240,11 @@ export default function Home() {
                   {formatCurrency(budgetStatus.dailyLimit)}
                 </h3>
               </div>
-              <span className={`text-[11px] font-bold px-3 py-1 rounded-full transition-colors ${
+              <span className={`text-[11px] font-extrabold px-3 py-1 rounded-full transition-colors shadow-sm ${
                 budgetStatus.status === 'danger' 
-                  ? 'bg-red-100 text-red-600 dark:bg-red-950/40 dark:text-red-400' 
+                  ? 'bg-red-500/15 text-red-600 dark:text-red-400' 
                   : budgetStatus.status === 'warning'
-                  ? 'bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400'
+                  ? 'bg-amber-500/15 text-amber-700 dark:text-amber-400'
                   : 'bg-[#EBF7F2] text-[#083328] dark:bg-[#14382E] dark:text-[#A3F03A]'
               }`}>
                 {budgetStatus.status === 'danger' ? 'Over Limit' : budgetStatus.status === 'warning' ? 'Mendekati' : 'Aman'}
@@ -263,13 +263,13 @@ export default function Home() {
             {/* Glowing Lime Progress Bar */}
             <div className="h-2.5 w-full bg-surface-muted rounded-full overflow-hidden mb-4 p-0.5">
               <div 
-                className="h-full bg-gradient-to-r from-[#A3F03A] to-[#B6FF4D] rounded-full shadow-[0_0_12px_rgba(163,240,58,0.45)] transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1)"
+                className="h-full bg-gradient-to-r from-[#A3F03A] to-[#B6FF4D] rounded-full shadow-[0_0_12px_rgba(163,240,58,0.55)] transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1)"
                 style={{ width: `${Math.min(budgetStatus.percentageUsed, 100)}%` }}
               />
             </div>
 
             {/* Card Footer with Carousel Indicator Dots */}
-            <div className="flex justify-between items-center pt-2.5 border-t border-border/40 text-xs text-text-secondary">
+            <div className="flex justify-between items-center pt-2.5 border-t border-black/5 dark:border-white/5 text-xs text-text-secondary">
               <span className="flex items-center gap-1.5 font-medium">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                 Sisa Dompet: <strong className="text-text-main font-bold">{formatCurrency(budgetStatus.remainingBudget)}</strong>
@@ -291,7 +291,7 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          <div className="bg-gradient-to-br from-[#083328] to-[#041D17] text-white rounded-[28px] p-5 shadow-nav relative overflow-hidden animate-fade-in-up">
+          <div className="bg-gradient-to-br from-[#083328] to-[#041D17] text-white rounded-[32px] p-6 shadow-nav relative overflow-hidden animate-fade-in-up">
             <div className="relative z-10">
               <span className="text-[#A3F03A] text-xs font-bold uppercase tracking-wider">Mulai Budgeting</span>
               <h3 className="text-xl font-bold mt-1 text-white">Atur Batas Belanja Harian</h3>
@@ -300,7 +300,7 @@ export default function Home() {
               </p>
               <Link
                 href="/budget"
-                className="inline-flex items-center gap-2 bg-[#A3F03A] text-[#083328] font-bold text-xs px-4 py-2.5 rounded-full shadow-lime-glow hover:shadow-lime-glow-lg press-spring tap-pill"
+                className="inline-flex items-center gap-2 bg-[#A3F03A] text-[#083328] font-bold text-xs px-5 py-3 rounded-full shadow-lime-glow hover:shadow-lime-glow-lg press-spring tap-pill"
               >
                 <span>Buat Budget Sekarang</span>
                 <ArrowUpRight size={14} strokeWidth={2.5} />
@@ -309,29 +309,29 @@ export default function Home() {
           </div>
         )}
 
-        {/* 7-Day Spending Trend Chart (Grafik Keuangan) */}
+        {/* 7-Day Spending Trend Chart (Bubble Card) */}
         <CashflowChart formatValue={formatCurrency} />
 
-        {/* Cashflow Summary (Pemasukan & Pengeluaran) */}
-        <div className="grid grid-cols-2 gap-3 animate-fade-in-up">
-          <div className="bg-surface rounded-2xl p-4 border border-border/70 shadow-fintech card-smooth press-spring">
+        {/* Cashflow Summary (Pemasukan & Pengeluaran Bubble Cards) */}
+        <div className="grid grid-cols-2 gap-3.5 animate-fade-in-up">
+          <div className="bubble-card p-4.5 rounded-[26px] press-spring">
             <div className="flex items-center gap-2 mb-2">
-              <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 flex items-center justify-center transition-transform hover:scale-110">
-                <ArrowDownLeft size={16} strokeWidth={2.5} />
+              <div className="w-8 h-8 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center transition-transform hover:scale-110 shadow-sm">
+                <ArrowDownLeft size={16} strokeWidth={2.6} />
               </div>
-              <span className="text-xs font-medium text-text-secondary">Pemasukan</span>
+              <span className="text-xs font-semibold text-text-secondary">Pemasukan</span>
             </div>
             <p className="font-extrabold text-sm text-text-main truncate">
               {currentMonthTransactions === undefined ? "..." : displayAmount(monthlyIncome)}
             </p>
           </div>
 
-          <div className="bg-surface rounded-2xl p-4 border border-border/70 shadow-fintech card-smooth press-spring">
+          <div className="bubble-card p-4.5 rounded-[26px] press-spring">
             <div className="flex items-center gap-2 mb-2">
-              <div className="w-8 h-8 rounded-xl bg-red-50 dark:bg-red-950/40 text-red-500 flex items-center justify-center transition-transform hover:scale-110">
-                <ArrowUpRight size={16} strokeWidth={2.5} />
+              <div className="w-8 h-8 rounded-xl bg-red-500/15 text-red-500 dark:text-red-400 flex items-center justify-center transition-transform hover:scale-110 shadow-sm">
+                <ArrowUpRight size={16} strokeWidth={2.6} />
               </div>
-              <span className="text-xs font-medium text-text-secondary">Pengeluaran</span>
+              <span className="text-xs font-semibold text-text-secondary">Pengeluaran</span>
             </div>
             <p className="font-extrabold text-sm text-text-main truncate">
               {currentMonthTransactions === undefined ? "..." : displayAmount(monthlyExpense)}
@@ -339,9 +339,9 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Recent Transactions List */}
-        <div className="animate-fade-in-up">
-          <div className="flex justify-between items-center mb-3 px-1">
+        {/* Recent Transactions List (Floating Bubble Items, No Rigid Dividing Lines) */}
+        <div className="animate-fade-in-up space-y-3">
+          <div className="flex justify-between items-center px-1">
             <h2 className="text-[17px] font-bold text-text-main tracking-tight">Transaksi Terakhir</h2>
             <Link 
               href="/transactions" 
@@ -352,45 +352,43 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="bg-surface rounded-[28px] border border-border/70 shadow-fintech divide-y divide-border/40 overflow-hidden">
+          <div className="space-y-2.5">
             {transactions === undefined ? (
-              <div className="text-center text-xs text-text-secondary py-8">Memuat transaksi...</div>
+              <div className="bubble-card text-center text-xs text-text-secondary py-8 font-medium">Memuat transaksi...</div>
             ) : transactions.length === 0 ? (
-              <div className="text-center text-xs text-text-secondary py-8">Belum ada transaksi.</div>
+              <div className="bubble-card text-center text-xs text-text-secondary py-8 font-medium">Belum ada transaksi.</div>
             ) : (
-              transactions.map((t) => (
+              transactions.map((t, idx) => (
                 <Link
                   href={`/transactions/${t.id}/edit`}
                   key={t.id}
-                  className="p-4 flex items-center justify-between hover:bg-[#EBF7F2]/40 dark:hover:bg-white/[0.03] active:scale-[0.99] transition-smooth block group"
+                  className={`bubble-item p-4 flex items-center justify-between block group stagger-${Math.min(idx + 1, 8)}`}
                 >
                   <div className="flex items-center gap-3.5">
-                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-108 ${
+                    <div className={`w-11 h-11 rounded-[18px] flex items-center justify-center transition-transform duration-300 group-hover:scale-108 shadow-sm ${
                       t.type === 'income' 
-                        ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40' 
+                        ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' 
                         : t.type === 'expense'
-                        ? 'bg-red-50 text-red-500 dark:bg-red-950/40'
-                        : 'bg-blue-50 text-blue-500 dark:bg-blue-950/40'
+                        ? 'bg-red-500/15 text-red-500 dark:text-red-400'
+                        : 'bg-blue-500/15 text-blue-500 dark:text-blue-400'
                     }`}>
                       {t.type === 'income' ? (
-                        <ArrowDownLeft size={18} strokeWidth={2.5} />
-                      ) : t.type === 'expense' ? (
-                        <ArrowUpRight size={18} strokeWidth={2.5} />
+                        <ArrowDownLeft size={19} strokeWidth={2.6} />
                       ) : (
-                        <ArrowUpRight size={18} strokeWidth={2.5} />
+                        <ArrowUpRight size={19} strokeWidth={2.6} />
                       )}
                     </div>
                     <div>
-                      <p className="font-semibold text-sm text-text-main capitalize leading-snug group-hover:text-[#083328] dark:group-hover:text-[#A3F03A] transition-colors">
+                      <p className="font-bold text-sm text-text-main capitalize leading-snug group-hover:text-[#083328] dark:group-hover:text-[#A3F03A] transition-colors">
                         {t.type === 'transfer' ? 'Transfer Antar Dompet' : t.note || 'Transaksi'}
                       </p>
-                      <p className="text-[11px] text-text-secondary mt-0.5">
+                      <p className="text-[11px] text-text-secondary mt-0.5 font-medium">
                         {format(t.date, "d MMM yyyy", { locale: localeID })}
                       </p>
                     </div>
                   </div>
 
-                  <div className={`font-bold text-sm text-right transition-transform group-hover:scale-105 ${
+                  <div className={`font-extrabold text-sm text-right transition-transform group-hover:scale-105 ${
                     t.type === 'income' ? 'text-income' : 'text-text-main'
                   }`}>
                     {displayAmount(t.amount, t.type === 'income' ? '+' : t.type === 'expense' ? '-' : '')}
@@ -402,20 +400,20 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Currency Selection Dialog Modal */}
+      {/* Currency Selection Dialog Modal (Liquid Bubble Modal) */}
       {showCurrencyModal && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in"
           onClick={() => setShowCurrencyModal(false)}
         >
           <div 
-            className="bg-surface border border-border/80 rounded-[32px] shadow-2xl p-5 w-full max-w-sm flex flex-col max-h-[85vh] animate-scale-up"
+            className="bubble-card p-6 w-full max-w-sm flex flex-col max-h-[85vh] animate-scale-up"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="w-10 h-1 bg-border/80 rounded-full mx-auto mb-3"></div>
             <div className="flex justify-between items-center mb-1">
               <h3 className="text-base font-bold text-text-main">Pilih Mata Uang</h3>
-              <span className="text-[11px] text-emerald-600 dark:text-[#A3F03A] font-semibold bg-[#EBF7F2] dark:bg-[#14382E] px-2.5 py-0.5 rounded-full">
+              <span className="text-[11px] text-emerald-600 dark:text-[#A3F03A] font-extrabold bg-[#EBF7F2] dark:bg-[#14382E] px-2.5 py-0.5 rounded-full shadow-sm">
                 Realtime Kurs
               </span>
             </div>
@@ -423,7 +421,7 @@ export default function Home() {
               Nilai saldo akan dikonversikan otomatis secara realtime sesuai kurs yang dipilih.
             </p>
 
-            <div className="overflow-y-auto space-y-1.5 pr-0.5 divide-y divide-border/40">
+            <div className="overflow-y-auto space-y-2 pr-0.5">
               {Object.entries(SUPPORTED_CURRENCIES).map(([code, info]) => {
                 const isSelected = selectedCurrency === code;
                 const currentRate = exchangeRates[code] || info.defaultRate;
@@ -436,10 +434,10 @@ export default function Home() {
                       localStorage.setItem("preferredCurrency", code);
                       setShowCurrencyModal(false);
                     }}
-                    className={`w-full flex items-center justify-between p-3 rounded-2xl transition-spring press-spring tap-pill text-left ${
+                    className={`w-full flex items-center justify-between p-3.5 rounded-[20px] transition-spring press-spring tap-pill text-left ${
                       isSelected 
-                        ? "bg-[#083328] text-white shadow-md font-bold" 
-                        : "hover:bg-surface-muted text-text-main"
+                        ? "bg-[#083328] text-white shadow-md font-bold scale-[1.01]" 
+                        : "bubble-item text-text-main"
                     }`}
                   >
                     <div className="flex items-center gap-3">
@@ -454,7 +452,7 @@ export default function Home() {
                     </div>
                     <div className="text-right">
                       {code === "IDR" ? (
-                        <span className={`text-[11px] font-semibold ${isSelected ? "text-[#A3F03A]" : "text-text-secondary"}`}>Mata Uang Utama</span>
+                        <span className={`text-[11px] font-semibold ${isSelected ? "text-[#A3F03A]" : "text-text-secondary"}`}>Utama</span>
                       ) : (
                         <span className={`text-[11px] font-mono font-medium ${isSelected ? "text-[#A3F03A]" : "text-text-secondary"}`}>
                           1 {code} ≈ Rp {new Intl.NumberFormat("id-ID").format(Math.round(1 / currentRate))}
@@ -466,11 +464,11 @@ export default function Home() {
               })}
             </div>
 
-            <div className="mt-4 pt-3 border-t border-border/60 flex justify-end">
+            <div className="mt-4 pt-3 border-t border-black/5 dark:border-white/5 flex justify-end">
               <button
                 type="button"
                 onClick={() => setShowCurrencyModal(false)}
-                className="bg-surface-muted hover:bg-black/5 dark:hover:bg-white/5 text-text-main px-5 py-2 rounded-full font-bold text-xs press-spring tap-pill"
+                className="bg-surface-muted hover:bg-black/5 dark:hover:bg-white/5 text-text-main px-6 py-2.5 rounded-full font-bold text-xs press-spring tap-pill"
               >
                 Tutup
               </button>

@@ -80,11 +80,11 @@ function NewTransactionContent() {
 
   return (
     <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28 animate-fade-in-up">
-      <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/90 backdrop-blur-md">
-        <Link href="/" className="w-10 h-10 rounded-full bg-surface border border-border/80 flex items-center justify-center text-text-secondary hover:text-text-main press-spring tap-pill">
-          <ArrowLeft size={20} />
+      <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/80 backdrop-blur-xl">
+        <Link href="/" className="w-10 h-10 rounded-full liquid-glass-pill flex items-center justify-center text-text-secondary hover:text-text-main press-spring">
+          <ArrowLeft size={18} />
         </Link>
-        <div className="flex bg-surface-muted p-1 rounded-full border border-border/60">
+        <div className="flex liquid-glass-pill p-1 rounded-full">
           {(["expense", "income", "transfer"] as TransactionType[]).map((t) => (
             <button
               key={t}
@@ -93,9 +93,9 @@ function NewTransactionContent() {
                 setType(t);
                 setCategoryId("");
               }}
-              className={`px-3.5 py-1.5 text-xs font-bold rounded-full transition-spring press-spring tap-pill capitalize ${
+              className={`px-3.5 py-1.5 text-xs font-bold rounded-full transition-spring press-spring capitalize ${
                 type === t
-                  ? "bg-[#083328] text-white shadow-sm"
+                  ? "bg-[#083328] text-white dark:bg-[#A3F03A] dark:text-[#083328] shadow-sm"
                   : "text-text-secondary hover:text-text-main"
               }`}
             >
@@ -105,10 +105,10 @@ function NewTransactionContent() {
         </div>
       </header>
 
-      <div className="flex-1 p-5 space-y-5">
-        <form id="tx-form" onSubmit={handleSubmit} className="space-y-5">
+      <div className="flex-1 p-5 space-y-4">
+        <form id="tx-form" onSubmit={handleSubmit} className="space-y-4">
           {/* Amount Card */}
-          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-2 card-smooth">
+          <div className="bubble-card p-6 space-y-2 card-smooth">
             <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
               Nominal Transaksi
             </label>
@@ -129,7 +129,7 @@ function NewTransactionContent() {
           </div>
 
           {/* Wallets & Category Card */}
-          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-4 card-smooth">
+          <div className="bubble-card p-6 space-y-4 card-smooth">
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
                 <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
@@ -196,7 +196,7 @@ function NewTransactionContent() {
                 <button
                   type="button"
                   onClick={() => setShowDatePicker(true)}
-                  className="w-full p-3.5 bg-surface-muted border border-border/80 rounded-2xl outline-none text-left flex justify-between items-center text-[13px] font-semibold text-text-main press-spring tap-pill"
+                  className="w-full p-3.5 bg-surface-muted border border-border/80 rounded-2xl outline-none text-left flex justify-between items-center text-[13px] font-semibold text-text-main press-spring"
                 >
                   <span>{format(date, "d MMMM yyyy", { locale: localeID })}</span>
                   <CalendarIcon size={18} className="text-text-secondary" />
@@ -204,11 +204,11 @@ function NewTransactionContent() {
 
                 {showDatePicker && (
                   <div 
-                    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in"
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-md animate-fade-in"
                     onClick={() => setShowDatePicker(false)}
                   >
                     <div 
-                      className="bg-surface border border-border/80 rounded-[32px] shadow-2xl p-5 w-full max-w-sm flex flex-col items-center animate-scale-up"
+                      className="bubble-card rounded-[32px] p-6 w-full max-w-sm flex flex-col items-center animate-scale-up"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <div className="w-10 h-1 bg-border/80 rounded-full mb-3"></div>
@@ -223,11 +223,11 @@ function NewTransactionContent() {
                           }
                         }}
                       />
-                      <div className="mt-3 flex justify-end w-full border-t border-border/60 pt-2">
+                      <div className="mt-3 flex justify-end w-full border-t border-black/5 dark:border-white/5 pt-3">
                         <button
                           type="button"
                           onClick={() => setShowDatePicker(false)}
-                          className="bg-[#083328] text-[#A3F03A] px-5 py-2 rounded-full font-bold text-xs press-spring tap-pill"
+                          className="bg-[#083328] text-[#A3F03A] px-5 py-2 rounded-full font-bold text-xs press-spring"
                         >
                           Selesai
                         </button>
@@ -255,7 +255,7 @@ function NewTransactionContent() {
         </form>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/90 backdrop-blur-md pb-[calc(1rem+env(safe-area-inset-bottom))] z-20">
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/80 backdrop-blur-xl pb-[calc(1rem+env(safe-area-inset-bottom))] z-20">
         <div className="max-w-md mx-auto">
           <button
             type="submit"

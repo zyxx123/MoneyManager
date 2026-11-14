@@ -65,8 +65,8 @@ export default function CashflowChart({ formatValue }: CashflowChartProps) {
 
   if (!chartData) {
     return (
-      <div className="bg-surface rounded-[28px] p-5 border border-border/70 shadow-fintech animate-pulse h-52 flex items-center justify-center">
-        <span className="text-xs text-text-secondary">Memuat grafik pengeluaran...</span>
+      <div className="bubble-card p-6 animate-pulse h-52 flex items-center justify-center">
+        <span className="text-xs text-text-secondary font-medium">Memuat grafik pengeluaran...</span>
       </div>
     );
   }
@@ -75,7 +75,7 @@ export default function CashflowChart({ formatValue }: CashflowChartProps) {
   const activeDay = selectedDayIdx !== null ? days[selectedDayIdx] : days[days.length - 1];
 
   return (
-    <div className="bg-surface rounded-[28px] p-5 border border-border/70 shadow-fintech card-smooth relative overflow-hidden animate-fade-in-up">
+    <div className="bubble-card p-6 relative overflow-hidden animate-fade-in-up">
       {/* Header Info */}
       <div className="flex justify-between items-start mb-4">
         <div>
@@ -95,7 +95,7 @@ export default function CashflowChart({ formatValue }: CashflowChartProps) {
           </p>
         </div>
 
-        <div className="bg-[#EBF7F2] dark:bg-[#14382E] text-[#083328] dark:text-[#A3F03A] px-2.5 py-1 rounded-full text-[11px] font-bold flex items-center gap-1 shadow-sm">
+        <div className="bg-[#EBF7F2] dark:bg-[#14382E] text-[#083328] dark:text-[#A3F03A] px-3 py-1 rounded-full text-[11px] font-extrabold flex items-center gap-1 shadow-sm">
           <TrendingUp size={12} strokeWidth={2.5} />
           <span>7 Hari</span>
         </div>
@@ -121,7 +121,7 @@ export default function CashflowChart({ formatValue }: CashflowChartProps) {
                     style={{ height: `${heightPercent}%` }}
                     className={`w-full rounded-2xl transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1) relative ${
                       isHighlight
-                        ? "bg-gradient-to-t from-[#083328] to-[#A3F03A] shadow-[0_4px_12px_rgba(163,240,58,0.45)] scale-y-105"
+                        ? "bg-gradient-to-t from-[#083328] to-[#A3F03A] shadow-[0_4px_14px_rgba(163,240,58,0.5)] scale-y-105"
                         : "bg-surface-muted group-hover:bg-[#DCF3E8] dark:group-hover:bg-[#1A4237]"
                     }`}
                   >
@@ -154,7 +154,7 @@ export default function CashflowChart({ formatValue }: CashflowChartProps) {
       </div>
 
       {/* Footer Info / Tap Hint */}
-      <div className="mt-2 pt-2.5 border-t border-border/40 flex justify-between items-center text-[11px] text-text-secondary">
+      <div className="mt-2 pt-2.5 border-t border-black/5 dark:border-white/5 flex justify-between items-center text-[11px] text-text-secondary">
         <span>Total 7 hari: <strong className="text-text-main font-bold">{formatValue(totalWeeklyExpense)}</strong></span>
         <span className="opacity-70 text-[10px]">Ketuk batang untuk detail</span>
       </div>

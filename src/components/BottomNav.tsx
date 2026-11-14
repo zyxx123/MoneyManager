@@ -23,7 +23,7 @@ export default function BottomNav() {
     <div className="fixed bottom-4 left-4 right-4 max-w-md mx-auto z-50 animate-fade-in-up">
       <nav 
         aria-label="Bottom Navigation" 
-        className="bg-[#083328]/95 text-white rounded-full py-2 px-3 flex justify-around items-center shadow-nav border border-white/10 backdrop-blur-xl transition-smooth"
+        className="bg-[#083328]/85 text-white rounded-full py-2.5 px-3 flex justify-around items-center shadow-nav border border-white/20 backdrop-blur-2xl transition-smooth"
       >
         {navItems.map((item) => {
           const isActive = pathname === item.href;
@@ -47,7 +47,7 @@ export default function BottomNav() {
               href={item.href}
               className={`flex flex-col items-center justify-center py-1.5 px-3.5 rounded-full tap-pill ${
                 isActive 
-                  ? "text-[#A3F03A] bg-white/12 shadow-[0_2px_12px_rgba(163,240,58,0.2)] font-bold scale-105" 
+                  ? "text-[#A3F03A] bg-white/12 shadow-[0_2px_12px_rgba(163,240,58,0.25)] font-bold scale-105" 
                   : "text-white/65 hover:text-white/95"
               }`}
             >

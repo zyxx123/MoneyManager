@@ -105,7 +105,7 @@ export default function BudgetPage() {
             type="button"
             onClick={() => setMode("view")}
             aria-label="Kembali"
-            className="w-10 h-10 rounded-full bg-surface border border-border/80 flex items-center justify-center text-text-secondary hover:text-text-main transition-colors mr-3 press-spring tap-pill"
+            className="w-10 h-10 rounded-full liquid-glass-pill flex items-center justify-center text-text-secondary hover:text-text-main transition-colors mr-3 press-spring tap-pill"
           >
             <ArrowLeft size={20} />
           </button>
@@ -116,7 +116,7 @@ export default function BudgetPage() {
         
         <form onSubmit={handleCreateOrEditBudget} className="space-y-6">
           {/* Berlaku Untuk Dompet */}
-          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-3 card-smooth">
+          <div className="bubble-card p-6 space-y-3">
             <div className="flex justify-between items-center">
               <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
                 Berlaku Untuk Dompet
@@ -133,7 +133,7 @@ export default function BudgetPage() {
                 className={`px-4 py-2.5 rounded-2xl font-medium transition-spring press-spring tap-pill flex flex-col items-start ${
                   selectedWalletIds.length === 0 
                   ? "bg-[#083328] text-white shadow-md font-bold scale-[1.02]" 
-                  : "bg-surface-muted text-text-secondary hover:bg-black/5"
+                  : "bubble-item text-text-secondary"
                 }`}
               >
                 <span className="text-[13px]">Semua Dompet</span>
@@ -157,7 +157,7 @@ export default function BudgetPage() {
                     className={`px-4 py-2.5 rounded-2xl font-medium transition-spring press-spring tap-pill flex flex-col items-start ${
                       isSelected 
                       ? "bg-[#083328] text-white shadow-md font-bold scale-[1.02]" 
-                      : "bg-surface-muted text-text-secondary hover:bg-black/5"
+                      : "bubble-item text-text-secondary"
                     }`}
                   >
                     <span className="text-[13px]">{w.name}</span>
@@ -171,12 +171,12 @@ export default function BudgetPage() {
           </div>
 
           {/* Saldo Budget Realtime */}
-          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-3 card-smooth">
+          <div className="bubble-card p-6 space-y-3">
             <div className="flex justify-between items-center">
               <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
                 Total Budget (Saldo Realtime)
               </label>
-              <span className="text-[11px] font-bold text-emerald-600 dark:text-[#A3F03A] flex items-center gap-1.5 bg-[#EBF7F2] dark:bg-[#14382E] px-2.5 py-0.5 rounded-full">
+              <span className="text-[11px] font-bold text-emerald-600 dark:text-[#A3F03A] flex items-center gap-1.5 bg-[#EBF7F2] dark:bg-[#14382E] px-2.5 py-0.5 rounded-full shadow-sm">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                 Otomatis Realtime
               </span>
@@ -188,7 +188,7 @@ export default function BudgetPage() {
                 type="text"
                 readOnly
                 value={new Intl.NumberFormat("id-ID").format(Math.max(0, currentSelectedBalance))}
-                className="w-full p-4 pl-12 bg-surface-muted border border-border/80 rounded-2xl outline-none text-2xl font-bold text-text-main cursor-default select-none transition-smooth"
+                className="w-full p-4 pl-12 bg-surface-muted/70 rounded-2xl outline-none text-2xl font-bold text-text-main cursor-default select-none transition-smooth"
               />
             </div>
             <p className="text-[12px] text-text-secondary">
@@ -197,7 +197,7 @@ export default function BudgetPage() {
           </div>
 
           {/* Periode Budget */}
-          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-2 relative card-smooth">
+          <div className="bubble-card p-6 space-y-2 relative">
             <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
               Periode Budget
             </label>
@@ -205,7 +205,7 @@ export default function BudgetPage() {
               <button
                 type="button"
                 onClick={() => setShowDatePicker(true)}
-                className="w-full p-4 bg-surface-muted border border-border/80 rounded-2xl outline-none text-left flex justify-between items-center text-[14px] font-semibold text-text-main press-spring tap-pill"
+                className="w-full p-4 bg-surface-muted/70 rounded-2xl outline-none text-left flex justify-between items-center text-[14px] font-semibold text-text-main press-spring tap-pill"
               >
                 <span>
                   {dateRange?.from ? format(dateRange.from, "d MMM", { locale: localeID }) : "Pilih Tanggal"} -{" "}
@@ -217,11 +217,11 @@ export default function BudgetPage() {
               {/* Smooth Dialog Modal for DatePicker */}
               {showDatePicker && (
                 <div 
-                  className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in"
+                  className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in"
                   onClick={() => setShowDatePicker(false)}
                 >
                   <div 
-                    className="bg-surface border border-border/80 rounded-[32px] shadow-2xl p-5 w-full max-w-sm flex flex-col items-center animate-scale-up"
+                    className="bubble-card p-6 w-full max-w-sm flex flex-col items-center animate-scale-up"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <div className="w-10 h-1 bg-border/80 rounded-full mb-3"></div>
@@ -231,7 +231,7 @@ export default function BudgetPage() {
                       selected={dateRange}
                       onSelect={setDateRange}
                     />
-                    <div className="mt-4 flex justify-end w-full border-t border-border/60 pt-3">
+                    <div className="mt-4 flex justify-end w-full border-t border-black/5 dark:border-white/5 pt-3">
                       <button
                         type="button"
                         onClick={() => setShowDatePicker(false)}
@@ -316,24 +316,25 @@ export default function BudgetPage() {
           <button 
             onClick={openEditMode} 
             aria-label="Edit Budget"
-            className="w-9 h-9 rounded-full bg-surface border border-border/80 flex items-center justify-center text-text-secondary hover:text-text-main press-spring tap-pill"
+            className="w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-text-secondary hover:text-text-main press-spring"
           >
-            <Edit2 size={16} />
+            <Edit2 size={15} />
           </button>
           <button 
             onClick={handleDelete} 
             aria-label="Delete Budget"
-            className="w-9 h-9 rounded-full bg-surface border border-border/80 flex items-center justify-center text-expense hover:bg-red-50 dark:hover:bg-red-950/20 press-spring tap-pill"
+            className="w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-expense hover:bg-red-500/10 press-spring"
           >
-            <Trash2 size={16} />
+            <Trash2 size={15} />
           </button>
         </div>
       </div>
       
       {/* Daily Limit Card (Deep Forest Green with Lime Accent) */}
-      <div className="bg-[#083328] rounded-3xl p-6 text-white shadow-[0_8px_30px_rgba(8,51,40,0.3)] relative overflow-hidden card-smooth">
+      <div className="bg-[#083328] rounded-[32px] p-6 text-white shadow-[0_12px_36px_rgba(8,51,40,0.35)] relative overflow-hidden card-smooth border border-white/10">
         {/* Subtle decorative glow */}
-        <div className="absolute -top-12 -right-12 w-36 h-36 bg-[#A3F03A]/15 rounded-full blur-2xl pointer-events-none animate-pulse-subtle"></div>
+        <div className="absolute -top-12 -right-12 w-44 h-44 bg-[#A3F03A]/20 rounded-full blur-3xl pointer-events-none animate-pulse-subtle"></div>
+        <div className="absolute -bottom-10 -left-10 w-36 h-36 bg-[#A3F03A]/10 rounded-full blur-2xl pointer-events-none"></div>
         
         <div className="flex justify-between items-start relative z-10 mb-4">
           <div>
@@ -343,18 +344,18 @@ export default function BudgetPage() {
             </div>
           </div>
           
-          <div className={`px-3 py-1 rounded-full text-[11px] font-bold transition-colors ${
+          <div className={`px-3.5 py-1.5 rounded-full text-[11px] font-bold transition-colors shadow-sm ${
             status === 'danger'
-              ? 'bg-red-500/20 text-red-300 border border-red-500/30'
+              ? 'bg-red-500/25 text-red-300 border border-red-500/30'
               : status === 'warning'
-              ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-              : 'bg-white/10 text-[#A3F03A] border border-white/10'
+              ? 'bg-amber-500/25 text-amber-300 border border-amber-500/30'
+              : 'bg-white/10 text-[#A3F03A] border border-white/15'
           }`}>
             {status === 'upcoming' ? 'Akan Datang' : status === 'warning' ? 'Mendekati Limit' : status === 'danger' ? 'Melebihi Limit!' : 'Pengeluaran Aman'}
           </div>
         </div>
         
-        <div className="bg-white/10 rounded-2xl p-4 backdrop-blur-md relative z-10 border border-white/10 space-y-3">
+        <div className="bg-white/10 rounded-[24px] p-4.5 backdrop-blur-xl relative z-10 border border-white/15 space-y-3 shadow-inner">
           <div className="grid grid-cols-2 gap-3 pb-2.5 border-b border-white/10">
             <div>
               <span className="text-white/70 text-[11px] block">Terpakai Hari Ini</span>
@@ -370,9 +371,9 @@ export default function BudgetPage() {
           
           <div>
             {/* Dual-Tone Lime Progress Bar */}
-            <div className="h-2.5 w-full bg-black/20 rounded-full overflow-hidden p-0.5">
+            <div className="h-2.5 w-full bg-black/30 rounded-full overflow-hidden p-0.5">
               <div 
-                className="h-full bg-gradient-to-r from-[#A3F03A] to-[#B6FF4D] rounded-full shadow-[0_0_10px_rgba(163,240,58,0.5)] transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1)"
+                className="h-full bg-gradient-to-r from-[#A3F03A] to-[#B6FF4D] rounded-full shadow-[0_0_12px_rgba(163,240,58,0.6)] transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1)"
                 style={{ width: `${Math.min(percentageUsed, 100)}%` }}
               />
             </div>
@@ -389,7 +390,7 @@ export default function BudgetPage() {
       </div>
 
       {/* Ringkasan Budget Card */}
-      <div className="bg-surface border border-border/80 rounded-3xl p-5 shadow-fintech space-y-4 card-smooth">
+      <div className="bubble-card p-6 space-y-4 card-smooth">
         <h3 className="font-bold text-text-main text-[16px] tracking-tight">Ringkasan Budget</h3>
         
         <div className="space-y-3">
@@ -402,13 +403,13 @@ export default function BudgetPage() {
           
           <div className="flex justify-between text-[13px] text-text-secondary items-center">
             <span>Berlaku Untuk</span>
-            <span className="font-bold text-[#083328] dark:text-[#A3F03A] bg-[#EBF7F2] dark:bg-[#14382E] px-3 py-1 rounded-full text-[11px]">
+            <span className="font-bold text-[#083328] dark:text-[#A3F03A] bg-[#083328]/10 dark:bg-white/10 px-3 py-1 rounded-full text-[11px] liquid-glass-pill">
               {linkedWalletName}
             </span>
           </div>
         </div>
         
-        <div className="pt-3 border-t border-border/50 space-y-2">
+        <div className="pt-3 border-t border-black/5 dark:border-white/5 space-y-2.5">
           <div className="flex justify-between text-[13px] text-text-secondary">
             <span>Total Alokasi Budget</span>
             <span className="font-semibold text-text-main">{formatter.format(budgetAmount)}</span>
@@ -425,7 +426,7 @@ export default function BudgetPage() {
           </div>
         </div>
         
-        <div className="pt-3 border-t border-border/50">
+        <div className="pt-3 border-t border-black/5 dark:border-white/5">
           <div className="flex justify-between items-center text-[13px] mb-2">
             <span className="text-text-secondary flex items-center gap-1.5 font-medium">
               Sisa Budget (Saldo Dompet)

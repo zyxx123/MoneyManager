@@ -35,13 +35,13 @@ export default function WalletsPage() {
 
       <div className="flex-1 p-4 space-y-4">
         {/* Total Saldo Card */}
-        <div className="bg-[#083328] rounded-3xl p-5 text-white shadow-[0_8px_30px_rgba(8,51,40,0.25)] relative overflow-hidden card-smooth">
-          <div className="absolute -top-12 -right-12 w-32 h-32 bg-[#A3F03A]/15 rounded-full blur-2xl pointer-events-none animate-pulse-subtle"></div>
+        <div className="bg-[#083328] rounded-[32px] p-6 text-white shadow-[0_12px_36px_rgba(8,51,40,0.35)] relative overflow-hidden card-smooth border border-white/10">
+          <div className="absolute -top-12 -right-12 w-44 h-44 bg-[#A3F03A]/20 rounded-full blur-3xl pointer-events-none animate-pulse-subtle"></div>
           <p className="text-white/70 text-xs font-normal mb-1">Total Saldo Dompet</p>
-          <div className="text-2xl font-bold text-white tracking-tight transition-smooth">
+          <div className="text-3xl font-bold text-white tracking-tight transition-smooth">
             {wallets === undefined ? "Menghitung..." : formatCurrency(totalBalance)}
           </div>
-          <p className="text-[11px] text-white/60 mt-1">
+          <p className="text-[11px] text-white/60 mt-1.5">
             {wallets?.length ?? 0} dompet aktif terdaftar
           </p>
         </div>
@@ -49,16 +49,16 @@ export default function WalletsPage() {
         {wallets === undefined ? (
           <div className="grid grid-cols-2 gap-3">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-32 bg-surface rounded-3xl border border-border/80 animate-pulse" />
+              <div key={i} className="h-32 bubble-card animate-pulse" />
             ))}
           </div>
         ) : wallets.length === 0 ? (
-          <div className="flex flex-col items-center justify-center mt-16 text-text-secondary animate-fade-in">
-            <div className="w-16 h-16 bg-[#EBF7F2] dark:bg-[#14382E] text-[#083328] dark:text-[#A3F03A] rounded-3xl flex items-center justify-center mb-3 animate-bounce-subtle">
+          <div className="flex flex-col items-center justify-center mt-16 text-text-secondary animate-fade-in bubble-card p-8 text-center">
+            <div className="w-16 h-16 bg-[#083328]/10 dark:bg-white/10 text-[#083328] dark:text-[#A3F03A] rounded-full flex items-center justify-center mb-3 animate-bounce-subtle">
               <WalletIcon size={28} />
             </div>
-            <p className="font-bold text-[15px] text-text-main">Belum Ada Dompet</p>
-            <p className="text-[13px] mt-0.5">Buat dompet pertamamu sekarang!</p>
+            <p className="font-bold text-[16px] text-text-main">Belum Ada Dompet</p>
+            <p className="text-[13px] mt-1 text-text-secondary">Buat dompet pertamamu sekarang!</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -66,7 +66,7 @@ export default function WalletsPage() {
               <Link
                 key={wallet.id}
                 href={`/wallets/${wallet.id}/edit`}
-                className={`bg-surface rounded-3xl p-4 border border-border/80 shadow-fintech flex items-center justify-between card-smooth press-spring block group stagger-${Math.min(idx + 1, 8)}`}
+                className={`bubble-item rounded-[26px] p-4 flex items-center justify-between card-smooth press-spring block group stagger-${Math.min(idx + 1, 8)}`}
               >
                 <div className="flex items-center gap-3.5">
                   <div 
@@ -80,7 +80,7 @@ export default function WalletsPage() {
                       {wallet.name}
                     </h3>
                     <div className="flex items-center gap-1.5 mt-0.5">
-                      <span className="text-[10px] font-semibold text-text-secondary bg-surface-muted px-2 py-0.5 rounded-full capitalize">
+                      <span className="text-[10px] font-semibold text-text-secondary bg-[#083328]/5 dark:bg-white/5 px-2.5 py-0.5 rounded-full capitalize">
                         {wallet.type}
                       </span>
                     </div>

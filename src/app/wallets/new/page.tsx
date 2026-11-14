@@ -62,16 +62,16 @@ export default function NewWalletPage() {
 
   return (
     <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28 animate-fade-in-up">
-      <header className="sticky top-0 z-10 flex items-center p-4 bg-background/90 backdrop-blur-md">
-        <Link href="/wallets" className="w-10 h-10 rounded-full bg-surface border border-border/80 flex items-center justify-center text-text-secondary hover:text-text-main press-spring tap-pill">
-          <ArrowLeft size={20} />
+      <header className="sticky top-0 z-10 flex items-center p-4 bg-background/80 backdrop-blur-xl">
+        <Link href="/wallets" className="w-10 h-10 rounded-full liquid-glass-pill flex items-center justify-center text-text-secondary hover:text-text-main press-spring">
+          <ArrowLeft size={18} />
         </Link>
         <h1 className="text-[20px] font-bold ml-3 tracking-tight">Dompet Baru</h1>
       </header>
 
       <div className="flex-1 p-5">
-        <form id="wallet-form" onSubmit={handleSubmit} className="space-y-6">
-          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-2 card-smooth">
+        <form id="wallet-form" onSubmit={handleSubmit} className="space-y-4">
+          <div className="bubble-card p-6 space-y-2 card-smooth">
             <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
               Nama Dompet
             </label>
@@ -85,7 +85,7 @@ export default function NewWalletPage() {
             />
           </div>
 
-          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-3 card-smooth">
+          <div className="bubble-card p-6 space-y-3 card-smooth">
             <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
               Tipe Dompet
             </label>
@@ -95,10 +95,10 @@ export default function NewWalletPage() {
                   key={t.value}
                   type="button"
                   onClick={() => setType(t.value as any)}
-                  className={`p-3 text-[13px] font-bold rounded-2xl text-center transition-spring press-spring tap-pill ${
+                  className={`p-3 text-[13px] font-bold rounded-2xl text-center transition-spring press-spring ${
                     type === t.value
-                      ? "bg-[#083328] text-white shadow-md scale-[1.02]"
-                      : "bg-surface-muted text-text-secondary hover:bg-black/5"
+                      ? "bg-[#083328] text-white dark:bg-[#A3F03A] dark:text-[#083328] shadow-md scale-[1.02]"
+                      : "bubble-item text-text-secondary"
                   }`}
                 >
                   {t.label}
@@ -107,7 +107,7 @@ export default function NewWalletPage() {
             </div>
           </div>
 
-          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-3 card-smooth">
+          <div className="bubble-card p-6 space-y-3 card-smooth">
             <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
               Warna Dompet
             </label>
@@ -117,7 +117,7 @@ export default function NewWalletPage() {
                   key={c}
                   type="button"
                   onClick={() => setColor(c)}
-                  className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-spring press-spring tap-pill ${color === c ? 'scale-115 shadow-md ring-2 ring-[#083328] dark:ring-[#A3F03A]' : 'hover:scale-105 opacity-80'}`}
+                  className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-spring press-spring ${color === c ? 'scale-115 shadow-md ring-2 ring-[#083328] dark:ring-[#A3F03A]' : 'hover:scale-105 opacity-80'}`}
                   style={{ backgroundColor: c }}
                 >
                   {color === c && <Check size={18} className="text-white drop-shadow-md" strokeWidth={3} />}
@@ -126,7 +126,7 @@ export default function NewWalletPage() {
             </div>
           </div>
 
-          <div className="bg-surface rounded-3xl p-5 border border-border/80 shadow-fintech space-y-2 card-smooth">
+          <div className="bubble-card p-6 space-y-2 card-smooth">
             <label className="text-[12px] font-bold text-text-secondary uppercase tracking-wider">
               Saldo Awal
             </label>
@@ -147,7 +147,7 @@ export default function NewWalletPage() {
         </form>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/90 backdrop-blur-md pb-[calc(1rem+env(safe-area-inset-bottom))] z-20">
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/80 backdrop-blur-xl pb-[calc(1rem+env(safe-area-inset-bottom))] z-20">
         <div className="max-w-md mx-auto">
           <button
             type="submit"
