@@ -10,6 +10,7 @@ import { startOfMonth, endOfMonth, format } from "date-fns";
 import { id as localeID } from "date-fns/locale";
 import { DynamicIcon } from "@/components/DynamicIcon";
 import { aiService, type MonthlyHealthAnalysis } from "@/lib/services/aiService";
+import { formatAiInline } from "@/components/FormattedAiText";
 
 export default function ReportsPage() {
   const [analysis, setAnalysis] = useState<MonthlyHealthAnalysis | null>(null);
@@ -204,7 +205,7 @@ export default function ReportsPage() {
 
               {/* Summary */}
               <p className="text-xs text-text-main leading-relaxed bg-black/5 dark:bg-white/5 p-3 rounded-2xl">
-                {analysis.summary}
+                {formatAiInline(analysis.summary)}
               </p>
 
               {/* Strengths */}
@@ -217,7 +218,7 @@ export default function ReportsPage() {
                     {analysis.strengths.map((s, idx) => (
                       <li key={idx} className="flex items-start gap-2 text-xs text-text-main">
                         <CheckCircle2 size={14} className="text-emerald-500 shrink-0 mt-0.5" />
-                        <span>{s}</span>
+                        <span>{formatAiInline(s)}</span>
                       </li>
                     ))}
                   </ul>
@@ -234,7 +235,7 @@ export default function ReportsPage() {
                     {analysis.concerns.map((c, idx) => (
                       <li key={idx} className="flex items-start gap-2 text-xs text-text-main">
                         <AlertTriangle size={14} className="text-amber-500 shrink-0 mt-0.5" />
-                        <span>{c}</span>
+                        <span>{formatAiInline(c)}</span>
                       </li>
                     ))}
                   </ul>
@@ -253,7 +254,7 @@ export default function ReportsPage() {
                         <span className="w-4 h-4 rounded-full bg-[#083328] dark:bg-[#A3F03A] text-white dark:text-[#083328] font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">
                           {idx + 1}
                         </span>
-                        <span>{r}</span>
+                        <span>{formatAiInline(r)}</span>
                       </li>
                     ))}
                   </ul>

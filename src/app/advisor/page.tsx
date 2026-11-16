@@ -9,6 +9,7 @@ import { budgetService } from "@/lib/services/budgetService";
 import { savingsService } from "@/lib/services/savingsService";
 import { transactionService } from "@/lib/services/transactionService";
 import { aiService } from "@/lib/services/aiService";
+import { FormattedAiText } from "@/components/FormattedAiText";
 
 interface ChatMessage {
   id: string;
@@ -208,19 +209,10 @@ export default function AdvisorPage() {
                     : "bubble-card rounded-tl-sm text-text-main space-y-2"
                 }`}
               >
-                {/* Message text with basic markdown formatting support */}
-                <div className="whitespace-pre-wrap break-words">
-                  {m.content.split("\n").map((line, lIdx) => {
-                    // Render bold headings / bullet points gracefully
-                    return (
-                      <p key={lIdx} className={line.startsWith("* ") || line.startsWith("- ") ? "ml-2 my-0.5" : "my-0.5"}>
-                        {line}
-                      </p>
-                    );
-                  })}
-                </div>
+                {/* Formatted AI / User Message */}
+                <FormattedAiText content={m.content} isUser={isUser} />
                 <div
-                  className={`text-[10px] mt-1 text-right ${
+                  className={`text-[10px] mt-1.5 text-right ${
                     isUser ? "text-white/60" : "text-text-secondary/60"
                   }`}
                 >

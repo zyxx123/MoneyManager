@@ -7,6 +7,7 @@ import { walletService } from "@/lib/services/walletService";
 import { categoryService } from "@/lib/services/categoryService";
 import { transactionService } from "@/lib/services/transactionService";
 import { aiService, type ParsedTransactionResult } from "@/lib/services/aiService";
+import { formatAiInline } from "@/components/FormattedAiText";
 import { useRouter } from "next/navigation";
 
 interface AiQuickAddModalProps {
@@ -269,8 +270,8 @@ export function AiQuickAddModal({ isOpen, onClose, onSuccess }: AiQuickAddModalP
             </div>
 
             {parsedResult.explanation && (
-              <p className="text-[11px] text-text-secondary italic bg-black/5 dark:bg-white/5 p-2 rounded-xl">
-                💡 {parsedResult.explanation}
+              <p className="text-[11px] text-text-secondary bg-black/5 dark:bg-white/5 p-2 rounded-xl">
+                💡 {formatAiInline(parsedResult.explanation)}
               </p>
             )}
 
