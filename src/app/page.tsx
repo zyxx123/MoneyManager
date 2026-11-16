@@ -6,6 +6,7 @@ import { transactionService } from "@/lib/services/transactionService";
 import { budgetService } from "@/lib/services/budgetService";
 import { currencyService, SUPPORTED_CURRENCIES } from "@/lib/services/currencyService";
 import CashflowChart from "@/components/CashflowChart";
+import { AiQuickAddModal } from "@/components/AiQuickAddModal";
 import { db } from "@/lib/db";
 import { format, startOfMonth, endOfMonth } from "date-fns";
 import { id as localeID } from "date-fns/locale";
@@ -27,7 +28,9 @@ import {
   Landmark,
   Settings,
   ChevronRight,
-  Hexagon
+  Hexagon,
+  Sparkles,
+  Bot
 } from "lucide-react";
 import { useTheme } from "next-themes";
 
@@ -41,6 +44,7 @@ export default function Home() {
   const [selectedCurrency, setSelectedCurrency] = useState("IDR");
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
   const [exchangeRates, setExchangeRates] = useState<Record<string, number>>({});
+  const [showAiModal, setShowAiModal] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -198,6 +202,26 @@ export default function Home() {
           >
             <ArrowUpRight size={18} strokeWidth={2.6} />
             <span>Pengeluaran</span>
+          </Link>
+        </div>
+
+        {/* AI Assistant Quick Pill Bar */}
+        <div className="flex items-center gap-2 relative z-10 mt-3 animate-fade-in-up">
+          <button
+            type="button"
+            onClick={() => setShowAiModal(true)}
+            className="flex-1 py-2.5 px-3 rounded-full liquid-glass-pill hover:bg-white/20 text-white font-bold text-xs flex items-center justify-center gap-1.5 press-spring"
+          >
+            <Sparkles size={14} className="text-[#A3F03A]" />
+            <span>Catat via AI</span>
+          </button>
+
+          <Link
+            href="/advisor"
+            className="flex-1 py-2.5 px-3 rounded-full liquid-glass-pill hover:bg-white/20 text-white font-bold text-xs flex items-center justify-center gap-1.5 press-spring"
+          >
+            <Bot size={14} className="text-[#A3F03A]" />
+            <span>Pundi AI Advisor</span>
           </Link>
         </div>
       </div>
@@ -476,6 +500,12 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      {/* AI Quick Add Modal */}
+      <AiQuickAddModal 
+        isOpen={showAiModal} 
+        onClose={() => setShowAiModal(false)} 
+      />
     </div>
   );
 }

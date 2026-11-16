@@ -1,14 +1,21 @@
 "use client";
 
+import { useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "@/lib/db";
 import { formatCurrency } from "@/lib/utils";
-import { ArrowLeft, PieChart, ArrowDownLeft, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, PieChart, ArrowDownLeft, ArrowUpRight, Sparkles, Loader2, CheckCircle2, AlertTriangle, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { startOfMonth, endOfMonth } from "date-fns";
+import { startOfMonth, endOfMonth, format } from "date-fns";
+import { id as localeID } from "date-fns/locale";
 import { DynamicIcon } from "@/components/DynamicIcon";
+import { aiService, type MonthlyHealthAnalysis } from "@/lib/services/aiService";
 
 export default function ReportsPage() {
+  const [analysis, setAnalysis] = useState<MonthlyHealthAnalysis | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisError, setAnalysisError] = useState<string | null>(null);
+
   const now = new Date();
   const start = startOfMonth(now);
   const end = endOfMonth(now);
@@ -18,6 +25,8 @@ export default function ReportsPage() {
   );
 
   const categories = useLiveQuery(() => db.categories.toArray());
+  const savingsGoals = useLiveQuery(() => db.savingsGoals.toArray());
+  const activeBudget = useLiveQuery(() => db.budgets.where("isActive").equals(1).first());
 
   if (!transactions || !categories) {
     return <div className="p-8 max-w-md mx-auto pt-16 flex justify-center text-xs text-text-secondary animate-pulse">Memuat laporan...</div>;
@@ -51,6 +60,30 @@ export default function ReportsPage() {
       };
     })
     .sort((a, b) => b.amount - a.amount);
+
+  const handleAnalyzeReport = async () => {
+    setIsAnalyzing(true);
+    setAnalysisError(null);
+
+    try {
+      const monthLabel = format(now, "MMMM yyyy", { locale: localeID });
+      const res = await aiService.analyzeMonthlyReport({
+        month: monthLabel,
+        totalIncome,
+        totalExpense,
+        categoryBreakdown: categoryBreakdown.map((c) => ({ name: c.name, amount: c.amount, percentage: c.percentage })),
+        savingsGoals: savingsGoals?.map((s) => ({ name: s.name, target: s.targetAmount, current: s.currentAmount })),
+        budgetSummary: activeBudget ? { name: activeBudget.name, amount: activeBudget.amount } : null,
+      });
+
+      setAnalysis(res);
+    } catch (err: any) {
+      console.error(err);
+      setAnalysisError(err.message || "Gagal menganalisis laporan dengan AI.");
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen max-w-md mx-auto bg-background text-text-main pb-28 animate-fade-in-up">
@@ -100,6 +133,145 @@ export default function ReportsPage() {
           }`}>
             {totalIncome - totalExpense >= 0 ? 'Surplus' : 'Defisit'}
           </span>
+        </div>
+
+        {/* AI Financial Health Analysis Section */}
+        <div className="space-y-3">
+          {!analysis && !isAnalyzing && (
+            <button
+              type="button"
+              onClick={handleAnalyzeReport}
+              className="w-full p-4 rounded-[26px] bubble-item flex items-center justify-between text-left group press-spring"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#083328] to-[#14533F] text-[#A3F03A] flex items-center justify-center shadow-lime-glow-sm">
+                  <Sparkles size={20} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm text-text-main group-hover:text-[#083328] dark:group-hover:text-[#A3F03A] transition-colors flex items-center gap-1.5">
+                    <span>Minta Analisis AI Bulan Ini</span>
+                    <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-[#083328]/10 dark:bg-white/10 text-[#083328] dark:text-[#A3F03A]">
+                      Flash
+                    </span>
+                  </h3>
+                  <p className="text-xs text-text-secondary">Evaluasi skor kesehatan & saran penghematan</p>
+                </div>
+              </div>
+              <ArrowRight size={16} className="text-text-secondary/60 group-hover:translate-x-0.5 group-hover:text-text-main transition-transform" />
+            </button>
+          )}
+
+          {isAnalyzing && (
+            <div className="bubble-card p-6 rounded-[28px] text-center space-y-3 animate-fade-in">
+              <Loader2 size={28} className="animate-spin text-[#083328] dark:text-[#A3F03A] mx-auto" />
+              <p className="font-bold text-sm text-text-main">AI sedang menganalisis kesehatan keuanganmu...</p>
+              <p className="text-xs text-text-secondary">Memeriksa arus kas, kategori pengeluaran, dan target tabungan</p>
+            </div>
+          )}
+
+          {analysisError && (
+            <div className="p-3.5 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-500 text-xs">
+              {analysisError}
+            </div>
+          )}
+
+          {analysis && (
+            <div className="bubble-card p-6 rounded-[30px] space-y-4 animate-fade-in relative overflow-hidden">
+              <div className="flex justify-between items-start">
+                <div>
+                  <span className="text-[11px] font-bold text-text-secondary uppercase tracking-wider flex items-center gap-1.5">
+                    <Sparkles size={14} className="text-[#083328] dark:text-[#A3F03A]" />
+                    <span>Skor Kesehatan Finansial</span>
+                  </span>
+                  <div className="flex items-baseline gap-2 mt-1">
+                    <span className="text-3xl font-extrabold text-text-main tracking-tight">
+                      {analysis.healthScore}
+                    </span>
+                    <span className="text-sm font-semibold text-text-secondary">/ 100</span>
+                  </div>
+                </div>
+
+                <span className={`px-3.5 py-1.5 rounded-full text-xs font-extrabold shadow-sm ${
+                  analysis.healthScore >= 80
+                    ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"
+                    : analysis.healthScore >= 60
+                    ? "bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/20"
+                    : "bg-red-500/15 text-red-500 border border-red-500/20"
+                }`}>
+                  {analysis.status}
+                </span>
+              </div>
+
+              {/* Summary */}
+              <p className="text-xs text-text-main leading-relaxed bg-black/5 dark:bg-white/5 p-3 rounded-2xl">
+                {analysis.summary}
+              </p>
+
+              {/* Strengths */}
+              {analysis.strengths && analysis.strengths.length > 0 && (
+                <div className="space-y-1.5 pt-1">
+                  <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block">
+                    Kebiasaan Baik
+                  </span>
+                  <ul className="space-y-1">
+                    {analysis.strengths.map((s, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-xs text-text-main">
+                        <CheckCircle2 size={14} className="text-emerald-500 shrink-0 mt-0.5" />
+                        <span>{s}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Concerns */}
+              {analysis.concerns && analysis.concerns.length > 0 && (
+                <div className="space-y-1.5 pt-1">
+                  <span className="text-[11px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider block">
+                    Perlu Diwaspadai
+                  </span>
+                  <ul className="space-y-1">
+                    {analysis.concerns.map((c, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-xs text-text-main">
+                        <AlertTriangle size={14} className="text-amber-500 shrink-0 mt-0.5" />
+                        <span>{c}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Recommendations */}
+              {analysis.recommendations && analysis.recommendations.length > 0 && (
+                <div className="space-y-1.5 pt-1 border-t border-black/5 dark:border-white/5 pt-3">
+                  <span className="text-[11px] font-bold text-text-secondary uppercase tracking-wider block">
+                    Rekomendasi Langkah Nyata
+                  </span>
+                  <ul className="space-y-1.5">
+                    {analysis.recommendations.map((r, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-xs text-text-main bg-[#083328]/5 dark:bg-white/5 p-2 rounded-xl">
+                        <span className="w-4 h-4 rounded-full bg-[#083328] dark:bg-[#A3F03A] text-white dark:text-[#083328] font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">
+                          {idx + 1}
+                        </span>
+                        <span>{r}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Chat with advisor CTA */}
+              <div className="pt-2">
+                <Link
+                  href="/advisor"
+                  className="w-full py-2.5 px-4 rounded-full liquid-glass-pill font-bold text-xs text-[#083328] dark:text-[#A3F03A] flex items-center justify-center gap-1.5 press-spring"
+                >
+                  <Sparkles size={14} />
+                  <span>Diskusikan Lebih Lanjut dengan Pundi AI</span>
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Category Breakdown */}

@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { transactionService } from "@/lib/services/transactionService";
 import { walletService } from "@/lib/services/walletService";
 import { categoryService } from "@/lib/services/categoryService";
 import { useLiveQuery } from "dexie-react-hooks";
-import { ArrowLeft, CalendarIcon } from "lucide-react";
+import { ArrowLeft, CalendarIcon, Sparkles } from "lucide-react";
+import { AiQuickAddModal } from "@/components/AiQuickAddModal";
 import Link from "next/link";
 import { format } from "date-fns";
 import { id as localeID } from "date-fns/locale";
@@ -28,6 +29,32 @@ function NewTransactionContent() {
   const [date, setDate] = useState<Date>(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [note, setNote] = useState("");
+  const [showAiModal, setShowAiModal] = useState(false);
+
+  // Sync from query params if passed from AI modal or external link
+  useEffect(() => {
+    const qAmount = searchParams.get("amount");
+    const qWalletId = searchParams.get("walletId");
+    const qCategoryId = searchParams.get("categoryId");
+    const qNote = searchParams.get("note");
+    const qType = searchParams.get("type") as TransactionType;
+
+    if (qType && (qType === "expense" || qType === "income" || qType === "transfer")) {
+      setType(qType);
+    }
+    if (qAmount) {
+      setAmount(new Intl.NumberFormat("id-ID").format(Number(qAmount)));
+    }
+    if (qWalletId) {
+      setWalletId(qWalletId);
+    }
+    if (qCategoryId) {
+      setCategoryId(qCategoryId);
+    }
+    if (qNote) {
+      setNote(qNote);
+    }
+  }, [searchParams]);
 
   const wallets = useLiveQuery(() => walletService.getAllActive());
   const categories = useLiveQuery(() => categoryService.getAllByType(type as any), [type]);
@@ -106,6 +133,16 @@ function NewTransactionContent() {
       </header>
 
       <div className="flex-1 p-5 space-y-4">
+        {/* Quick AI Fill Button */}
+        <button
+          type="button"
+          onClick={() => setShowAiModal(true)}
+          className="w-full py-2.5 px-4 rounded-full liquid-glass-pill text-[#083328] dark:text-[#A3F03A] font-bold text-xs flex items-center justify-center gap-2 press-spring"
+        >
+          <Sparkles size={15} />
+          <span>Isi Cepat dengan AI (Cukup Ketik Santai)</span>
+        </button>
+
         <form id="tx-form" onSubmit={handleSubmit} className="space-y-4">
           {/* Amount Card */}
           <div className="bubble-card p-6 space-y-2 card-smooth">
@@ -267,6 +304,11 @@ function NewTransactionContent() {
           </button>
         </div>
       </div>
+
+      <AiQuickAddModal 
+        isOpen={showAiModal} 
+        onClose={() => setShowAiModal(false)} 
+      />
     </div>
   );
 }

@@ -10,7 +10,8 @@ import {
   Download, 
   Upload, 
   ChevronRight, 
-  PieChart 
+  PieChart,
+  Sparkles 
 } from "lucide-react";
 import { dataService } from "@/lib/services/dataService";
 
@@ -69,6 +70,29 @@ export default function MorePage() {
       </header>
 
       <div className="flex-1 p-4 space-y-6">
+        {/* Pundi AI Feature */}
+        <div className="space-y-2.5">
+          <h2 className="text-[12px] font-bold text-text-secondary uppercase tracking-wider ml-1">Kecerdasan Buatan (AI)</h2>
+          <Link 
+            href="/advisor"
+            className="bubble-card rounded-[26px] p-4.5 flex items-center justify-between card-smooth press-spring block group relative overflow-hidden"
+          >
+            <div className="flex items-center gap-3.5">
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#083328] to-[#14533F] text-[#A3F03A] flex items-center justify-center shadow-lime-glow-sm transition-transform duration-300 group-hover:scale-110">
+                <Sparkles size={22} />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-sm text-text-main group-hover:text-[#083328] dark:group-hover:text-[#A3F03A] transition-colors">Pundi AI Advisor</span>
+                  <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-[#A3F03A] text-[#083328]">Flash</span>
+                </div>
+                <span className="text-xs text-text-secondary">Konsultasi keuangan pribadi & evaluasi budget</span>
+              </div>
+            </div>
+            <ChevronRight size={18} className="text-text-secondary/60 group-hover:translate-x-0.5 group-hover:text-text-main transition-transform" />
+          </Link>
+        </div>
+
         {/* Analytics */}
         <div className="space-y-2.5">
           <h2 className="text-[12px] font-bold text-text-secondary uppercase tracking-wider ml-1">Analisis & Laporan</h2>
