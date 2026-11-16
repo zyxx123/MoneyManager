@@ -47,8 +47,8 @@ export default function MorePage() {
         await dataService.importData(file);
         alert("Import berhasil! Data telah dipulihkan.");
         window.location.reload();
-      } catch (e) {
-        alert("Gagal melakukan import data. Pastikan file valid.");
+      } catch (err: any) {
+        alert(`Gagal melakukan import data: ${err?.message || "Pastikan file valid."}`);
       }
     }
     
